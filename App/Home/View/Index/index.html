@@ -1,0 +1,1137 @@
+<!DOCTYPE HTML>
+<!--suppress ALL -->
+<html class="no-js bg" lang="zh-cmn-Hans">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta charset="UTF-8">
+    <!--IE 8浏览器的页面渲染方式-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <!--默认使用极速内核：针对国内浏览器产商-->
+    <meta name="renderer" content="webkit">
+    <!--chrome Android 地址栏颜色-->
+    <meta name="theme-color" content="#1199c4"/>
+
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="//www.imga.cc"/>
+
+    <title>冰磨坊</title>
+    <link rel="icon" type="image/ico" href="/favicon.ico">
+    <meta name="description" content="冰磨坊"/>
+    <meta name="keywords" content="冰磨坊"/>
+    <meta name="generator" content="Typecho 1.1/17.10.30"/>
+    <meta name="template" content="handsome"/>
+    <link rel="alternate" type="application/rss+xml" title="冰磨坊 &raquo; RSS 2.0" href="https://www.haorenka.org/feed/"/>
+    <link rel="alternate" type="application/rdf+xml" title="冰磨坊 &raquo; RSS 1.0"
+          href="https://www.haorenka.org/feed/rss/"/>
+    <link rel="alternate" type="application/atom+xml" title="冰磨坊 &raquo; ATOM 1.0"
+          href="https://www.haorenka.org/feed/atom/"/>
+    <link rel="amphtml" href="https://www.haorenka.org/ampindex">
+    <!-- 第三方CDN加载CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 本地css静态资源 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/css/function.min.css?v=5.1.12019040409"
+          type="text/css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/css/handsome.min.css?v=5.1.12019040409"
+          type="text/css"/>
+    <!--主题组件css文件加载-->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/css/features/jquery.fancybox.min.css?v=5.1.12019040409"
+          type="text/css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/css/features/code/vs.min.css?v=5.1.12019040409"
+          type="text/css"/>
+    <!--引入英文字体文件-->
+    <style type="text/css">
+        html.bg {
+            background-image: linear-gradient(-20deg, #d0b782 20%, #a0cecf 80%);
+        }
+
+        .cool-transparent .off-screen + * .app-content-body {
+            background-image: linear-gradient(-20deg, #d0b782 20%, #a0cecf 80%);
+        }
+
+        @media (max-width: 767px) {
+            html.bg {
+
+            }
+
+            .cool-transparent .off-screen + * .app-content-body {
+
+            }
+        }
+
+        .download {
+            margin: 20px 5px 0 0;
+            padding: 10px 12px 20px;
+            width: 100%;
+            border: 1px dashed #999;
+            background: #f8f8f8;
+            overflow: hidden;
+            text-align: center
+        }
+
+        .downh2 {
+            font-size: 1.5em !important;
+            margin: 0 !important
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: inherit;
+            transition: all .5s;
+            padding: 12px 12px;
+            width: 80%
+        }
+
+        .btn-primary.btn-outline {
+            color: #7266ba !important
+        }
+
+        .btn-success.btn-outline {
+            color: #5cb85c !important
+        }
+
+        .btn-info.btn-outline {
+            color: #5bc0de !important
+        }
+
+        .btn-warning.btn-outline {
+            color: #f0ad4e !important
+        }
+
+        .btn-danger.btn-outline {
+            color: #d9534f !important
+        }
+
+        .btn-danger.btn-outline:hover, .btn-info.btn-outline:hover, .btn-primary.btn-outline:hover, .btn-success.btn-outline:hover, .btn-warning.btn-outline:hover {
+            color: #fff !important
+        }
+
+        #post-content img {
+            padding: 2px;
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        iframe {
+            max-width: 100%;
+        }
+
+        .gg {
+            color: #000;
+            background-color: #fff;
+            box-shadow: 1px 1px 10px 2px #888888;
+            border-radius: 4px;
+            padding-right: 5px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto 0;
+            max-width: 500px;
+        }
+
+        .gg img {
+            max-height: 100px;
+        }
+
+        .gg-right {
+            float: right;
+            width: 100px;
+        }
+
+        .gg-left {
+            float: left;
+            width: -webkit-calc(100% - 100px);
+            width: -moz-calc(100% - 100px);
+            width: calc(100% - 100px);
+        }
+
+        .gg-title {
+            padding: 10px;
+
+        }
+
+        .gg-quan {
+            background-color: #1199c4;
+            color: #fff;
+            padding: 3px 8px 3px 15px;
+            margin-left: -10px;
+            font-size: 12px;
+            width: fit-content;
+            width: -webkit-fit-content;
+            width: -moz-fit-content;
+            transform: skewX(-30deg);
+        }
+
+        .gg-quan-span {
+            display: inline-block;
+            -webkit-transform: skewX(30deg);
+        }
+
+        .gg-quanhou {
+            padding: 10px;
+            color: #fc4d52;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .gg-hsrj {
+            background-color: #fe0519;
+            border-radius: 3px;
+            color: #fff;
+            padding: 3px;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }    </style>
+    <!--全站jquery-->
+    <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+    <!--网站统计代码-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139662822-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-139662822-1');
+    </script>
+</head>
+<body id="body">
+<!-- aside -->
+<div id="alllayout" class="app app-aside-fixed container app-header-fixed ">  <!-- headnav -->
+    <header id="header" class="app-header navbar" role="menu">
+        <!-- navbar header（交集处） -->
+        <div class="text-ellipsis navbar-header bg-info dker">
+            <button class="pull-right visible-xs dk" ui-toggle-class="show animated animated-lento fadeIn"
+                    target=".navbar-collapse">
+                <i class="fontello fontello-gear text-lg"></i>
+            </button>
+            <button class="pull-left visible-xs" ui-toggle-class="off-screen animated" target=".app-aside"
+                    ui-scroll="app">
+                <i class="fontello fontello-menu text-lg"></i>
+            </button>
+            <!-- brand -->
+            <a href="#" class="navbar-brand text-lt">
+                <i class="fontello fontello-home"></i>
+                <span class="hidden-folded m-l-xs">冰磨坊</span>
+            </a>
+            <!-- / brand -->
+        </div>
+        <!-- / navbar header -->
+
+        <!-- navbar collapse（顶部导航栏） -->
+        <div class="collapse pos-rlt navbar-collapse box-shadow bg-info dker">
+            <!-- search form -->
+            <form id="searchform1" class="searchform navbar-form navbar-form-sm navbar-left shift" method="post"
+                  role="search">
+                <div class="form-group">
+                    <div class="input-group rounded bg-light">
+                        <input autocomplete="off" id="search_input" type="search" name="s"
+                               class="transparent rounded form-control input-sm no-border padder" required
+                               placeholder="输入关键词搜索…">
+                        <!--搜索提示-->
+                        <ul id="search_tips_drop" class="dropdown-menu hide"
+                            style="display: block;top: 30px; left: 0px;">
+                        </ul>
+                        <span id="search_submit" class="transparent input-group-btn">
+                  <button type="submit" class="transparent btn btn-sm"><i class="fontello fontello-search"
+                                                                          id="icon-search"></i><i
+                          class="animate-spin  fontello fontello-spinner hide" id="spin-search"></i></button>
+              </span>
+                    </div>
+                </div>
+            </form>
+            <a href="" style="display: none" id="searchUrl"></a>
+            <!-- / search form -->
+            <ul class="nav navbar-nav navbar-right">
+                <!--闲言碎语-->
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fontello fontello-bell icon-fw"></i>
+                        <span class="visible-xs-inline">
+              闲言碎语              </span>
+                        <span class="badge badge-sm up bg-danger pull-right-xs"></span>
+                    </a>
+                    <!-- dropdown -->
+                    <div class="dropdown-menu w-xl animated fadeInUp">
+                        <div class="panel bg-white">
+                            <div class="panel-heading b-light bg-light">
+                                <strong>
+                                    闲言碎语 </strong>
+                            </div>
+                            <div class="list-group" id="smallRecording">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!--/闲言碎语-->
+            </ul>
+        </div>
+        <!-- / navbar collapse -->
+    </header>
+    <!-- / headnav -->
+
+    <!--选择侧边栏的颜色-->
+    <aside id="aside" class="app-aside hidden-xs bg-light dker b-r">  <!--<aside>-->
+        <div class="aside-wrap" layout="column">
+            <div class="navi-wrap scroll-y" flex>
+                <!-- user -->
+                <div class="clearfix hidden-xs text-center hide  show" id="aside-user">
+                    <div class="dropdown wrapper">
+                        <div ui-nav>
+                            <a href="#">
+                            <span class="thumb-lg w-auto-folded avatar m-t-sm">
+                  <img src="https://tva1.sinaimg.cn/large/007oPOSbly1g4ut6n59unj305k05kwet.jpg" class="img-full">
+                </span>
+                            </a>
+                        </div>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle hidden-folded">
+                <span class="clear">
+                  <span class="block m-t-sm">
+                    <strong class="font-bold text-lt">一个好人</strong>
+                    <b class="caret"></b>
+                  </span>
+                  <span class="text-muted text-xs block">江湖险恶，我从不轻易留下自己的姓名。</span>
+                </span>
+                        </a>
+                        <!-- dropdown -->
+                        <ul class="dropdown-menu animated fadeInRight w hidden-folded no-padder">
+                            <li class="wrapper b-b m-b-sm bg-info m-n">
+                                <span class="arrow top hidden-folded arrow-info"></span>
+                                <div>
+                                    <p>下午好，是时候打个盹了</p>
+                                </div>
+                                <div class="progress progress-xs m-b-none dker">
+                                    <div class="progress-bar bg-white" data-toggle="tooltip"
+                                         data-original-title="时间已经度过66.67%" style="width: 66.67%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- / dropdown -->
+                    </div>
+                </div>
+                <!-- / user -->
+
+                <!-- nav -->
+                <nav ui-nav class="navi clearfix">
+                    <ul class="nav">
+                        <!--index-->
+                        <div class="line dk hidden-folded"></div>
+                        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                            <span>导航</span>
+                        </li>
+                        <!--主页-->
+                        <li>
+                            <a href="#" class="auto">
+                                <i class="iconfont icon-zhuye icon text-md"></i>
+                                <span>首页</span>
+                            </a>
+                        </li>
+                        <!-- /主页 -->
+                        <li>
+                            <a target="_self" href="/jieya.html" class="auto">
+                                <i class="fontello fontello-unlock-alt icon text-md"></i>
+                                <span>解压密码</span>
+                            </a>
+                        </li>
+                        <li><a target="_self" href="/tougaoshenqing.html" class="auto"><i
+                                class="fontello fontello-pencil icon text-md"></i><span>投稿</span></a></li>
+                        <li><a target="_self" href="https://hao.hrka.net/" class="auto"><i
+                                class="glyphicon glyphicon-map-marker icon text-md"></i><span>网址导航</span></a></li>
+                        <li><a target="_self" href="/善用搜索.html" class="auto"><i
+                                class="fontello fontello-search icon text-md"></i><span>找出处</span></a></li>
+                        <li class="line dk"></li>
+                        <!--Components-->
+                        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                            <span>组成</span>
+                        </li>
+                        <!--分类category-->
+                        <li class="active">
+                            <a class="auto">
+                  <span class="pull-right text-muted">
+                    <i class="fontello icon-fw fontello-angle-right text"></i>
+                    <i class="fontello icon-fw fontello-angle-down text-active"></i>
+                  </span>
+                                <i class="glyphicon glyphicon-th"></i>
+                                <span>分类</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+                                <li class="nav-sub-header">
+                                    <a>
+                                        <span>分类</span>
+                                    </a>
+                                </li>
+                                <!--循环输出分类-->
+                                <li><a href="#"><b class="badge pull-right">70</b><span>老司机</span></a></li>
+                                <li><a href="#"><b class="badge pull-right">8</b><span>游戏鸡</span></a></li>
+                                <li><a href="#"><b class="badge pull-right">61</b><span>宋仲基</span></a></li>
+                                <li><a href="#"><b class="badge pull-right">13</b><span>来搞基</span></a></li>
+                                <li><a href="#"><b class="badge pull-right">73</b><span>李准基</span></a></li>
+                                <li><a href="#"><b class="badge pull-right">14</b><span>越夜越有机</span></a></li>
+                            </ul>
+                        </li>
+                        <!--独立页面pages-->
+                        <li>
+                            <a class="auto">
+                  <span class="pull-right text-muted">
+                    <i class="fontello icon-fw fontello-angle-right text"></i>
+                    <i class="fontello icon-fw fontello-angle-down text-active"></i>
+                  </span>
+                                <i class="glyphicon glyphicon-file"></i>
+                                <span>页面</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+                                <li class="nav-sub-header">
+                                    <a data-no-instant>
+                                        <span>页面</span>
+                                    </a>
+                                </li><!--这个字段不会被显示出来-->
+                                <!--循环输出独立页面-->
+                                <li><a href="#"><span>文章归档</span></a></li>
+                                <li><a href="#"><span>雁过留痕</span></a></li>
+                                <li><a href="#"><span>时光</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- nav -->
+            </div>
+            <!--end of .navi-wrap-->
+            <!--left_footer-->
+            <div id="left_footer" class="footer wrapper-xs text-center nav-xs lt">
+
+                <div class="col-xs-6 no-padder">
+                    <a target="_blank" class="tinav" href="https://www.haorenka.org/feed/" title=""
+                       data-toggle="tooltip" data-placement="top" data-original-title="文章RSS地址">
+                        <span class="block"><i class="fontello fontello-rss"></i></span>
+                        <small class="text-muted">文章</small>
+                    </a>
+                </div>
+                <div class="col-xs-6 no-padder">
+                    <a target="_blank" href="https://www.haorenka.org/feed/comments/" title="" data-toggle="tooltip"
+                       data-placement="top" data-original-title="评论RSS地址">
+                        <span class="block"><i class="fontello fontello-rss-square"></i></span>
+                        <small class="text-muted">评论</small>
+                    </a>
+                </div>
+            </div>
+
+        </div><!--.aside-wrap-->
+    </aside>
+    <!-- content -->
+    <div id="content" class="app-content">
+        <!--loading animate-->
+        <div id="loading" class="butterbar active hide">
+            <span class="bar"></span>
+        </div>  <!-- / aside -->
+
+        <!-- <div id="content" class="app-content"> -->
+        <a class="off-screen-toggle hide"></a>
+        <main class="app-content-body ">
+            <div class="hbox hbox-auto-xs hbox-auto-sm">
+                <div class="col center-part">
+                    <!--公告位置-->
+                    <div class="alert alert-warning alert-block" style="
+              margin-bottom: 0px;">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <p><i class="fontello fontello-volume-up" aria-hidden="true"></i>&nbsp;
+                            请保存永久发布页地址：<a href="#" target="_blank">https://www.hrka.cc</a></p>
+                    </div>
+                    <!--/公告位置-->
+                    <header class="bg-light lter b-b wrapper-md">
+                        <h1 class="m-n font-thin h3 text-black l-h">冰磨坊</h1>
+                        <small class="text-muted letterspacing indexWords">迷失的人迷失了，相逢的人会再相逢</small>
+                    </header>
+                    <div class="wrapper-md" id="post-panel">
+                        <!--首页输出文章-->
+
+                        <div class="blog-post">
+                            <div class="panel-small">
+                                <div class="index-post-img-small post-feature index-img-small">
+                                    <a href="#">
+                                        <div class="item-thumb-small lazy"
+                                             style="background-image: url(https://img.alicdn.com/imgextra/i3/2201212796252/O1CN0115Ie0B1w3SkHZQXkm_!!2201212796252.jpg_310x310.jpg)"></div>
+                                    </a>
+                                </div>
+                                <div class="post-meta wrapper-lg"><h2 class="m-t-none text-ellipsis index-post-title"><a href="#"><span
+                                        class="label text-sm bg-danger pull-left m-t-xs m-r" style="margin-top:  2px;">置顶</span>7.16更新
+                                    每天精选10款性价比高淘宝商品</a></h2>
+                                    <p class="summary l-h-2x text-muted">
+                                        每天推荐10个性价比高的商品，更多淘宝天猫商品优惠券请访问：http://www.maisx.com【减脂瘦身】即食鸡胸肉共9袋【共9袋】即食鸡胸肉健身鸡...</p>
+                                    <div class="line line-lg b-b b-light"></div>
+                                    <div class="text-muted post-item-foot-icon text-ellipsis">
+                                        <i class="fontello fontello-user text-muted"></i><span class="m-r-sm">&nbsp;<a
+                                            href="https://www.haorenka.org/author/1/">一个好人&nbsp;</a></span>
+
+                                        <i class="fontello fontello-clock-o text-muted"></i><span class="m-r-sm">&nbsp;2019 年 07 月 04 日</span><a
+                                            href="https://www.haorenka.org/taobao.html#comments"
+                                            class="m-l-sm post-item-comment"><i
+                                            class="iconfont icon-comments-o text-muted"></i>&nbsp;关闭评论</a></div>
+                                    <!--text-muted-->
+                                </div><!--post-meta wrapper-lg-->
+                            </div><!--panel/panel-small-->
+                        </div>          <!--分页首页按钮-->
+                        <nav class="text-center m-t-lg m-b-lg" role="navigation">
+                            <ol class="page-navigator">
+                                <li class="current"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><span>...</span></li>
+                                <li><a href="#">25</a></li>
+                                <li class="next"><a href="#"><i
+                                        class="fontello fontello-chevron-right"></i></a></li>
+                            </ol>
+                        </nav>
+                        <style>
+                            .page-navigator > li > a, .page-navigator > li > span {
+                                line-height: 1.42857143;
+                                padding: 6px 12px;
+                            }
+                        </style>
+                    </div>
+                </div>
+                <!--首页右侧栏-->
+                <aside class="asideBar col w-md bg-white-only b-l bg-auto no-border-xs" role="complementary">
+                    <div id="sidebar">
+                        <section id="tabs-4" class="widget widget_tabs clear">
+                            <div class="nav-tabs-alt no-js-hide">
+                                <ul class="nav nav-tabs nav-justified" role="tablist">
+                                    <li class="active" role="presentation"><a href="#widget-tabs-4-hots" role="tab"
+                                                                              aria-controls="widget-tabs-4-hots"
+                                                                              aria-expanded="true" data-toggle="tab"> <i
+                                            class="glyphicon glyphicon-fire text-md text-muted wrapper-sm"
+                                            aria-hidden="true"></i> <span class="sr-only">热门文章</span> </a></li>
+                                    <li role="presentation"><a href="#widget-tabs-4-comments" role="tab"
+                                                               aria-controls="widget-tabs-4-comments"
+                                                               aria-expanded="false" data-toggle="tab"> <i
+                                            class="glyphicon glyphicon-comment text-md text-muted wrapper-sm"
+                                            aria-hidden="true"></i> <span class="sr-only">最新评论</span> </a></li>
+                                    <li role="presentation"><a href="#widget-tabs-4-random" role="tab"
+                                                               aria-controls="widget-tabs-4-random"
+                                                               aria-expanded="false" data-toggle="tab"> <i
+                                            class="glyphicon glyphicon-transfer text-md text-muted wrapper-sm"
+                                            aria-hidden="true"></i> <span class="sr-only">随机文章</span> </a></li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!--热门文章-->
+                                <div id="widget-tabs-4-hots" class="tab-pane  fade in wrapper-md active"
+                                     role="tabpanel">
+                                    <h3 class="widget-title m-t-none text-md">热门文章</h3>
+                                    <ul class="list-group no-bg no-borders pull-in m-b-none">
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/gif-5.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/gif-5.html"
+                                                                      title="冰磨坊 精选GIF出处 第5期"> 冰磨坊 精选GIF出处 第5期 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">136664</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/%E8%90%8C%E7%99%BD%E9%85%B1.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a
+                                                        href="https://www.haorenka.org/%E8%90%8C%E7%99%BD%E9%85%B1.html"
+                                                        title="萌白酱（甜味弥漫）套图合集 11.44G"> 萌白酱（甜味弥漫）套图合集 11.44G </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">122904</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/lllllllll520.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/lllllllll520.html"
+                                                                      title="汤不热红人：知一妹妹-娇小可爱气质御姐">
+                                                    汤不热红人：知一妹妹-娇小可爱气质御姐 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">121853</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/nikumikyo.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/nikumikyo.html"
+                                                                      title="Nikumikyoきょう肉肉系列16套合集">
+                                                    Nikumikyoきょう肉肉系列16套合集 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">109733</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/taobaoneiyimaijiaxiu.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a
+                                                        href="https://www.haorenka.org/taobaoneiyimaijiaxiu.html"
+                                                        title="最牛逼最极品的淘宝内衣买家秀大约13000张"> 最牛逼最极品的淘宝内衣买家秀大约13000张 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">102958</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--最新评论-->
+                                <div id="widget-tabs-4-comments" class="tab-pane fade wrapper-md no-js-show"
+                                     role="tabpanel">
+                                    <h3 class="widget-title m-t-none text-md">最新评论</h3>
+                                    <ul class="list-group no-borders pull-in auto m-b-none no-bg">
+                                        <li class="list-group-item">
+
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11209"
+                                               class="pull-left thumb-sm avatar m-r">
+                                            </a>
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11209"
+                                               class="text-muted">
+                                                <!--<i class="iconfont icon-comments-o text-muted pull-right m-t-sm text-sm" title="" aria-hidden="true" data-toggle="tooltip" data-placement="auto left"></i>
+                                                <span class="sr-only"></span>-->
+                                            </a>
+                                            <div class="clear">
+                                                <div class="text-ellipsis">
+                                                    <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11209"
+                                                       title="yuezy3"> yuezy3 </a>
+                                                </div>
+                                                <small class="text-muted">
+                      <span>
+                          啥？看不到啊，你想说的哪个网站？                      </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11205"
+                                               class="pull-left thumb-sm avatar m-r">
+                                            </a>
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11205"
+                                               class="text-muted">
+                                                <!--<i class="iconfont icon-comments-o text-muted pull-right m-t-sm text-sm" title="" aria-hidden="true" data-toggle="tooltip" data-placement="auto left"></i>
+                                                <span class="sr-only"></span>-->
+                                            </a>
+                                            <div class="clear">
+                                                <div class="text-ellipsis">
+                                                    <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11205"
+                                                       title="hlnnox"> hlnnox </a>
+                                                </div>
+                                                <small class="text-muted">
+                      <span>
+                          感谢分享                      </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <a href="https://www.haorenka.org/woshinikeaidexiaomao.html/comment-page-1#comment-11204"
+                                               class="pull-left thumb-sm avatar m-r">
+                                            </a>
+                                            <a href="https://www.haorenka.org/woshinikeaidexiaomao.html/comment-page-1#comment-11204"
+                                               class="text-muted">
+                                                <!--<i class="iconfont icon-comments-o text-muted pull-right m-t-sm text-sm" title="" aria-hidden="true" data-toggle="tooltip" data-placement="auto left"></i>
+                                                <span class="sr-only"></span>-->
+                                            </a>
+                                            <div class="clear">
+                                                <div class="text-ellipsis">
+                                                    <a href="https://www.haorenka.org/woshinikeaidexiaomao.html/comment-page-1#comment-11204"
+                                                       title="老污b"> 老污b </a>
+                                                </div>
+                                                <small class="text-muted">
+                      <span>
+                          下不了！求修复！                      </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11203"
+                                               class="pull-left thumb-sm avatar m-r">
+                                            </a>
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11203"
+                                               class="text-muted">
+                                                <!--<i class="iconfont icon-comments-o text-muted pull-right m-t-sm text-sm" title="" aria-hidden="true" data-toggle="tooltip" data-placement="auto left"></i>
+                                                <span class="sr-only"></span>-->
+                                            </a>
+                                            <div class="clear">
+                                                <div class="text-ellipsis">
+                                                    <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11203"
+                                                       title="用户已注销"> 用户已注销 </a>
+                                                </div>
+                                                <small class="text-muted">
+                      <span>
+                          嘿嘿嘿，我这种人就只喜欢宅舞。咬人猫跳的就挺好。                      </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11198"
+                                               class="pull-left thumb-sm avatar m-r">
+                                            </a>
+                                            <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11198"
+                                               class="text-muted">
+                                                <!--<i class="iconfont icon-comments-o text-muted pull-right m-t-sm text-sm" title="" aria-hidden="true" data-toggle="tooltip" data-placement="auto left"></i>
+                                                <span class="sr-only"></span>-->
+                                            </a>
+                                            <div class="clear">
+                                                <div class="text-ellipsis">
+                                                    <a href="https://www.haorenka.org/tiaowunvzhubo.html/comment-page-1#comment-11198"
+                                                       title="QQ群"> QQ群 </a>
+                                                </div>
+                                                <small class="text-muted">
+                      <span>
+                          就练导入语都是一样的。。。                      </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--随机文章-->
+                                <div id="widget-tabs-4-random" class="tab-pane fade wrapper-md no-js-show"
+                                     role="tabpanel">
+                                    <h3 class="widget-title m-t-none text-md">随机文章</h3>
+                                    <ul class="list-group no-bg no-borders pull-in">
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/jsproxy.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/jsproxy.html"
+                                                                      title="jsproxy：一个基于浏览器端JS实现的在线工具">
+                                                    jsproxy：一个基于浏览器端JS实现的在线工具 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">11335</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/fatiaoshaonv.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/fatiaoshaonv.html"
+                                                                      title="浅野yoyo酱/发条少女-脸美身材好就是奶子小">
+                                                    浅野yoyo酱/发条少女-脸美身材好就是奶子小 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">45356</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/onedrive-5t.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/onedrive-5t.html"
+                                                                      title="微软OneDrive云盘5T大容量免费申请">
+                                                    微软OneDrive云盘5T大容量免费申请 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">12583</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/%E4%B8%8D%E6%80%95%E7%97%92%E7%9A%84%E5%A5%B3%E7%A5%9E.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a
+                                                        href="https://www.haorenka.org/%E4%B8%8D%E6%80%95%E7%97%92%E7%9A%84%E5%A5%B3%E7%A5%9E.html"
+                                                        title="不怕痒的女神合集 让你全身躁动"> 不怕痒的女神合集 让你全身躁动 </a></h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">46734</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="https://www.haorenka.org/H-viewer.html"
+                                               class="pull-left thumb-sm m-r"></a>
+                                            <div class="clear">
+                                                <h4 class="h5 l-h"><a href="https://www.haorenka.org/H-viewer.html"
+                                                                      title="H-viewer：看美图看本子神器"> H-viewer：看美图看本子神器 </a>
+                                                </h4>
+                                                <small class="text-muted post-head-icon"><span class="meta-date"> <i
+                                                        class="fontello fontello-eye" aria-hidden="true"></i> <span
+                                                        class="sr-only">浏览次数:</span> <span
+                                                        class="meta-value">39581</span>
+                    </span>
+                                                </small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        <!--博客信息-->
+                        <section id="categories-2" class="widget widget_categories wrapper-md clear">
+                            <h3 class="widget-title m-t-none text-md">博客信息</h3>
+                            <ul class="list-group">
+                                <li class="list-group-item"><i class="glyphicon glyphicon-file text-muted"></i> <span
+                                        class="badge
+           pull-right">245</span>文章数目
+                                </li>
+                                <li class="list-group-item"><i class="glyphicon glyphicon-comment text-muted"></i> <span
+                                        class="badge
+           pull-right">5191</span>评论数目
+                                </li>
+                                <li class="list-group-item"><i class="glyphicon glyphicon-equalizer text-muted"></i>
+                                    <span class="badge
+           pull-right">1年305天</span>运行天数
+                                </li>
+                                <li class="list-group-item"><i class="glyphicon glyphicon-refresh text-muted"></i> <span
+                                        class="badge
+           pull-right">34 分钟前</span>最后活动
+                                </li>
+                            </ul>
+                        </section>
+                        <!--在文章页面输出目录，在其他页面输出标签云-->
+                        <section id="tag_cloud-2" class="widget widget_tag_cloud wrapper-md clear">
+                            <h3 class="widget-title m-t-none text-md">标签云</h3>
+                            <div class="tags l-h-2x">
+                                <a href="https://www.haorenka.org/tag/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98/"
+                                   class="label badge" title="该标签下有 31 篇文章" data-toggle="tooltip">百度网盘</a>
+                                <a href="https://www.haorenka.org/tag/%E5%90%88%E9%9B%86/" class="label badge"
+                                   title="该标签下有 6 篇文章" data-toggle="tooltip">合集</a>
+                                <a href="https://www.haorenka.org/tag/%E7%95%AA%E5%8F%B7/" class="label badge"
+                                   title="该标签下有 6 篇文章" data-toggle="tooltip">番号</a>
+                                <a href="https://www.haorenka.org/tag/%E8%BF%85%E9%9B%B7/" class="label badge"
+                                   title="该标签下有 5 篇文章" data-toggle="tooltip">迅雷</a>
+                                <a href="https://www.haorenka.org/tag/PR%E7%A4%BE/" class="label badge"
+                                   title="该标签下有 5 篇文章" data-toggle="tooltip">PR社</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A0%B4%E8%A7%A3/" class="label badge"
+                                   title="该标签下有 4 篇文章" data-toggle="tooltip">破解</a>
+                                <a href="https://www.haorenka.org/tag/%E6%B7%98%E5%AE%9D/" class="label badge"
+                                   title="该标签下有 4 篇文章" data-toggle="tooltip">淘宝</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A0%B4%E8%A7%A3%E7%89%88/" class="label badge"
+                                   title="该标签下有 3 篇文章" data-toggle="tooltip">破解版</a>
+                                <a href="https://www.haorenka.org/tag/%E5%A4%8F%E7%BE%8E%E9%85%B1/" class="label badge"
+                                   title="该标签下有 3 篇文章" data-toggle="tooltip">夏美酱</a>
+                                <a href="https://www.haorenka.org/tag/VIP/" class="label badge" title="该标签下有 3 篇文章"
+                                   data-toggle="tooltip">VIP</a>
+                                <a href="https://www.haorenka.org/tag/%E5%BE%AE%E5%8D%9A%E7%BA%A2%E4%BA%BA/"
+                                   class="label badge" title="该标签下有 3 篇文章" data-toggle="tooltip">微博红人</a>
+                                <a href="https://www.haorenka.org/tag/%E5%BE%AE%E5%8D%9A/" class="label badge"
+                                   title="该标签下有 3 篇文章" data-toggle="tooltip">微博</a>
+                                <a href="https://www.haorenka.org/tag/%E5%AE%89%E5%8D%93/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">安卓</a>
+                                <a href="https://www.haorenka.org/tag/%E5%86%99%E7%9C%9F/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">写真</a>
+                                <a href="https://www.haorenka.org/tag/nsfw/" class="label badge" title="该标签下有 2 篇文章"
+                                   data-toggle="tooltip">nsfw</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A6%8F%E5%88%A9/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">福利</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A5%9E%E5%99%A8/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">神器</a>
+                                <a href="https://www.haorenka.org/tag/%E4%B8%AD%E6%96%87%E5%AD%97%E5%B9%95/"
+                                   class="label badge" title="该标签下有 2 篇文章" data-toggle="tooltip">中文字幕</a>
+                                <a href="https://www.haorenka.org/tag/%E5%A6%B9%E5%AD%90%E5%9B%BE/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">妹子图</a>
+                                <a href="https://www.haorenka.org/tag/tumblr/" class="label badge" title="该标签下有 2 篇文章"
+                                   data-toggle="tooltip">tumblr</a>
+                                <a href="https://www.haorenka.org/tag/%E5%A5%97%E5%9B%BE/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">套图</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A7%80%E4%BA%BA%E7%BD%91/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">秀人网</a>
+                                <a href="https://www.haorenka.org/tag/Google/" class="label badge" title="该标签下有 2 篇文章"
+                                   data-toggle="tooltip">Google</a>
+                                <a href="https://www.haorenka.org/tag/OneDrive/" class="label badge" title="该标签下有 2 篇文章"
+                                   data-toggle="tooltip">OneDrive</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A3%81%E5%8A%9B/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">磁力</a>
+                                <a href="https://www.haorenka.org/tag/%E7%A3%81%E5%8A%9B%E6%92%AD%E6%94%BE%E5%99%A8/"
+                                   class="label badge" title="该标签下有 2 篇文章" data-toggle="tooltip">磁力播放器</a>
+                                <a href="https://www.haorenka.org/tag/qiutian9527/" class="label badge"
+                                   title="该标签下有 2 篇文章" data-toggle="tooltip">qiutian9527</a>
+                                <a href="https://www.haorenka.org/tag/%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD%E5%99%A8/"
+                                   class="label badge" title="该标签下有 1 篇文章" data-toggle="tooltip">度盘下载器</a>
+                                <a href="https://www.haorenka.org/tag/pan-download/" class="label badge"
+                                   title="该标签下有 1 篇文章" data-toggle="tooltip">pan download</a>
+                                <a href="https://www.haorenka.org/tag/%E7%8B%B8%E7%AA%9D%E5%85%A8%E8%83%BD%E8%A7%86%E9%A2%91%E8%BD%AC%E6%8D%A2%E5%99%A8/"
+                                   class="label badge" title="该标签下有 1 篇文章" data-toggle="tooltip">狸窝全能视频转换器</a>
+                            </div>
+                        </section>
+                    </div>
+                </aside>
+            </div>
+        </main>
+        <!-- footer -->
+    </div><!-- /content -->
+    <footer id="footer" class="app-footer" role="footer">
+        <div class="wrapper b-t bg-light">
+      <span class="pull-right hidden-xs text-ellipsis">
+            <a target="blank" href="https://www.haorenka.org/sitemap.xml">网站地图</a>
+      </span>
+            <span class="text-ellipsis">&copy;&nbsp;2019 Copyright&nbsp;由 <a
+                    href="https://www.haorenka.org/bandwagon-cn2-gia-512m.html" target="_blank">搬瓦工</a> | <a
+                    target="blank" href="http://www.typecho.org">Typecho</a>  强力驱动</span>
+        </div>
+        <script type="text/template" id="tmpl-customizer">
+            <div class="settings panel panel-default setting_body_panel" aria-hidden="true">
+                <button class="btn btn-default no-shadow pos-abt" data-toggle="tooltip" data-placement="left"
+                        data-original-title="设置" data-toggle-class=".settings=active, .settings-icon=animate-spin">
+                    <i class="fontello fontello-gear settings-icon"></i>
+                </button>
+                <div class="panel-heading">
+                    <button class="pull-right btn btn-xs btn-rounded btn-danger" name="reset" data-toggle="tooltip"
+                            data-placement="top" data-original-title="恢复默认值">重置
+                    </button>
+                    设置
+                </div>
+                <div class="setting_body">
+                    <div class="panel-body">
+                        <# for ( var keys = _.keys( data.sections.settings ), i = 0, name; keys.length > i; ++i ) { #>
+                        <div
+                        <# if ( i !== ( keys.length - 1 ) ) print( ' class="m-b-sm"' ); #>>
+                        <label class="i-switch bg-info pull-right">
+                            <input type="checkbox" name="{{ keys[i] }}" value="1"<# if ( data.defaults[keys[i]] ) print(
+                            ' checked="checked"' ); #> />
+                            <i></i>
+                        </label>
+                        {{ data.sections.settings[keys[i]] }}
+                    </div>
+                    <# } #>
+                </div>
+                <div class="wrapper b-t b-light bg-light lter r-b">
+                    <div class="row row-sm">
+                        <div class="col-xs-6">
+                            <#
+                            _.each( data.sections.colors, function( color, i ) {
+                            var newColumnBefore = ( i % 7 ) === 6;
+                            #>
+                            <label class="i-checks block<# if ( !newColumnBefore ) print( ' m-b-sm' ); #>">
+                                <input type="radio" name="color" value="{{ i }}"<# if ( data.defaults['color'] === i )
+                                print( ' checked="checked"' ); #> />
+                                <span class="block bg-light clearfix pos-rlt">
+								<span class="active pos-abt w-full h-full bg-black-opacity text-center">
+									<i class="fontello fontello-check text-md text-white m-t-xs"></i>
+								</span>
+								<b class="{{ color.navbarHeader }} header"></b>
+								<b class="{{ color.navbarCollapse }} header"></b>
+								<b class="{{ color.aside.replace( ' b-r', '' ) }}"></b>
+							</span>
+                            </label>
+                            <#
+                            if ( newColumnBefore && ( i + 1 ) < data.sections.colors.length )
+                            print( '
+                        </div>
+                        <div class="col-xs-6">' );
+                            } );
+                            #>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </script>
+
+        <div class="topButton panel panel-default">
+            <button id="goToTop" class="btn btn-default no-shadow pos-abt hide">
+                <i class="fontello fontello-chevron-circle-up" aria-hidden="true"></i>
+            </button>
+        </div>
+    </footer>
+</div><!--end of .app app-header-fixed-->
+
+
+<!--定义全局变量-->
+<script type="text/javascript">
+    window['LocalConst'] = {
+        COMMENT_NAME_INFO: '必须填写昵称或姓名',
+        COMMENT_EMAIL_INFO: '必须填写电子邮箱地址',
+        COMMENT_EMAIL_LEGAL_INFO: '邮箱地址不合法',
+        COMMENT_CONTENT_INFO: '必须填写评论内容',
+        COMMENT_SUBMIT_ERROR: '提交失败，请重试！',
+        COMMENT_CONTENT_LEGAL_INFO: '提交失败,您的输入内容不符合规则！',
+
+        LOGIN_USERNAME_INFO: '必须填写用户名',
+        LOGIN_PASSWORD_INFO: '请填写密码',
+        LOGIN_SUBMIT_ERROR: '登录失败，请重新登录',
+        LOGIN_SUBMIT_INFO: '用户名或者密码错误，请重试',
+        LOGIN_SUBMIT_SUCCESS: '登录成功',
+        CLICK_TO_REFRESH: '点击以刷新页面',
+        LOGOUT_SUCCESS_REFRESH: '退出成功，正在刷新当前页面',
+
+        LOGOUT_ERROR: '退出失败，请重试',
+        LOGOUT_SUCCESS: '退出成功',
+
+        SUBMIT_PASSWORD_INFO: '密码错误，请重试',
+        COMMENT_TITLE: '评论通知',
+        LOGIN_TITLE: '登录通知',
+        ChANGYAN_APP_KEY: '',
+        CHANGYAN_CONF: '',
+
+        COMMENT_SYSTEM: '0',
+        COMMENT_SYSTEM_ROOT: '0',
+        COMMENT_SYSTEM_CHANGYAN: '1',
+        COMMENT_SYSTEM_OTHERS: '2',
+        EMOJI: '表情',
+        IS_PJAX: '1',
+        IS_PAJX_COMMENT: '1',
+        BASE_SCRIPT_URL: 'https://www.haorenka.org/usr/themes/handsome/',
+        BLOG_URL: 'https://www.haorenka.org/',
+        BLOG_URL_PHP: 'https://www.haorenka.org/',
+        THEME_COLOR: '9',
+        THEME_HEADER_FIX: '1',
+        THEME_ASIDE_FIX: '1',
+        THEME_ASIDE_FOLDED: '',
+        THEME_ASIDE_DOCK: '',
+        THEME_CONTAINER_BOX: '1',
+        THEME_HIGHLIGHT_CODE: '1',
+        THEME_TOC: '1',
+        TOC_TITLE: '文章目录',
+        HEADER_FIX: '固定头部',
+        ASIDE_FIX: '固定导航',
+        ASIDE_FOLDED: '折叠导航',
+        ASIDE_DOCK: '置顶导航',
+        CONTAINER_BOX: '盒子模型',
+        OFF_SCROLL_HEIGHT: '50',
+        COMMENT_REJECT_PLACEHOLDER: '居然什么也不说，哼',
+        COMMENT_PLACEHOLDER: '说点什么吧……',
+        SHOW_SETTING_BUTTON: '1',
+        THEME_VERSION: '5.1.12019040409',
+
+        OPERATION_NOTICE: '操作通知',
+        SCREENSHOT_BEGIN: '正在生成当前页面截图……',
+        SCREENSHOT_NOTICE: '点击顶部下载按钮保存当前卡片',
+        SCREENSHORT_ERROR: '由于图片跨域原因导致截图失败',
+        SCREENSHORT_SUCCESS: '截图成功',
+        MUSIC_NOTICE: '播放通知',
+        MUSIC_FAILE: '当前音乐地址无效，自动为您播放下一首',
+        MUSIC_FAILE_END: '当前音乐地址无效',
+        MUSIC_LIST_SUCCESS: '歌单歌曲加载成功',
+        CDN_NAME: ''
+    };
+
+</script>
+
+
+<!--CDN加载-->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/jquery.pjax.min.js"
+        type="text/javascript"></script>
+<script>
+    $(document).pjax('a[href^="https://www.haorenka.org/"]:not(a[target="_blank"], a[no-pjax])', {
+        container: '#content',
+        fragment: '#content',
+        timeout: 8000
+    }).on('pjax:send', function () {
+        $('#loading').removeClass('hide');
+    }).on('pjax:click', function () {
+
+        window['Page'].doPJAXClickAction();
+
+
+    }).on('pjax:complete', function () {
+        window['Page'].doPJAXCompleteAction();
+        if ($(".post-position").length > 0) {
+            window['Page'].doPJAXCompletePostAction();
+        }
+        $('#loading').addClass('hide');
+
+
+    })
+</script>
+
+
+<!--主题组件js加载-->
+
+<!--平滑滚动组件-->
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/SmoothScroll.min.js"></script>
+
+<!--pjax动画组件-->
+
+
+<!--lightgallery必备组件-->
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/jquery.fancybox.min.js?v=5.1.12019040409"></script>
+
+<!--component/comments.php 页面必需js（只有选择了原生评论的时候才会加载）-->
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/OwO.min.js?v=5.1.12019040409"></script>
+<!--component/comments.php 必需js结束-->
+
+
+<!--截图插件-->
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/html2canvas.min.js"></script>
+<!--主题组件js加载结束-->
+
+<!--主题核心js-->
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/function.min.js?v=5.1.12019040409"></script>
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/core.min.js?v=5.1.12019040409"></script>
+
+
+<script src="https://cdn.jsdelivr.net/gh/hrkacc/static@master/assets/js/features/setting.min.js?v=5.1.12019040409"></script>
+
+<script type="text/javascript">
+    /* 鼠标特效 */
+    var a_idx = 0;
+    jQuery(document).ready(function ($) {
+        $("body").click(function (e) {
+            var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+            var $i = $("<span />").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+                y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "#ff6651"
+            });
+            $("body").append($i);
+            $i.animate({
+                    "top": y - 180,
+                    "opacity": 0
+                },
+                1500,
+                function () {
+                    $i.remove();
+                });
+        });
+    });    </script>
+
+
+</body>
+</html><!--html end-->
+<!-- / footer -->
