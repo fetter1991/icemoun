@@ -1,8 +1,23 @@
 <?php
+
 namespace Home\Controller;
-use Think\Controller;
-class IndexController extends Controller {
-    public function index(){
-        $this->display();
-    }
+
+
+class IndexController extends CommonController {
+	public function index() {
+		$this->display();
+	}
+
+	public function article() {
+		$this->display();
+	}
+
+
+	public function comic() {
+		$this->display();
+	}
+
+	public function comic_read() {
+		$this->display();
+	}
 }
