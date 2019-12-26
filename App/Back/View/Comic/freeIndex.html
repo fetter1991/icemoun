@@ -1,0 +1,148 @@
+<extend name="Public/admin" />
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+     <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12 text-right">
+            <form action="{:U('Comic/freeIndex')}" role="form" method="get" class="form-inline">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="sr-only">状态:</label>
+                        <select id="status" name='type' class="form-control">
+                            <option value="0">全部</option>
+                            <option value="1" <if condition="$type eq 1">selected</if>>进行中</option>
+                            <option value="2" <if condition="$type eq 2">selected</if>>未开始</option>
+                            <option value="3" <if condition="$type eq 3">selected</if>>已结束</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group input-group ">
+                    <input class="form-control" value="{$name}"  name="name" placeholder="请输入图解名称搜索" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn green" type="submit">搜索</button>
+                            </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">电影</th>
+                        <th class="text-center">免费开始时间</th>
+                        <th class="text-center">免费结束时间</th>
+                        <th class="text-center">添加时间</th>
+                        <th class="text-center">浏览量</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">编辑</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td class="text-center">{$vo.id}</td>
+                            <td class="text-center">
+                                {$vo.movies_name}
+                                <if condition="$vo['org_name']">
+                                    [原名:{$vo['org_name']}]
+                                </if>
+                                
+                            </td>
+                            <td class="text-center">{$vo.start_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="text-center">{$vo.end_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="text-center">{$vo.hits}</td>
+                            <td class="text-center">
+                               
+                                <if condition="$vo['end_time'] egt time() && $vo['start_time'] elt time() ">
+                                    <span style="color:#26C281;font-weight: 500">进行中</span>
+                                <elseif condition='$vo["end_time"] gt time() && $vo["start_time"] gt time() ' />
+                                    <span style='color:#F3C200;font-weight: 500'>未开始</span>
+                                <elseif condition='$vo["end_time"] lt time() && $vo["start_time"] lt time() ' />
+                                    <span style='color:#EF4836;font-weight: 500'>已结束</span>
+                                </if>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-info" onclick="edit('{$vo.movies_id}')" data-id="{$vo['movies_id']}"> 编辑</button>
+                                <button onclick="del(this,'{$vo.id}')" type="button" class="btn red" data-id="{$vo['id']}">删除
+                                </button>
+                            </td>
+                        </tr>
+                    </volist>
+                    <tr class="content">
+                        <td colspan="8" bgcolor="#FFFFFF">
+                            <div class="pages" style="float: right">
+                                {$page}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <include file="Comic/gratis"/>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script>
+        $('.form_datetime').datetimepicker({
+            minView: "0",
+            language:  'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss',
+            autoclose: true,
+            todayBtn: true
+        });
+
+      function edit(e){
+             var json = e;
+             $.ajax({
+                 type:'post',
+                 url:"{:U('Comic/getMovies')}",
+                 data:{moviesId:json},
+                 success:function(data){
+                     if(data.code == 201){
+                        $("#gratis_modal input[name=start_time]").val('');
+                        $("#gratis_modal input[name=end_time]").val('');
+                        $("#gratis_modal input[name=movies_id]").val(json);
+                        $('#gratis_modal').modal();
+                     }else if(data.code == 200){
+                        $("#gratis_modal input[name=movies_id]").val(json);
+                        $("#gratis_modal input[name=start_time]").val(data.start_time);
+                        $("#gratis_modal input[name=end_time]").val(data.end_time);
+                        $('#gratis_modal').modal();
+                     }else{
+                         layer.alert(data.mess);
+                     }
+                 }
+             })
+      }
+        
+      function del(_this,id){
+          layer.confirm('确定删除?',{
+              btn:['确定','取消']
+          },function () {
+              $.post('{:U("Comic/delFree")}',{'id':id},function(res){
+                  if(res.code == 200){
+                      layer.msg('删除成功');
+                      setTimeout(function () {
+                          window.location.reload();
+                      },1200);
+                  }else{
+                      layer.msg(res.mess);
+                  }
+              },'json')
+          })
+      }
+    </script>
+</block>

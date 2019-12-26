@@ -1,0 +1,81 @@
+<div id="edit_popup" class="modal fade" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" action="{:U('Comic/chapterImgEdit')}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">修改章节图片</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="reading" class="col-md-3 control-label">图片解读</label>
+                            <div class="col-md-7">
+                                <textarea type="text" class="form-control" placeholder="" name="reading"  rows="3"></textarea>
+                                <p class="help-block">选填</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="editUrl" class="col-md-3 control-label">图片</label>
+                            <div class="col-md-9">
+                                <span class="btn green fileinput-button">
+                                <span> 选择文件 </span>
+                                <input type="file" name="chapterImg" id="editUrl"> 
+                                </span>
+                                <span class="fileinput-filename"> </span>
+                                <input type="hidden" name='url'>
+                            </div>
+                        </div>
+                        
+<!--                        <div class="form-group">
+                            <label for="status" class="col-md-3 control-label">状态</label>
+                            <div class="col-md-7">
+                                <select  class="form-control" name="status" id="status">
+                                    <option value="0" >下架</option>
+                                    <option value="1">上架</option>
+                                </select>
+                            </div>
+                        </div>-->
+<!--                        <div class="form-group">
+                            <label for="sortrank" class="col-md-3 control-label">选择插入位置</label>
+                            <div class="col-md-7">
+                                <select  class="form-control" name="sortrank" id="sortrank">
+                                    <empty name='chapterImg'>
+                                        <option value='0'>插入新图片</option>
+                                        <else/>
+                                        <volist name='chapterImg' id='ci'>
+                                            <option value='{$ci.sortrank}'>{$ci.sortrank}</option>
+                                        </volist>
+                                    </empty>
+                                </select>
+                            </div>
+                        </div>-->
+<!--                         <div class="form-group">
+                                <label for="attention" class="col-md-3 control-label">插入位置</label>
+                                <div class="col-md-7">
+                                    <div class="radio-list">
+                                        <label class="radio-inline">
+                                            <input name="before_or_after" id="attention1" value="1" type="radio" >
+                                            前
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input name="before_or_after" id="attention2"  value="2" type="radio"  checked>
+                                            后
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input value='{$chapter_id}' type='hidden' required name="chapter_id" >
+                    <input value='' type='hidden' required name="id" >
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn green" id="confirm">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

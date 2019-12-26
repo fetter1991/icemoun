@@ -1,0 +1,697 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+        .box{display: none;}
+        [class^="jiao-biao-"], [class*=" jiao-biao-"] {
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 20px;
+            border-color: transparent !important;
+            border-right-color: #337ab7 !important;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border-top-color: #337ab7 !important;
+        }
+        .is_free{
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 20px;
+            border-color: transparent !important;
+            border-left-color: #00CD66 !important;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            border-top-color: #00CD66 !important;
+        }
+        .is_free i{
+            left: -15px;
+            position: absolute;
+            top: -15px;
+            color: #fff;
+        }
+        .rank-class{
+            right: -13px;
+            position: absolute;
+            top: -16px;
+            color: #fff;
+        }
+        .jiao-biao-0{border-right-color:#00CD66 !important;border-top-color:#00CD66 !important;}
+        .jiao-biao-1{border-right-color:#008B66 !important;border-top-color:#008B66 !important;}
+        .jiao-biao-2{border-right-color:#668B66 !important;border-top-color:#668B66 !important}
+        .jiao-biao-3{border-right-color:#CDAD00 !important;border-top-color:#CDAD00 !important}
+        .jiao-biao-4{border-right-color:#CD6600 !important;border-top-color:#CD6600 !important}
+        .jiao-biao-5{border-right-color:#CD3278 !important;border-top-color:#CD3278 !important}
+        .jiao-biao-6{border-right-color:#C00000 !important;border-top-color:#C00000 !important}
+        .jiao-biao-7{border-right-color:#D0143C !important;border-top-color:#D0143C !important}
+        .jiao-biao-8{border-right-color:#ee4500 !important;border-top-color:#ee4500 !important}
+        .jiao-biao-9{border-right-color:#FF4500 !important;border-top-color:#FF4500 !important}
+        .jiao-biao-10{border-right-color:#FF0000 !important;border-top-color:#FF0000 !important}
+        .radis-box{
+            padding: 22px 0px;
+            /*overflow: auto;*/
+        }
+        .radis-box font{
+            margin-left: 10px;
+        }
+        .left-input-gr{margin-left: 15px;}
+        .file-box div{float:left;}
+        .file-box font{float:left;}
+        .file-box input{float:left;    margin-left: 23px;}
+        .changetarget label{padding: 5px 0;}
+        .form-horizontal .radio{padding-top: 1px;}
+        .topIco{
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 20px;
+            border-color: transparent;
+            border-right-color: #3598dc!important;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border-top-color: #3598dc!important;
+        }
+        .topIco i{
+            right: -15px;
+            position: absolute;
+            top: -15px;
+            color: #fff;
+        }
+        table .note.note-warning.note-bordered {background-color: #fffbca;}
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <div class="form-group col-md-12">
+                <button type="button" id="add" class="btn btn-success">新增</button>
+            </div>
+        </div>
+        <form action="{:U('Topic/index')}" role="form" method="get" class="">
+            <div class="col-xs-2 text-right pull-right">
+                <div class="input-group input-group ">
+                    <input class="form-control" value="{$name}" name="name" placeholder="请输入专辑名称" type="text">
+                    <span class="input-group-btn">
+                        <button class="btn green" type="submit">搜索</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-1 text-right pull-right">
+                <div class="form-group">
+                    <select id="statusSel" name="status" class="form-control">
+                        <option value="2">全部</option>
+                        <option value="0"
+                        <if condition="$status eq 0">selected</if>
+                        >下架</option>
+                        <option value="1"
+                        <if condition="$status eq 1">selected</if>
+                        >上架</option>
+                    </select>
+                </div>
+            </div>
+            <!--专辑类型-->
+            <div class="col-xs-2 text-right pull-right" style="padding: 0;margin-right: -10px;margin-left: -55px;">
+                <label class="col-md-5 control-label" style="padding-top:8px;">专辑类型:</label>
+                <div class="col-md-7">
+                    <select class="form-control " name="topic_type" id="topic_type">
+                        <option value=""
+                        <if condition="$topic_type eq 0">selected</if>
+                        >全部</option>
+                        <option value="1"
+                        <if condition="$topic_type eq 1">selected</if>
+                        >一般专辑</option>
+                        <option value="2"
+                        <if condition="$topic_type eq 2">selected</if>
+                        >影人专辑</option>
+                    </select>
+                </div>
+            </div>
+            <!--专辑等级-->
+            <div class="col-xs-2 text-right pull-right">
+                <label class="col-md-5 control-label" style="padding-top:8px;">专辑等级:</label>
+                <div class="col-md-7">
+                    <select class="form-control " name="rankForm" id="rankForm">
+                        <option value=""
+                        <if condition="$rankForm eq 99991">selected</if>
+                        >全部</option>
+                        <option value="0"
+                        <if condition="$rankForm eq 0">selected</if>
+                        >0级</option>
+                        <option value="1"
+                        <if condition="$rankForm eq 1">selected</if>
+                        >1级</option>
+                        <option value="2"
+                        <if condition="$rankForm eq 2">selected</if>
+                        >2级</option>
+                        <option value="3"
+                        <if condition="$rankForm eq 3">selected</if>
+                        >3级</option>
+                        <option value="4"
+                        <if condition="$rankForm eq 4">selected</if>
+                        >4级</option>
+                        <option value="5"
+                        <if condition="$rankForm eq 5">selected</if>
+                        >5级</option>
+                        <option value="6"
+                        <if condition="$rankForm eq 6">selected</if>
+                        >6级</option>
+                        <option value="7"
+                        <if condition="$rankForm eq 7">selected</if>
+                        >7级</option>
+                        <option value="8"
+                        <if condition="$rankForm eq 8">selected</if>
+                        >8级</option>
+                        <option value="9"
+                        <if condition="$rankForm eq 9">selected</if>
+                        >9级</option>
+                        <option value="10"
+                        <if condition="$rankForm eq 10">selected</if>
+                        >10级</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">专辑名称</th>
+                    <th class="text-center">作者</th>
+                    <th class="text-center">封面</th>
+                    <th class="text-center">横幅图片</th>
+                    <th class="text-center">专辑类型</th>
+                    <th class="text-center">演员</th>
+                    <th class="text-center">包含影片</th>
+                    <th class="text-center">价格</th>
+                    <th class="text-center">状态</th>
+                    <th class="text-center">添加时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td class="text-center">{$vo.id}</td>
+                        <td class="text-center " style="position: relative;">
+                            <div class="jiao-biao-{$vo.rank}" title="专辑等级：{$vo.rank}"><font class='rank-class'>{$vo.rank}</font>
+                            </div>
+                            {$vo.name}
+                            <if condition="!empty($vo['org_name'])"><br/>原名：{$vo.org_name}]</if>
+                        </td>
+                        <td class="text-center" style="position: relative;">
+                            <if condition="$vo['author_id'] != 0">
+                                <div class='topIco' title="已关联本站作者"><i class="fa fa-user"></i></div>
+                                <a href="{:U('Comic/index',array('author_id'=>$vo['author_id']))}">{$vo.author}</a>
+                                <else/>
+                                {$vo.author}
+                            </if>
+                        </td>
+                        <php>if(!empty($vo['cover'])){</php>
+                        <td class="text-center"><img src="{$vo.cover}" style='height:140px;'></td>
+                        <php> }else{</php>
+                        <td class="text-center"><img src="__IMG__/not_img_s.png" style='height:140px;'></td>
+                        <php>}</php>
+
+                        <php>if(!empty($vo['banner'])){</php>
+                        <td class="text-center"><img src="{$vo.banner}" style='height:140px;'></td>
+                        <php> }else{</php>
+                        <td class="text-center"><img src="__IMG__/not_img_h.png" style='height:140px;'></td>
+                        <php>}</php>
+                        <td class="text-center">
+                            <if condition='$vo["topic_type"] eq 1'>一般专辑
+                                <else/>
+                                影人专辑
+                            </if>
+                        </td>
+                        <td class="text-center">
+                            <if condition='$vo["topic_type"] eq 2'>{$vo.actor}
+                                <else/>
+                                -
+                            </if>
+                        </td>
+                        <td class="text-center">
+                            <if condition="$vo['movies_list'] != ''">
+                                <a href="javascript:void(0);" onclick="changeTopicNum(this)" data-id="{$vo.id}">共{$vo.movies_list|count}部影片，点击查看详情</a>
+                            </if>
+                        </td>
+                        <td class="text-center">{$vo.price}</td>
+                        <td class="text-center" id="status_type">
+                            <if condition='$vo["status"] eq 0'>未上架
+                                <elseif condition='$vo["status"] eq 1 && ($vo["online_time"] != 0 && $vo["online_time"] egt time())'/>
+                                预上架
+                                <br/>上架时间：{$vo.online_time|date="Y-m-d H:i:s",###}
+                                <else/>
+                                上架
+                            </if>
+                        </td>
+                        <td class="text-center">
+                            {$vo.add_time|date="Y-m-d H:i:s",###}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group-sm margin-bottom-10">
+                                <button onclick="setStatus('{$vo.id}', this)" type="button" class="btn green-sharp"
+                                        data-id="{$vo['id']}">
+                                    <if condition='$vo["status"] eq 0'>上架
+                                        <elseif condition='$vo["status"] eq 1'/>
+                                        下架
+                                    </if>
+                                </button>
+                                <button type="button" class="btn btn-info" id="edit" data-id="{$vo['id']}">编辑</button>
+                                <button onclick="del('{$vo.id}', this)" type="button" class="btn red"
+                                        data-id="{$vo['id']}">删除
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+            {$page}
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-attention-animation="false"
+         aria-hidden="true" style="display: none;margin-left:20%; margin-top: 20%;" id="jump_url">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 266px;">
+                <form class="form-horizontal" action="" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">去后缀成功,请进行图片检测</h5>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button class="btn btn-default" onclick="jump(this)" type='button' id="imgJump" data-url="">
+                            图片检测
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <include file="Topic/add"/>
+    <include file="Topic/edit"/>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+
+    <script>
+        var issubmit = true;
+        var issubmittwo = true;
+        $('#statusSel').change(function () {
+            var status = $('#statusSel').val();
+            var val = $('#rankForm').val();
+            window.location.href = '/Back/Topic/index?status=' + status + '&rankForm=' + val;
+        });
+
+        $('#rankForm').change(function () {
+            var val = $('#rankForm').val();
+            var status = $('#statusSel').val();
+            window.location.href = '/Back/Topic/index?rankForm=' + val + '&status=' + status;
+        });
+
+        $('.form_datetime').datetimepicker({
+            minView: "0",
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss',
+            autoclose: true,
+            todayBtn: true
+        });
+        $('input[name=online_time]').datetimepicker({
+            language: "zh-CN", //汉化
+            todayBtn: true,  //显示今天按钮
+            autoclose: true,   //选择日期后自动关闭日期选择框
+            todayHighlight: false,   //当天高亮显示
+            format: 'yyyy-mm-dd hh:ii:ss',
+            showMeridian: 1,
+            pickerPosition: "bottom-left",
+            startDate: new Date(new Date() - 1000),  //只显示一年的日期365天
+        });
+
+
+        function del(id, _this) {
+            _this = $(_this);
+            layer.confirm('确认删除?', {
+                btn: ['确定', '取消']
+            }, function () {
+                $.post("{:U('Topic/del')}", {'id': id}, function (res) {
+                    if (res.code == 200) {
+                        layer.msg('删除成功');
+                        _this.parent().parent().remove();
+                    } else {
+                        layer.msg('删除失败');
+                    }
+                })
+            })
+        }
+
+        $(function () {
+            $('#add_popup input[name="is_online"]').click(function () {
+                var value = $(this).val();
+                if (value == 0) {
+                    $('#addOverdate').hide();
+                } else {
+                    $('#addOverdate').show();
+                }
+            });
+
+            $('#edit_popup input[name="is_edit_online"]').click(function () {
+                var value = $(this).val();
+                if (value == 0) {
+                    $('#editOverdate').hide();
+                } else {
+                    $('#editOverdate').show();
+                }
+            });
+
+            $('#add').click(function () {
+                $('#add_popup').modal();
+            });
+
+            /**
+             * 点击编辑
+             */
+            $('table').on('click', '#edit', function () {
+                var id = $(this).data('id');
+                $.post("{:U('Topic/changePage')}", {'id': id}, function (res) {
+                    for (var i in res) {
+                        if(i == 'topic_type'){
+                            if (res[i] == 2){
+                                $('#actor_edit').css('display','block');
+                            } else {
+                                $('#actor_edit').find('input').val('');
+                                $('#actor_edit').css('display','none');
+                            }
+                        }
+                        if (i == 'online_time') {
+                            if (res[i] == 0) {
+                                $("#is_online1").prop("checked", true);
+                                $("#is_online2").prop("checked", false);
+                                $("#is_online2").parent().removeClass('checked');
+                                $("#is_online1").parent().addClass('checked');
+                                $("#editOverdate").hide();
+                            } else {
+                                $("#is_online1").prop("checked", false);
+                                $("#is_online2").prop("checked", true);
+                                $("#is_online1").parent().removeClass('checked');
+                                $("#is_online2").parent().addClass('checked');
+                                $('#edit_popup input[name=' + i + ']').val(res[i]);
+                                $("#editOverdate").show();
+                            }
+                        } else if ($('#edit_popup input[name=' + i + ']').length > 0) {
+                            $('#edit_popup input[name=' + i + ']').val(res[i]);
+                        } else if (i == 'rank') {
+                            $('select[name=rank]').val(res[i]);
+                        } else if (i == 'desc') {
+                            $('#edit_popup textarea[name=' + i + ']').val(res[i]);
+                        } else if ($('#edit_popup select[name=' + i + ']').length > 0) {
+                            $('#edit_popup select[name=' + i + ']').val(res[i]);
+                        } else if (i == 'author_id') {
+                            if (res[i] == 0) {
+                                $('#author').val(res['author']);
+                                var data = $("#changeButton").children('button').eq(0).data('type');
+                                $("#changeButton").find(".butt-green").removeClass('green');
+                                $("#changeButton").find(".butt-green").addClass('btn-default');
+                                $("#changeButton").children('button').eq(0).removeClass("btn-default");
+                                $("#changeButton").children('button').eq(0).addClass("green");
+                                $("#changeButton").find('input[name=Pushtarget]').val(data);
+                                $("#changeButton").siblings('.radis-box').find(".changetarget").hide();
+                                $("#changeButton").siblings('.radis-box').find("#" + data).show();
+                                $('#authorSelect').selectpicker('val', (0));
+                            } else {
+                                var data = $("#changeButton").children('button').eq(1).data('type');
+                                $("#changeButton").find(".butt-green").removeClass('green');
+                                $("#changeButton").find(".butt-green").addClass('btn-default');
+                                $("#changeButton").children('button').eq(1).removeClass("btn-default");
+                                $("#changeButton").children('button').eq(1).addClass("green");
+                                $("#changeButton").find('input[name=Pushtarget]').val(data);
+                                $("#changeButton").siblings('.radis-box').find(".changetarget").hide();
+                                $("#changeButton").siblings('.radis-box').find("#" + data).show();
+                                $('#changeAuthoe').find('div select').val(res[i]);
+                                $('#authorSelect').selectpicker('val', (res[i]));
+                            }
+                        }
+                    }
+                    $('#edit_popup').modal();
+                })
+            })
+        })
+
+        function changeshebei(e) {
+            var data = $(e).data('type');
+            $(e).parent().find(".butt-green").removeClass('green');
+            $(e).parent().find(".butt-green").addClass('btn-default');
+            $(e).removeClass("btn-default");
+            $(e).addClass("green");
+            $(e).siblings('input[name=Pushtarget]').val(data);
+            $(e).parent().siblings('.radis-box').find(".changetarget").hide();
+            $(e).parent().siblings('.radis-box').find("#" + data).show();
+            if (data == 'selectInput') {
+                $("#freeInput").find('input').attr('required', false);
+            } else {
+                $("#freeInput").find('input').attr('required', true);
+            }
+        }
+
+        var hot_inner_id = new Array();
+
+        function selectInner(e) {
+            var movies = $(e).data('type');
+            var selectInner = $("#" + movies).val();
+            var splitArr = selectInner.split(',');
+            hot_inner_id = [];
+            if (selectInner) {
+                for (x in splitArr) {
+                    if ($.inArray(splitArr[x], hot_inner_id) < 0) {
+                        hot_inner_id.push(splitArr[x]);
+                    }
+                }
+            }
+            layer.open({
+                type: 2,
+                title: '选择内推',
+                shadeClose: false,
+                shade: 0.8,
+                area: ['60%', '60%'],
+                content: "{:U('Topic/selectMovies')}?&data=" + selectInner, //iframe的url
+                btn: ['确定', '取消'],
+                //按钮对应点击事件回调通知
+                yes: function (index) {
+                    try {
+                        var row = window["layui-layer-iframe" + index].callbackdata();
+                        if (row.type == 0) {
+                            return false;
+                        }
+                        moviesid = row.moviesid;
+                        $("#" + movies).val(encodeURI(moviesid));
+
+                    } catch (e) {
+                        layer.alert("参数错误！");
+                        return false;
+                    }
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+
+        $("#confirmAdd").click(function () {
+            var form = $("#fromId").serialize();
+            $.ajax({
+                type: 'post',
+                data: form,
+                url: '{:U("Topic/add")}',
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.alert(res.msg);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            })
+
+        })
+        $("#confirm").click(function () {
+            var form = $("#fromIdedit").serialize();
+            $.ajax({
+                type: 'post',
+                data: form,
+                url: '{:U("Topic/edit")}',
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.alert(res.msg);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            })
+
+        })
+
+        $(function () {
+            //异步上传图片
+            $('#editCover').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/uploadImg.php',
+                acceptFileTypes: /(\.|\/)(gif|jpg|jpeg|png|bmp|tiff|pcx|tga|svg|psd|ai|WMF)$/i,
+                maxFileSize: '1048576',
+                Type: 'post',
+                add: function (e, data) {
+                    var sizeFile = data.originalFiles[0]['size'];
+                    if (sizeFile > 1048576) {
+                        alert("图片大小不能超过1M");
+                    } else {
+                        var movies_id = $('#edit_popup input[name="id"]').val();
+                        var dataR = [{"name": "savepath", "value": movies_id}, {
+                            "name": "rootPath",
+                            "value": 'Topic/' + movies_id
+                        }];
+                        dataR.push({"name": "type", "value": 'cover'});
+                        data.formData = dataR;
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('#edit_popup input[name="cover"]').val(data.result.url);
+                        $('#editCover').parent().parent().children('img').show();
+                        $('#editCover').parent().parent().children('img').attr('src', data.result.url);
+                    } else {
+                        alert(data.result.msg);
+                    }
+                }
+            });
+            //上传banner
+            $('#editBanner').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/uploadImg.php',
+                acceptFileTypes: /(\.|\/)(gif|jpg|jpeg|png|bmp|tiff|pcx|tga|svg|psd|ai|WMF)$/i,
+                maxFileSize: '1048576',
+                Type: 'post',
+                add: function (e, data) {
+                    var sizeFile = data.originalFiles[0]['size'];
+                    if (sizeFile > '1048576') {
+                        alert("图片大小不能超过1M");
+                    } else {
+                        var movies_id = $('#edit_popup input[name="id"]').val();
+                        var dataR = [{"name": "savepath", "value": movies_id}, {
+                            "name": "rootPath",
+                            "value": 'Topic/' + movies_id
+                        }];
+                        dataR.push({"name": "type", "value": 'banner'});
+                        data.formData = dataR;
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('#edit_popup input[name="banner"]').val(data.result.url);
+                        $('#editBanner').parent().parent().children('img').show();
+                        $('#editBanner').parent().parent().children('img').attr('src', data.result.url);
+                    } else {
+                        alert(data.result.msg);
+                    }
+                }
+            });
+        })
+
+        function setStatus(id, _this) {
+            _this = $(_this);
+            var thisHtml = _this.text();
+            thisHtml = thisHtml.replace(/(^\s*)|(\s*$)/g, "");
+            var title = "确认修改?";
+            var confirm = "确定";
+            var cancel = "取消";
+            layer.confirm(title, {
+                btn: [confirm, cancel]
+            }, function () {
+                $.post("{:U('topic/setStatus')}", {'id': id}, function (res) {
+                    if (res.code == 200) {
+                        if (res.status == 0) {
+                            layer.msg('下架成功');
+                            _this.html('上架');
+                            $("#status_type").html('未上架');
+                            _this.parent().parent().children('td').eq(10).html('未上架');
+                        } else {
+                            layer.msg('上架成功');
+                            _this.html('下架');
+                            $("#status_type").html('上架');
+                            _this.parent().parent().children('td').eq(10).html('上架');
+                        }
+                    } else {
+                        layer.msg('操作失败');
+                    }
+                })
+            })
+        }
+
+        function changeTopicNum(e) {
+            var id = $(e).data('id');
+            layer.open({
+                type: 2,
+                title: '编辑专辑',
+                shadeClose: false,
+                shade: 0.8,
+                area: ['60%', '60%'],
+                content: "{:U('Topic/changeMoviesOrder')}?&id=" + id, //iframe的url
+                btn: ['确定', '取消'],
+                //按钮对应点击事件回调通知
+                yes: function (index) {
+                    try {
+                        var row = window["layui-layer-iframe" + index].callbackdata();
+                        if (row.type == 0) {
+                            return false;
+                        }
+                        moviesid = row.moviesid;
+                        $("#" + movies).val(encodeURI(moviesid));
+
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+
+        $("[name='topic_type']").on('change',function () {
+            var act = $(this).data('content');
+            var value = $('.topic_type'+act).val();
+            //console.log(value);
+            if (value == 2){
+                $('#actor'+act).css('display','block');
+            } else {
+                $('#actor'+act).find('input').val('');
+                $('#actor'+act).css('display','none');
+            }
+
+        })
+    </script>
+</block>

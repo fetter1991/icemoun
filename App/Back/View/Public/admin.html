@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>有影后台管理系统</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″ />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <meta name="referrer" content="no-referrer" />
+        <link rel="icon" sizes="any" mask="" href="__MC__/apps/img/logo.png">
+        <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS  页面样式-->
+        <style>
+            .text-middle{
+                vertical-align: middle !important;
+            }
+            /*.page-content .row .col-md-12{overflow: auto;}*/
+        </style>
+    <block name="style"> </block>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES 全局主题样式-->
+    <link href="__MC__/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="__MC__/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES  主题布局样式-->
+   
+    <link href="__MC__/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="__MC__/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/layouts/layout/css/layout.css?v=1.0" rel="stylesheet" type="text/css" />
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+        <div class="page-header navbar navbar-fixed-top">
+            <div class="page-header-inner ">
+                <div class="page-logo">
+                    <div class="page-logo">
+                        <a href="javascript:;">
+                            <div class="font-white" style="font-size: 18px;padding-left: 11px;padding-top: 11px;">
+                                {:session('user_info.username')}
+                            </div>
+                        </a>
+                        <div class="menu-toggler sidebar-toggler"> </div>
+                    </div>
+                </div>
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <li class="dropdown dropdown-user">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img style="display: none;" alt="" class="img-circle" src="__MC__/layouts/layout/img/avatar3_small.jpg" />
+                                <span class="username username-hide-on-mobile"> 
+                                    {:session('user_info.username')}
+                                </span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="admin_update">
+                                        <i class="fa fa-edit"></i> 修改密码 </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" id="bangdingChannel">
+                                        <i class="fa  fa-retweet"></i> 绑定渠道 </a>
+                                </li>
+                                <li>
+                                    <a href="{:U('Public/loginOut')}">
+                                        <i class="icon-key"></i> 退出 </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown ">
+                            <a href="{:U('Public/loginOut')}" class="dropdown-toggle">
+                                <i class="icon-logout"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="page-container">
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar-collapse collapse">
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                        <include file="Index/getLeftNav" />
+                    </ul>
+                </div>
+            </div>
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                    <h3 class="page-title">
+                        {$nav_active_name?$nav_active_name : ($own_active_name ? $own_active_name : $nav_active_name)}
+                        <small>{$nav_active_name && $own_active_name ? $own_active_name : ''}</small>
+                    </h3>
+                    <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="index.html">首页</a>
+                                <if condition='$nav_active_name != "首页"'>
+                                <i class="fa fa-angle-right"></i>
+                                </if>
+                            </li>
+                            <if condition='$nav_active_name != "首页"'>
+                            <li>
+                                <a href="#">{$nav_active_name}</a>
+                                 <if condition="isset($own_active_name)">
+                                <i class="fa fa-angle-right"></i>
+                                </if>
+                            </li>
+                            <if condition="isset($own_active_name)">
+                                <li>
+                                    <a href="#">{$own_active_name}</a>
+                                </li>
+                            </if>
+                            </if>
+                        </ul>
+                    </div>
+                    <block name="content">
+                        <!--主体内容-->
+                    </block>
+                </div>
+            </div>
+        </div>
+
+        <!--修改密码-->
+        <div id="responsive" class="modal fade" tabindex="-1" data-width="650">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" role="form" id="upPwdForm">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title text-center">修改密码</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet-body form">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">用户名称</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-user fa-fw"></i>
+                                                        <input type="text" disabled value="{:session('user_info.username')}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">旧密码</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-lock fa-fw"></i>
+                                                        <input type="password" name="oldpassword" id="old" placeholder="旧密码" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">新密码</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-lock fa-fw"></i>
+                                                        <input type="password" name="newpassword" id="newpassword"   placeholder="新密码" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">确认密码</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-lock fa-fw"></i>
+                                                        <input type="password" id="newconfirm" placeholder="确认新密码" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn green" id="save">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--[if lt IE 9]>
+        <script src="__MC__/global/plugins/respond.min.js"></script>
+        <script src="__MC__/global/plugins/excanvas.min.js"></script>
+        <![endif]-->
+        <!-- BEGIN CORE PLUGINS 核心插件-->
+        <script src="__MC__/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="__MC__/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <script src="__JS__/vue.js" type="text/javascript"></script>
+        <!-- BEGIN THEME GLOBAL SCRIPTS 全局脚本-->
+        <script src="__MC__/global/scripts/app.min.js" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS 主题布局脚本-->
+        <script src="__MC__/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="__MC__/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+        <script src="__MC__/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
+        <script src="__JS__/layer/2.4/layer.js?v=1.0"></script>
+        <block name="script"></block>
+        <script>
+
+            // 主题设置
+            var setColor = function (color) {
+                if (typeof color == "undefined") {
+                    color = 'darkblue';
+                }
+                var color_ = (App.isRTL() ? color + '-rtl' : color);
+                $('#style_color').attr("href", Layout.getLayoutCssPath() + 'themes/' + color_ + ".min.css");
+                if (color == 'light2') {
+                    $('.page-logo img').attr('src', Layout.getLayoutImgPath() + 'logo-invert.png');
+                } else {
+                    $('.page-logo img').attr('src', Layout.getLayoutImgPath() + 'logo.png');
+                }
+                if (typeof Cookies !== "undefined") {
+                    Cookies.set('layout-theme', color);
+                }
+            };
+
+            $(function () {
+                if (typeof Cookies !== "undefined") {
+                    setColor(Cookies.get('layout-theme'));
+                }
+                $('.theme-colors > ul > li').click(function () {
+                    var color = $(this).attr("data-style");
+                    setColor(color);
+                    $('ul > li').removeClass("current");
+                    $(this).addClass("current");
+                });
+
+                $('body').on('click', '#admin_update', function () {
+                    $('#responsive').modal();
+                    $('#save').click(function () {
+                        if ($('#old').val() == '' || $('#newpassword').val() == '' || $('#newconfirm').val() == '') {
+                            layer.msg('请输入完整信息');
+                            return;
+                        }
+                        if ($('#newpassword').val() != $('#newconfirm').val()) {
+                            layer.msg('两次密码输入不一致');
+                            return;
+                        }
+                        $.ajax({
+                            url: '{:U("Public/changepwd")}',
+                            type: 'post',
+                            data: $('#upPwdForm').serialize(),
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.code === 0) {
+                                    layer.msg('修改成功,请重新登录!');
+                                    setTimeout(function () {
+                                        window.location.href = data.jump_url;
+                                    }, 1500)
+                                } else if (data.code === 1) {
+                                    layer.msg('修改失败');
+                                    window.location.reload();
+                                } else if (data.code == 2) {
+                                    layer.msg(data.msg);
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+
+            $("#bangdingChannel").click(function () {
+                $.ajax({
+                    type: 'get',
+                    url: '{:U("Public/getChannel")}',
+                    success: function (channel) {
+                        var channel_id_get = '';
+                        var vip_id_get = '';
+                        if (channel.data != '') {
+                            if (channel.data.channel_id != '') {
+                                channel_id_get = channel.data.channel_id;
+                            }
+                            if (channel.data.vip_id != '') {
+                                vip_id_get = channel.data.vip_id;
+                            }
+                        }
+                        layer.open({
+                            type: 2,
+                            title: '选择渠道',
+                            shadeClose: false,
+                            shade: 0.8,
+                            area: ['60%', '80%'],
+                            content: '/Back/SelectChannel/index?val=' + channel_id_get + '&member_id=' + vip_id_get, //iframe的url
+                            btn: ['确定', '取消'],
+                            yes: function (index) {
+                                //异常捕获，避免页面因js错误而终止运行 
+                                try {
+                                    var row = window["layui-layer-iframe" + index].callbackdata();
+                                    if (row.type == 0) {
+                                        return false;
+                                    }
+                                    var channel_id = row.channel_id;
+                                    var channel_id_remove = row.remove_channel;
+                                    var vip_id = row.vip_id;
+                                    var vip_id_remove = row.remove_vip;
+
+                                    $.ajax({
+                                        type: 'post',
+                                        data: {'channel_id': channel_id, 'channel_id_remove': channel_id_remove, 'vip_id': vip_id, 'vip_id_remove': vip_id_remove},
+                                        url: '{:U("Public/saveChannel")}',
+                                        success: function (res) {
+                                            if (res.code == 200) {
+                                                $("#time_alert").modal('hide');
+                                                layer.alert('绑定成功');
+                                            } else {
+                                                layer.alert(res.msg);
+                                            }
+                                        }
+                                    })
+                                } catch (e) {
+                                    layer.alert("参数错误！");
+                                    return false;
+                                }
+                                layer.close(index);
+                            },
+                            btn2: function (index, layero) {
+                                layer.close(index);
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>

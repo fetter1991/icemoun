@@ -1,0 +1,138 @@
+<div class="modal fade" tabindex="-1" data-width="650" id="edit_channel_user_popup">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" action="{:U('Author/doEditUser')}" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑渠道</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">昵称</label>
+                            <div class="col-md-7">
+                                <input type="text" id="nick" class="form-control" name="nick_name" placeholder="请输入昵称"
+                                       required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">帐号</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="account" id='account' placeholder="输入帐号"
+                                       required disabled='disabled'/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">电话号码</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="dh" name="tel" placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">微信号</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="wechat_num" name="wechat_num"
+                                       placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">QQ号</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="qq_num" name="qq_num" placeholder=""/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Email</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="em" name="email" placeholder=""/>
+                                <input type="hidden" class="form-control" name="id" placeholder="" required id="k"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="number">头像</label>
+                            <div class="col-md-7 img_div">
+                        <span class="col-md-12"
+                              style="color:#959595;font-size: 13px;word-break:break-all;margin-top: 8px;margin-left: -15px;">
+                            上传图片的格式png，jpeg，jpg，gif。大小不超过2M
+                        </span>
+                                <div class="col-md-5" id='edit_upload_img'
+                                     style="margin-top: 10px;width: 50.1%;height: auto;border:1px solid #c2cad8;padding:10px;">
+
+                                </div>
+                                <span class="col-md-6 btn green fileinput-button">
+                            <span> 选择图片 </span>
+                            <input type="file" name="img" id="editAvatar">
+                            <input type="hidden" value='' name="avatar" id="avatar_edit">
+                        </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">标签</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="tags" id='tags' placeholder="输入标签"/>
+                                <span>多个使用|符号分隔</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">简介</label>
+                            <div class="col-md-7">
+                                <textarea class="form-control" name="desc" id="desc" rows="3"
+                                          placeholder="输入简介"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">分成比例</label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control" name="commission_ratio" value=""
+                                       placeholder="分成比例 1-100" id="commission_ratio"/>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-checkboxes has-default">
+                            <label class="col-md-3 control-label" for="form_control_1">状态</label>
+                            <div class="col-md-9">
+                                <div class="md-checkbox-inline">
+                                    <div class="md-radio-inline">
+                                        <div class="md-radio">
+                                            <input type="radio" id="checkbox2_8" name="status" class="md-radiobtn"
+                                                   checked="" value="1">
+                                            <label for="checkbox2_8">
+                                                <span class="inc"></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>开</label>
+                                        </div>
+                                        <div class="md-radio">
+                                            <input type="radio" id="checkbox2_9" name="status" class="md-radiobtn"
+                                                   value="0">
+                                            <label for="checkbox2_9">
+                                                <span class="inc"></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> 关 </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group form-md-checkboxes has-default">
+                            <label class="col-md-3 control-label" for="form_control_1">选择支付通道</label>
+                            <div class="col-md-9">
+                                <select  class="form-control" name="pay_channel" id="pay_channel">
+                                    <option value="0" >原生支付</option>
+                                    <option value="1" >我赞支付</option>
+                                </select>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="but">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

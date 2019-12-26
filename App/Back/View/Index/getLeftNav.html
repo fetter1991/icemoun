@@ -1,0 +1,44 @@
+<?php
+    $nav_list = getLeftNav();
+    $n = array_search('active open',array_column($nav_list,'active'),true);
+    $nav_active_name =$nav_list[$n]['name'];
+    if(isset($nav_list[$n]['own'])){
+        $m = array_search('active open',array_column($nav_list[$n]['own'],'active'),true);
+        $own_active_name = $nav_list[$n]['own'][$m]['name'];
+    }
+?>
+<li class="nav-item start {$nav_list[0]['active']}">
+    <a href="{$nav_list[0]['href']}" class="nav-link nav-toggle">
+        <i class="fa fa-{$nav_list[0]['ico']}"></i>
+        <span class="title">{$nav_list[0]['name']}</span>
+        <span class="selected"></span>
+    </a>
+</li>
+<volist name="nav_list" id="nav" offset='1'>
+    <empty name="nav.own">
+        <li class="nav-item {$nav.active}">
+            <a href="{$nav.href}" class="nav-link nav-toggle">
+                <i class="fa fa-{$nav.ico}"></i>
+                <span class="title">{$nav.name}</span>
+            </a>
+        </li>
+
+        <else/>
+        <li class="nav-item {$nav.active}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-{$nav.ico}"></i>
+                <span class="title">{$nav.name}</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <volist name="nav.own" id="own">
+                    <li class="nav-item  {$own.active}">
+                        <a href="{$own.href}" class="nav-link ">
+                            <span class="title">{$own.name}</span>
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+        </li>
+    </empty>
+</volist>

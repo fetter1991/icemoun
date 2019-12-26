@@ -1,0 +1,408 @@
+<div id="edit_popup" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" method="post" id="movies_edit_info" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑图解</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="title" class="col-md-3 control-label">标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入标题" name="name"
+                                       v-model='edit_data.name'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtitle" class="col-md-3 control-label">副标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入副标题" name="subtitle"
+                                       v-model='edit_data.subtitle'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtitle" class="col-md-3 control-label">原标题</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" placeholder="请输入原标题" name="org_name"
+                                       v-model='edit_data.org_name'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="movies_type" class="col-md-3 control-label">影片类型</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="movies_type" v-model='edit_data.movies_type'>
+                                    <option value="0">电影</option>
+                                    <option value="1">剧集</option>
+                                    <option value="2">小说</option>
+                                    <option value="3">漫画</option>
+                                    <option value="4">视频</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-md-3 control-label">作者</label>
+                            <div class="col-md-7">
+                                <div class="tabbable-line ">
+                                    <ul class="nav nav-tabs">
+                                        <li v-bind:class='edit_data.author_type == 1 ? "active" : "" '>
+                                            <a href="#tab_1_3" data-toggle="tab"
+                                               @click="edit_data.author_type = 1">填写作者</a>
+                                        </li>
+                                        <li v-bind:class='edit_data.author_type == 2 ? "active" : "" '>
+                                            <a href="#tab_1_4" data-toggle="tab" @click="edit_data.author_type = 2">选择本站作者</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" style="padding: 15px 0 0 0;">
+                                        <div class="tab-pane fontawesome-demo  editMovies"
+                                             v-bind:class='edit_data.author_type == 1 ? "active" : "" ' id="tab_1_3">
+                                            <input type="text" required class="form-control" placeholder="请输入作者"
+                                                   name="author" v-model="edit_data.author">
+                                            <input type="hidden" value="1" name="author_type"
+                                                   v-model="edit_data.author_type">
+                                        </div>
+                                        <div class="tab-pane fontawesome-demo" id="tab_1_4"
+                                             v-bind:class='edit_data.author_type == 2 ? "active" : "" '>
+                                            <select class="form-control selectpicker" data-live-search="true"
+                                                    data-max-options="1" name="author_id"
+                                                    onchange="authorOnchange(this)"
+                                                    id='edit_author_id' v-model="edit_data.author_id">
+                                                <option value="">请选择作者</option>
+                                                <option v-bind:value="author_info.id" v-for="author_info in author">
+                                                    {{author_info.nick_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">作者分成</label>
+                            <div class="col-md-6">
+                                <div class="radio-list">
+                                    <label class="radio-inline">
+                                        <input name="commission_ratio" value="0" type="radio"
+                                               v-model='edit_data.commission_ratio'>
+                                        0
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input name="commission_ratio" value="100" type="radio"
+                                               v-model='edit_data.commission_ratio'>
+                                        100
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addOverdate" class="col-md-3 control-label">分成开始时间</label>
+                            <div class="col-md-7">
+                                <input type="text" v-bind:value='edit_data.charging_time' placeholder="请输入分成开始时间"
+                                       name="charging_time" class="form-control form_date" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="director" class="col-md-3 control-label">导演</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入导演" name="director"
+                                       v-model='edit_data.director'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="actor" class="col-md-3 control-label">演员</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入演员" name="actor"
+                                       v-model='edit_data.actor'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc" class="col-md-3 control-label">简介</label>
+                            <div class="col-md-7">
+                                <textarea name="desc" required class="form-control" rows="3"
+                                          v-model='edit_data.desc'></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editor_note" class="col-md-3 control-label">编者按</label>
+                            <div class="col-md-7">
+                                <textarea name="editor_note" required class="form-control" rows="3"
+                                          v-model='edit_data.editor_note'></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">标签</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入标签" name="tags"
+                                       v-model='edit_data.tags'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="score" class="col-md-3 control-label">豆瓣ID</label>
+                            <div class="col-md-7">
+                                <input type="text" value='' required class="form-control " placeholder="请输入豆瓣ID,用于关联求片"
+                                       name="db_id" v-model='edit_data.db_id'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="score" class="col-md-3 control-label">豆瓣评分</label>
+                            <div class="col-md-7">
+                                <input type="number" required class="form-control" placeholder="请输入豆瓣评分" name="score"
+                                       v-model='edit_data.score'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="total_size" class="col-md-3 control-label">影片大小</label>
+                            <div class="col-md-7">
+                                <input type="text" v-model='edit_data.total_size' required class="form-control"
+                                       placeholder="请输入影片大小" name="total_size">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="total_size" class="col-md-3 control-label">影片等级</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="rank" v-model="edit_data.rank">
+                                    <option v-bind:value="index" v-for="(level_name,index) in level">
+                                        {{level_name.title}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="begin_download" class="col-md-3 control-label">APP下载章节</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.begin_download' required class="form-control"
+                                       placeholder="APP下载章节" name="begin_download">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="total_page" class="col-md-3 control-label">影片图片总数</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.total_page' required class="form-control"
+                                       placeholder="请输入影片图片总数" name="total_page">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="begin_pay" class="col-md-3 control-label">付费章节</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.begin_pay' required class="form-control"
+                                       placeholder="请输入付费章节" name="begin_pay">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hot" class="col-md-3 control-label">热门值</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.hot' required class="form-control"
+                                       placeholder="请输入热门值" name="hot">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="order_num" class="col-md-3 control-label">推荐值</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.order_num' required class="form-control"
+                                       placeholder="请输入排序值" name="order_num">
+                                <p class="help-block"> 数值越大“本周推荐”排序越前 </p>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="level" class="col-md-3 control-label">渠道推荐值</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.level' required class="form-control"
+                                       placeholder="请输入推荐指数" name="level">
+                                <p class="help-block"> 数值越大渠道后台影片排序越前 </p>
+                            </div>
+                        </div>
+                        <!--推广权重-->
+                        <div class="form-group">
+                            <label for="expand_weight" class="col-md-3 control-label">推广权重</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.expand_weight' required class="form-control"
+                                       placeholder="expand_weight" name="level">
+                                <p class="help-block"> 推广权重值越大渠道后台影片排序越前 </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mold" class="col-md-3 control-label">收费类型</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="mold" v-model='edit_data.mold'
+                                        data-action="edit_popup">
+                                    <option value="0">按章收费</option>
+                                    <option value="1">整本收费</option>
+                                    <option value="2">免费</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group gmjg">
+                            <label for="price" class="col-md-3 control-label">购买价格</label>
+                            <div class="col-md-7">
+                                <div class="radio-list">
+                                    <label class="radio-inline show_type_tip">
+                                        <input name="price_type" value="0" type="radio" v-model='edit_data.price_type'
+                                               data-action="edit_popup">金币购买
+                                    </label>
+                                    <label class="radio-inline show_type_tip">
+                                        <input name="price_type" value="1" type="radio" v-model='edit_data.price_type'
+                                               data-action="edit_popup">RMB购买
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group jg">
+                            <label for="price" class="col-md-3 control-label">价格</label>
+                            <div class="col-md-7">
+                                <input type="number" v-model='edit_data.price' required
+                                       class="form-control simple_price"
+                                       placeholder="请输入价格" name="price">
+                                <input type="number" class="form-control rmb_price" placeholder="请输入价格"
+                                       pattern="^[1-9]\d*|0$" style="display: none;">
+                                <p class="help-block">该价格只针对整本收费有效，按章收费需在章节列表中设置价格。</p>
+                            </div>
+                        </div>
+                        <div class="form-group moldTips">
+                            <label for="price" class="col-md-3 control-label"></label>
+                            <div class="col-md-7">
+                                <p class="help-block">按章收费需在章节列表中设置价格。</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">是否完结</label>
+                            <div class="col-md-6">
+                                <div class="radio-list">
+                                    <label class="radio-inline">
+                                        <input name="is_over" value="0" type="radio" onclick="$('#editOverdate').hide()"
+                                               v-model='edit_data.is_over'>
+                                        连载中
+                                    </label>
+
+                                    <label class="radio-inline">
+                                        <input name="is_over" value="1" type="radio" onclick="$('#editOverdate').show()"
+                                               v-model='edit_data.is_over'>
+                                        已完结
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="editOverdate"
+                             v-bind:style="edit_data.is_over == 0 ? 'display:none' : ''">
+                            <label for="addOverdate" class="col-md-3 control-label">完结时间</label>
+                            <div class="col-md-7">
+                                <input type="text" v-model='edit_data.overdate' placeholder="请输入完结时间" name="overdate"
+                                       class="form-control form_datetime" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCover" class="col-md-3 control-label">封面</label>
+                            <div class="col-md-9">
+                                <span class="col-md-12"
+                                      style="color:#959595;font-size: 13px;word-break:break-all;margin-top: 8px;margin-left: -15px;">
+                                    270*405
+                                </span>
+                                <div class='row'>
+                                    <div class="col-md-4">
+                                        <div class='upload-img'>
+                                            <img class="img-responsive" v-bind:src='edit_data.cover'
+                                                 v-if='edit_data.cover'>
+                                        </div>
+                                        <span class="btn green fileinput-button col-md-12">
+                                            <span> 选择文件 </span>
+                                            <input type="file" name="moviesCover" class="uploadImg" data-type="cover">
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="fileinput-filename"> </span>
+                                <input type="hidden" name='cover' v-model='edit_data.cover'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBanner" class="col-md-3 control-label">横幅图片</label>
+                            <div class="col-md-9">
+                                 <span class="col-md-12"
+                                       style="color:#959595;font-size: 13px;word-break:break-all;margin-top: 8px;margin-left: -15px;">
+                                   640*460
+                                </span>
+                                <div class='row'>
+                                    <div class="col-md-6">
+                                        <div class='upload-img'>
+                                            <img class="img-responsive" v-bind:src='edit_data.banner'
+                                                 v-if='edit_data.banner'>
+                                        </div>
+                                        <span class="btn green fileinput-button col-md-12">
+                                            <span> 选择文件 </span>
+                                            <input type="file" name="moviesBanner" class="uploadImg" data-type="banner">
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="fileinput-filename"> </span>
+                                <input type="hidden" name='banner' v-model='edit_data.banner'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex" class="col-md-3 control-label">适合群体</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="sex" v-model='edit_data.sex'>
+                                    <option value="0">不分男女</option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">分类</label>
+                            <div class="col-md-7">
+                                <div class="md-checkbox-inline">
+                                    <template v-for="form_k in form">
+                                        <label style="padding: 5px;"><input name='form[]' v-model='edit_data.form'
+                                                                            type="checkbox" v-bind:value='form_k.id'>
+                                            {{form_k.name}} </label>
+                                    </template>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="showtime_id" class="col-md-3 control-label">上映年份</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="showtime_id" v-model='edit_data.showtime_id'>
+                                    <option v-bind:value="data.id" v-for="data in showtime">{{data.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zone_id" class="col-md-3 control-label">地区</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="zone_id" v-model='edit_data.zone_id'>
+                                    <option v-bind:value="zone_list.id" v-for="zone_list in zone">{{zone_list.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-3 control-label">状态</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="status" v-model='edit_data.status'>
+                                    <option value="0">下架</option>
+                                    <option value="1">上架</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hot" class="col-md-3 control-label">影片注释</label>
+                            <div class="col-md-7">
+                                <input type="text" v-model='edit_data.notes' class="form-control"
+                                       placeholder="文案章节，强关章节，等信息说明" name="notes">
+                                <p class="help-block"> 支持#符号包裹，使文字变为红色 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input value='' type='hidden' required name="id">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn green" @click="edit()">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

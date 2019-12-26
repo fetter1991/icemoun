@@ -1,0 +1,90 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <style>
+        .spinner {
+            width: 71px;
+            height: 31px;
+            text-align: center;
+            font-size: 10px;
+            display: none;
+            /*visibility: hidden;*/
+        }
+
+        .spinner > div {
+            background-color: #fff;
+            height: 100%;
+            width: 4px;
+            display: inline-block;
+
+            -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+            animation: stretchdelay 1.2s infinite ease-in-out;
+        }
+
+        .spinner .rect2 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+
+        .spinner .rect3 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        .spinner .rect4 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+
+        .spinner .rect5 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+
+        @-webkit-keyframes stretchdelay {
+            0%, 40%, 100% {
+                -webkit-transform: scaleY(0.4)
+            }
+            20% {
+                -webkit-transform: scaleY(1.0)
+            }
+        }
+
+        @keyframes stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }
+            20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+
+        .dashboard-stat.red-intense .details .desc {
+            font-size: 15px;
+        }
+
+        .dashboard-stat.green .details .desc {
+            font-size: 15px;
+        }
+
+        .dashboard-stat .details .desc {
+            width: 100%;
+            float: right;
+        }
+
+        .dashboard-stat .details .number {
+            float: right;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="note note-success">
+                <h3> 有影后台管理系统 </h3>
+                <p> 欢迎使用，后台还在不断完善 </p>
+            </div>
+        </div>
+    </div>
+</block>

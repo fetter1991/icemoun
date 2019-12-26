@@ -1,0 +1,136 @@
+<extend name="Public/admin" />
+<block name="style">
+   
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-xs-6">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label >状态：</label>
+                    <select class="form-control" id="status">
+                        <option value="2" >全部</option>
+                        <option value="0" <if condition="$status eq 0">selected</if>>下架</option>
+                        <option value="1" <if condition="$status eq 1">selected</if>>上架</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >分类选择：</label>
+                    <select id="form" class="form-control" style="width:110px;height:35px;">
+                        <option value="0" >全部</option>
+                        <volist name="form" id="f">
+                            <option value="{$f['id']}" <if condition="$form_id eq $f['id']">selected</if>>{$f.name}</option>
+                        </volist>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >影片等级：</label>
+                    <select  class="form-control " name="rankForm" id="rankForm">
+                        <option value="" <if condition="$rankForm eq 99">selected</if>>全部</option>
+                        <option value="0" <if condition="$rankForm eq 0">selected</if>>0级</option>
+                        <option value="1" <if condition="$rankForm eq 1">selected</if>>1级</option>
+                        <option value="2" <if condition="$rankForm eq 2">selected</if>>2级</option>
+                        <option value="3" <if condition="$rankForm eq 3">selected</if>>3级</option>
+                        <option value="4" <if condition="$rankForm eq 4">selected</if>>4级</option>
+                        <option value="5" <if condition="$rankForm eq 5">selected</if>>5级</option>
+                        <option value="6" <if condition="$rankForm eq 6">selected</if>>6级</option>
+                        <option value="7" <if condition="$rankForm eq 7">selected</if>>7级</option>
+                        <option value="8" <if condition="$rankForm eq 8">selected</if>>8级</option>
+                        <option value="9" <if condition="$rankForm eq 9">selected</if>>9级</option>
+                        <option value="10" <if condition="$rankForm eq 10">selected</if>>10级</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-6 text-right">
+            <form action="{:U('Comic/comicData')}" role="form" method="get" class="form-inline">
+                <div class="input-group input-group ">
+                    <input class="form-control" value="{$name}"  name="name" placeholder="请输入图解名称搜索" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn green" type="submit">搜索</button>
+                            </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                <tr>
+                    <th class="text-center" onclick="order('id')">ID<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                    <th class="text-center">名称</th>
+                    <th class="text-center">分类</th>
+                    <th class="text-center" >点赞</th>
+                    <th class="text-center" onclick="order('hunt')">搜索<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                    <th class="text-center" onclick="order('consume')">消费金币<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                    <th class="text-center" onclick="order('hits')">浏览<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                    <th class="text-center" onclick="order('collect')">收藏<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                    <th class="text-center">价格</th>
+                    <th class="text-center">付费类型</th>
+                    <th class="text-center">章节数</th>
+                    <th class="text-center">付费章节</th>
+                    <th class="text-center" onclick="order('hot')">消费指数（金币/浏览）<img src="__IMG__/order.png" style="width: 15px;height: 12px"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td class="text-center">{$vo.id}</td>
+                        <td class="text-center">{$vo['org_name'] != ''? $vo['org_name'] : $vo['name']}</td>
+                        <td class="text-center">{$vo.form}</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">{$vo.hunt}</td>
+                        <td class="text-center">{$vo.consume}</td>
+                        <td class="text-center">{$vo.hits}</td>
+                        <td class="text-center">{$vo.collect}</td>
+                        <td class="text-center">{$vo.price}</td>
+                        <td class="text-center"><if condition='$vo["mold"] eq 0'>按章收费
+                            <elseif condition='$vo["mold"] eq 1' />整书收费
+                            <elseif condition='$vo["mold"] eq 2' />免费
+                        </if></td>
+                        <td class="text-center">{$vo.chapter_count}</td>
+                        <td class="text-center">{$vo.begin_pay}</td>
+                        <td class="text-center"><if condition="$vo['hot'] egt 10"><span style="color:red;">{$vo.hot|round=###,2}</span><else/>{$vo.hot|round=###,2}</if></td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    
+
+    <script>
+        $('#status,#form,#rankForm').change(function(){
+            var status = $('#status').val();
+            var form = $('#form').val();
+            var rankForm = $('#rankForm').val();
+            window.location.href = '/Back/Comic/comicData/status/'+status+'/form/'+form+'/rank/'+rankForm;
+        });
+
+        var sort = '{$sort}';
+        function order(order){
+            var status = $('#status').val();
+            var form = $('#form').val();
+            var rankForm = $('#rankForm').val();
+            if(sort == 1){
+                sort = 0;
+            }else{
+                sort = 1;
+            }
+            if(name == ''){
+                window.location.href = '/Back/Comic/comicData/order/'+order+'/sort/'+sort+'/status/'+status+'/form/'+form+'/rank/'+rankForm;
+            }else{
+
+            }
+        }
+    </script>
+</block>

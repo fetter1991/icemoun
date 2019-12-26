@@ -1,0 +1,1306 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-colorpicker/css/colorpicker.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/my_style.css?v=2.0" rel="stylesheet" type="text/css"/>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-12" id="app_content">
+            <div class='app-loading'>
+                <img src='__IMG__/load.gif'>
+            </div>
+            <div class="well" style="overflow:auto">
+                <div class="form-body">
+                    <div class="form-group">
+                        <label class="tags-items-label">类型：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="0" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","0")'>电影
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="1" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","1")'>剧集
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="2" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","2")'>小说
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="3" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","3")'>漫画
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.movies_type =="4" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("movies_type","4")'>视频
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">分类：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.form =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("form","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable" v-for="from in form"
+                                 v-bind:class='search_data.form == from.id ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("form",from.id)'
+                            >{{from.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">状态：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.status =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("status","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.status =="1" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("status","1")'>上架
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.status =="0" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("status","0")'>下架
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.status =="2" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("status","2")'>待上架
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">收费状态：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.mold =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("mold","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.mold =="0" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("mold","0")'>按章收费
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.mold =="1" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("mold","1")'>整本收费
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.mold =="2" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("mold","2")'>免费
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">派单状态：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_tui =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_tui","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_tui =="1" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_tui","1")'>已派
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_tui =="2" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_tui","2")'>未派
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">图解等级：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.rank ==="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("rank","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable" v-for="(level_name,index) in level"
+                                 v-bind:class='search_data.rank === index ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("rank",index)'
+                            >{{level_name.title}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tags-items-label">是否有作者：</label>
+                        <div class="tags-items-list">
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_author =="" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_author","")'>不限
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_author =="1" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_author","1")'>是
+                            </div>
+                            <div class="ant-tag ant-tag-checkable"
+                                 v-bind:class='search_data.is_author =="0" ?  "ant-tag-checkable-checked" : "" '
+                                 @click='screen("is_author","0")'>否
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="form-horizontal form-row-seperated" action="#">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <div class="actions btn-set">
+                            <button type="button" @click="addMovies()"
+                                    class="btn btn-sm blue table-group-action-submit">新增
+                            </button>
+                            <button type="button" @click="seeOrder()" class="btn btn-sm blue table-group-action-submit">
+                                查看排序
+                            </button>
+                            <div class="portlet-input input-inline">
+                                <div class="input-icon right">
+                                    <i class="icon-magnifier search-i-button" style='margin: 9px 2px 4px 10px;'
+                                       @click='searchName()'></i>
+                                    <input type="text"
+                                           class="form-control table-group-action-input form-control input-inline input-sm"
+                                           @keyup.enter="searchName()"
+                                           v-model='search_data.name' placeholder="图解名称搜索">
+                                </div>
+                            </div>
+                            <div class="portlet-input input-inline">
+                                <div class="input-icon right">
+                                    <i class="icon-magnifier search-i-button" style='margin: 9px 2px 4px 10px;'
+                                       @click='searchName()'></i>
+                                    <input type="text"
+                                           class="form-control table-group-action-input form-control input-inline input-sm"
+                                           @keyup.enter="searchName()"
+                                           v-model='search_data.author_name' placeholder="作者名称搜索">
+                                </div>
+                            </div>
+                            <button type="button" @click="Reset()" class="btn btn-sm blue table-group-action-submit">
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-container" style="">
+                            <table class="table ">
+                                <thead>
+                                <tr class="heading">
+                                    <th class="">名称</th>
+                                    <th class="">作者</th>
+                                    <th class="">影片类型</th>
+                                    <th class="">封面</th>
+                                    <th class="">横幅图片</th>
+                                    <th class="">适合群体</th>
+                                    <th class="">数据</th>
+                                    <th class="">状态(<a href="javascript:void(0)"
+                                                       @click="showChannelTNumber()">展示推送数据</a>)
+                                    </th>
+                                    <th class="">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for='(vo,index) in list'>
+                                    <td v-bind:class="vo.status == 0 ? 'ui-cover-tip ' : vo.online_time_type == 1 ? 'ui-dai-tip ' : '' "
+
+                                        style='padding-left: 55px;'>
+                                        <div class='box-shown' v-if="vo.status == 0 || vo.online_time_type == 1"></div>
+                                        ID：{{vo.id}}<br/>
+                                        <font class='movies-title'><a
+                                                v-bind:href='"/back/Comic/chapter?movies_id="+vo.id' target="_blank">{{vo.name}}</a></font>
+                                        <span v-bind:class='"level-laber level-laber-"+vo.rank '>等级{{vo.rank}}</span>
+                                        <span class="label label-warning" v-if="vo.is_free"><i
+                                                class="fa fa-clock-o"></i> 限时免费中 </span>
+                                        <p v-if="vo.org_name">
+                                            原名：{{vo.org_name}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" @click='selectAuthor(vo.author_id)'
+                                           v-if="vo.author_id != 0" title="已关联本站作者"><i class="fa fa-user"></i>
+                                            {{vo.author}}</a>
+                                        <span v-else>{{vo.author}}</span>
+                                    </td>
+                                    <td>
+                                        <span v-if="vo.movies_type == '1'">剧集</span>
+                                        <span v-else-if="vo.movies_type == '2'">小说</span>
+                                        <span v-else-if="vo.movies_type == '3'">漫画</span>
+                                        <span v-else-if="vo.movies_type == '4'">视频</span>
+                                        <span v-else>电影</span>
+                                    </td>
+                                    <td style="width:10%">
+                                        <div>
+                                            <img v-lazy="vo.cover" style='height:120px;' v-if="vo.cover"
+                                                 @mouseover="showBadge(index)"
+                                                 @mouseout="hideBadge(index,vo.badge_txt)">
+                                            <img src="__IMG__/not_img_s.png" style='height:120px;' v-else>
+                                            <!--角标-->
+                                            <span class="badges hideTags" @click="editBadge(vo.id)"
+                                                  v-bind:style="vo.badge_bg ? 'background:'+vo.badge_bg:'background: #0aba07'"
+                                                  style="display: block"
+                                                  v-if="vo.cover && vo.badge">{{vo.badge_txt}}</span>
+                                            <span class="badges hideTags" @click="editBadge(vo.id)"
+                                                  @mouseover="showBadge(index)"
+                                                  v-else="vo.cover" style="background: #cb5469;">添加</span>
+                                            <!--角标END-->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <img v-lazy="vo.banner" style='height:120px;' v-if="vo.banner">
+                                        <img src="__IMG__/not_img_h.png" style='height:120px;' v-else>
+                                    </td>
+                                    <td>
+                                        <span v-if="vo.sex == '1'">男</span>
+                                        <span v-else-if="vo.sex == '2'">女</span>
+                                        <span v-else>不分男女</span>
+                                    </td>
+                                    <td>
+                                        价格：{{vo.price}}<br/>
+                                        热门值：{{vo.hot}}<br/>
+                                        评论数：{{vo.comments_num}} <a v-bind:href="'/back/Comment/index?movies_id='+vo.id"
+                                                                   target="_blank"
+                                                                   v-if="vo.comments_num > 0">查看</a><br/>
+                                        搜索次数：{{vo.hunt}}<br/>
+                                        推荐指数：{{vo.level}}<br/>
+                                        章节数：{{vo.total_chapters}}
+                                        <a href="javascript:void(0)" @click="updateChapters(vo.id)" title="更新章节数">
+                                            <i class="glyphicon glyphicon-refresh"
+                                               style="color:#ff0000;margin-left:4px;font-size: 12px;"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span v-if='vo.status == 0'>未上架<br/></span>
+                                        <span v-else-if='(vo.online_time_type == 1) && (vo.status == 1)'>
+                                            待上架<br/>
+                                            上架时间：{{vo.online_time}}<br/>
+                                            </span>
+                                        <span v-else-if='vo.status == 1 && vo.online_time_type == 2'>上架<br/></span>
+                                        <span v-if='vo.img_status == 0'>图片后缀：正常状态<br/></span>
+                                        <span v-else='vo.status == 1'>图片后缀：已去除<br/></span>
+                                        <span v-if='vo.channel_tNumber'>
+                                                <a href="javascript:void(0)" @click="showInner(vo.id)"
+                                                   v-bind:data-id="vo.id">已推渠道：{{vo.channel_tNumber}}</a>
+                                            </span>
+                                        <span v-else-if="vo.channel_tNumber == 0">未推</span>
+                                        <span v-else>-</span>
+                                    </td>
+                                    <td>
+                                        <button @click="setStatus(index)" type="button"
+                                                v-bind:class='vo.status == 0 ? "btn blue btn-sm" : "btn yellow-crusta btn-sm" '>
+                                            <template v-if='vo.status == 0'>上架</template>
+                                            <template v-else='vo.status == 1'>下架</template>
+                                        </button>
+                                        <button @click='editMovies(vo.id)' type="button" class="btn blue btn-sm">编辑
+                                        </button>
+                                        <button @click="delMovies(index)" type="button" class="btn red btn-sm">删除
+                                        </button>
+                                        <button @click='save_comment(index)' type="button" class="btn blue btn-sm">
+                                            导入评论
+                                        </button>
+                                        <div class="task-config-btn btn-group">
+                                            <a class="btn btn-sm default" href="javascript:void(0);"
+                                               data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                                更多 <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a v-bind:href="'/back/Comment/index?add_movies_id='+vo.id"
+                                                       target="_blank"><i class="fa  fa-plus"></i> 添加评论</a>
+                                                </li>
+                                                <li v-if="vo.status == 1 && vo.db_id != 0">
+                                                    <a href="javascript:void(0);" @click="pushMessage(index)"><i
+                                                            class="fa fa-send"></i> 推送给求片用户</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" @click="changeImg(vo.id)"><i
+                                                            class="fa  fa-trash-o"></i> 批量去图片后缀</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" @click='editImages(vo.id)'><i
+                                                            class="fa fa-pencil"></i> 批量修改图片地址 </a>
+                                                </li>
+                                                <li>
+                                                    <a v-bind:href="'/back/Comic/checkImages?movies_id='+vo.id"
+                                                       target="_blank"><i class="fa  fa-check"></i> 图片检测</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" @click='gratis(index)'><i
+                                                            class="fa fa-clock-o"></i> 限时免费设置 </a>
+                                                </li>
+                                                <li>
+                                                    <a v-bind:href="'/back/ComicAnalysis/index?comic_id='+vo.id"
+                                                       target="_blank"><i class="fa fa-search"></i> 查看图解数据 </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" @click='save_channel(vo.id)'><i
+                                                            class="fa fa-users"></i> 渠道推广白名单 </a>
+                                                </li>
+                                                <li v-if="vo.status == 1 || vo.online_time_type == 1">
+                                                    <a href="javascript:void(0);" @click='set_similarity(vo.id)'><i
+                                                            class="fa fa-arrows-h"></i> 相似影片配置 </a>
+                                                </li>
+                                                <if condition="session('user_id') == 1">
+                                                    <li>
+                                                        <a v-bind:href="'/back/Comic/downScript?movies_id='+vo.id"><i
+                                                                class="fa fa-cloud-download"></i> 下载脚本 </a>
+                                                    </li>
+                                                </if>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class='col-lg-12' v-html="page">
+            </div>
+            <!--设置过期时间弹窗-->
+            <div id="time_alert" class="modal fade" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form class="form-horizontal" role="form" action="{:U('Comic/addFree')}" method="post"
+                              enctype="multipart/form-data">
+                            <input type='hidden' name='movies_id' value=''>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title">设置结束时间：(不填则永久)</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="title" class="col-md-3 control-label">结束时间</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group date " data-date="">
+                                                <span class="input-group-btn">
+                                                    <button class="btn success date-set" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </span>
+                                                <input size="16" type="text" name="channel_white_time"
+                                                       v-model="channel_White_list.end_time"
+                                                       placeholder="结束时间" class="form-control form_datetime"
+                                                       autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn green" @click="confirmTime()">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--设置显示免费时间-->
+            <div id="gratis_modal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog" role="document" style="margin-top: -62.5px;top: 50%;">
+                    <div class="modal-content">
+                        <form class="form-horizontal" role="form" action="/back/Comic/addFree" method="post"
+                              enctype="multipart/form-data">
+                            <input type='hidden' name='movies_id' value=''>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title">设置限时免费时间：</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group  date-picker input-daterange">
+                                                <input type="text" class="form-control form_datetime" name="start_time"
+                                                       autocomplete="off" v-model="free_date.start_time">
+                                                <span class="input-group-addon">
+                                                    <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">至</font>
+                                                    </font>
+                                                </span>
+                                                <input type="text" class="form-control form_datetime" name="end_time"
+                                                       autocomplete="off" v-model="free_date.end_time">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn green" @click="subFree()">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--设置上线时间-->
+            <div class="modal fade bs-modal-sm" id="small" tabindex="-1" role="dialog" aria-hidden="true"
+                 style="display: none;">
+                <div class="modal-dialog modal-sm" style="margin-top: -62.5px;top: 50%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">上线时间</font></font></h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control form_datetime" name="onlie_time" autocomplete="off"
+                                   v-model="online_time_info.online_time">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal"><font
+                                    style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">关闭</font></font></button>
+                            <button type="button" class="btn blue" @click="subStatus()"><font
+                                    style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">保存</font></font></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--设置颜色&标签-->
+            <div class="modal fade bs-modal-sm" id="badge" tabindex="-1" role="dialog" aria-hidden="true"
+                 style="display: none;">
+                <div class="modal-dialog modal-sm" style="margin-top: -62.5px;top: 50%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">
+                                <font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">标签设置</font></font>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="txt_departmentname">标签内容</label>
+                                <input type="text" name="badge_txt" class="form-control" maxlength="3"
+                                       placeholder="标签内容" v-bind:value='badge.badge_txt' placeholder="标签">
+                            </div>
+                            <div class="form-group">
+                                <label for="txt_departmentname">背景颜色</label>
+                                <div>
+                                    <span class="label example" style="background: #eb4f4a;"
+                                          @click="changeColor('#eb4f4a','热播')">热播</span>
+                                    <span class="label example" style="background: #e1bd82;"
+                                          @click="changeColor('#e1bd82','VIP')">VIP</span>
+                                    <span class="label example" style="background: #f09833;"
+                                          @click="changeColor('#f09833','限免')">限免</span>
+                                    <span class="label example" style="background: #4fb2f4;"
+                                          @click="changeColor('#4fb2f4','最新')">最新</span>
+                                </div>
+                                <div>
+                                    <input type="text" name="badge_bg" class="form-control" id="colorSelect"
+                                           v-bind:value='badge.badge_bg?badge.badge_bg:"#cb5469"'
+                                           style="width: 88% ;display:inline-block;cursor: pointer"/>
+                                    <input type="text" class="form-control" id="colorExample" readonly
+                                           style="width: 10%;display: inline-block;background-color: rgb(140, 57, 57);position: relative;left: -5px;cursor: default;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">
+                                <font style="vertical-align: inherit;">关闭</font></font>
+                            </button>
+                            <button type="button" class="btn blue" @click="subBadge('reset')">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">清除</font></font>
+                            </button>
+                            <button type="button" class="btn blue" @click="subBadge()">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">保存</font></font>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END 标签设置-->
+            <include file="Comic/add"/>
+            <include file="Comic/edit"/>
+            <!--end-->
+        </div>
+    </div>
+    <style>
+        .badges {
+            cursor: pointer;
+            position: relative;
+            display: block;
+            width: 50px;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            padding: 2px 0;
+            border-radius: 2px !important;
+            top: -120px;
+            left: 0;
+        }
+
+        .hideTags {
+            display: none;
+        }
+
+        .example {
+            cursor: pointer;
+            width: 19.7%;
+            padding: 2%;
+            margin: 2%;
+            display: inline-block;
+            border-radius: 2px !important;
+            font-size: 12px;
+        }
+    </style>
+</block>
+<block name="script">
+    <script src="__JS__/vue-lazyload.js" type="text/javascript"></script>
+    <!--时间控件-->
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"
+            type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"
+            type="text/javascript"></script>
+    <!--end-->
+    <!--下拉框控件-->
+    <script src="__MC__/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+    <!--end-->
+    <script src="__MC__/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"
+            type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <!--颜色选择器-->
+    <script src="__MC__/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"
+            type="text/javascript"></script>
+    <!--end-->
+    <script>
+        Vue.use(VueLazyload, {
+            preLoad: 1.6,
+            error: '__IMG__/load-error.png',
+            loading: '__IMG__/loading.png',
+            attempt: 2,
+            listenEvents: ['scroll']
+        });
+        var app = new Vue({
+            el: '#app_content',
+            data: {
+                'form': {},
+                'author': {},
+                'zone': {},
+                'showtime': {},
+                'admininfo': {},
+                'level': [{'title': '零级'}, {'title': '一级'}, {'title': '二级'}, {'title': '三级'},
+                    {'title': '四级'}, {'title': '五级'}, {'title': '六级'}, {'title': '七级'},
+                    {'title': '八级'}, {'title': '九级'}, {'title': '十级'}],
+                'list': [],
+                'page': '', //翻页按钮HTML
+                'page_number': 1,
+                'edit_data': {}, //修改绑定数据
+                'search_data': {
+                    'movies_type': '',
+                    'form': '',
+                    'status': '',
+                    'is_tui': '',
+                    'mold': '',
+                    'rank': '',
+                    'name': "{$Think.get.id}",
+                    'author_name': '',
+                    'is_author': ''
+                },
+                'online_time_info': {'online_time': '', 'index': '', 'movies_id': ''}
+                , 'free_date': {'start_time': '', 'end_time': '', 'movies_id': ''},
+                'channel_White_list': {
+                    'channel_id': '',
+                    'channel_id_remove': '',
+                    'vip_id': '',
+                    'vip_id_remove': '',
+                    'comic_id': '',
+                    'end_time': ''
+                },
+                'badge': {'badge_txt': '', 'badge_bg': '', 'movies_id': ''}
+            }, methods: {
+                addMovies: function () {
+                    $("#add_popup input[type=text]").val('');
+                    $(".is_empty input[type=checkbox]").attr('checked', false);
+                    $(".is_empty input[type=checkbox]").parent().removeClass('checked');
+                    $(".is_empty input[type=redio]").attr('checked', false);
+                    $('select[name=status]').val(0);
+                    $('select[name=author_id]').selectpicker('refresh');
+                    $('#add_popup .gmjg').hide();
+                    $('#add_popup .jg').hide();
+                    $('#add_popup .moldTips').show();
+                    $('#add_popup').modal();
+                }, submitMoviesInfo() {
+                    var from = $("#movies_info").serialize();
+                    $.post('/back/Comic/add', from, function (res) {
+                        if (res.code) {
+                            if (res.code == 200) {
+                                window.location.reload()
+                            }
+                            layer.alert(res.msg);
+                        } else {
+                            layer.alert('请刷新页面重试');
+                        }
+                    });
+                }, editMovies: function (movies_id) { //编辑框弹出
+                    var vue_this = this;
+                    $.post("{:U('Comic/changePage')}", {'id': movies_id}, function (res) {
+                        if (res.code == 200) {
+                            vue_this.edit_data = res.data;
+                            setTimeout(function () {
+                                $('select[name=author_id]').selectpicker('refresh');
+                                //显示rmb价格框
+                                var price_type = vue_this.edit_data.price_type;
+                                var mold = vue_this.edit_data.mold;
+                                var price = vue_this.edit_data.price;
+                                if (price_type == 1) {
+                                    var rmb = (price / 100).toFixed(2);
+                                    $('#edit_popup .rmb_price').val(rmb);
+                                    $('#edit_popup .simple_price').hide();
+                                    $('#edit_popup .rmb_price').show();
+                                }
+                                if (mold != 1) {
+                                    $('#edit_popup .gmjg').hide();
+                                    $('#edit_popup .jg').hide();
+                                    $('#edit_popup .moldTips').show();
+                                } else {
+                                    $('#edit_popup .gmjg').show();
+                                    $('#edit_popup .jg').show();
+                                    $('#edit_popup .moldTips').hide();
+                                }
+                                $('#edit_popup').modal();
+                            }, 100);
+                        } else {
+                            layer.msg(res.data);
+                        }
+                    });
+                    setTimeout("checkedMo()", 500);
+                }, edit() { //提交编辑
+                    var from = this.edit_data;
+                    var page = this.page_number;
+                    if (this.edit_data.price_type == 1) {
+                        var rmb = $('#edit_popup .rmb_price').val();
+                        var price = rmb * 100;
+                        from.price = Math.floor(price);
+                    }
+                    $.post('/back/Comic/edit', from, function (res) {
+                        if (res.code) {
+                            if (res.code == 200) {
+                                getData(page);
+                            }
+                            layer.alert(res.msg);
+                        } else {
+                            layer.alert('请刷新页面重试');
+                        }
+                    });
+                }, seeOrder: function () { //查看排序
+                    layer.open({
+                        type: 2,
+                        title: '热门、推荐数据排序查看',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['60%', '70%'],
+                        content: '{:U("Comic/seeOrder")}'
+                    });
+                }, screen: function (name, type) { //筛选
+                    this.search_data[name] = type;
+                    getData(1);
+                }, searchName() { //查询
+                    getData(1);
+                }, selectAuthor(author_id) { //查询
+                    this.search_data.author_name = author_id;
+                    getData(1);
+                }, Reset() {
+                    this.search_data.author_name = '';
+                    this.search_data.name = '';
+                    getData(1);
+                }, showChannelTNumber() { //显示已推渠道数
+                    var index = layer.load(1, {
+                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                    });
+                    var id_arr = new Array();
+                    for (k in this.list) {
+                        id_arr.push(this.list[k].id);
+                    }
+                    var vue_this = this;
+                    $.post('/back/Comic/getInnerChannelNumber', {'id': id_arr}, function (res) {
+                        if (res.code == 200) {
+                            for (i in res.msg) {
+                                if (!vue_this.list[i].channel_tNumber) {
+                                    vue_this.$set(vue_this.list[i], 'channel_tNumber', res.msg[i].channel_tNumber);
+                                } else {
+                                    vue_this.list[i].channel_tNumber = res.msg[i].channel_tNumber;
+                                }
+                            }
+                            layer.close(index);
+                        } else {
+                            layer.msg(res.msg);
+                            layer.close(index);
+                        }
+                    });
+                }, setStatus(index) { //上下架
+                    var movies_id = this.list[index].id;
+                    var online_time = this.list[index].online_time;
+                    var status = this.list[index].status;
+                    var title = status == 1 ? "确认修改?" : "请确实图片检查是否OK?";
+                    var confirm = status == 1 ? "下架" : '上架';
+                    var cancel = "取消";
+                    this.online_time_info.online_time = online_time ? online_time : getTime();
+                    this.online_time_info.index = index;
+                    this.online_time_info.movies_id = movies_id;
+//                    $("input[name=onlie_time]").val('');
+                    var _this = this;
+                    var layerindex = layer.confirm(title, {
+                        title: '提示',
+                        btn: [confirm, cancel]
+                    }, function () {
+                        layer.close(layerindex);
+                        if (status == 1) {
+                            $.post("/back/Comic/setStatus", {'id': movies_id}, function (res) {
+                                if (res.code == 200) {
+                                    if (res.status == 0) {
+                                        layer.msg('下架成功');
+                                        _this.list[index].status = 0;
+                                    }
+                                } else {
+                                    layer.msg('操作失败');
+                                }
+                            });
+                        } else {
+                            $("#small").modal();
+                        }
+                    });
+                }, subStatus() {
+                    var index = this.online_time_info.index;
+                    var movies_id = this.online_time_info.movies_id;
+                    var online_time = $("input[name=onlie_time]").val();
+                    var _this = this;
+                    var page = this.page_number;
+                    var movies_type = this.list[index].movies_type;
+                    if (online_time == '') {
+                        layer.alert('上线时间不能为空');
+                        return false;
+                    }
+                    $.post("/back/Comic/setStatus", {'id': movies_id, 'online_time': online_time}, function (res) {
+                        if (res.code == 200) {
+                            if (res.status == 0) {
+                                layer.msg('下架成功');
+                                _this.list[index].status = 0;
+                            } else {
+                                $("#small").modal('hide');
+                                if (movies_type != 4) {
+                                    window.open("/back/Comic/checkImages/movies_id/" + movies_id);
+                                }
+                                getData(page);
+                            }
+                        } else {
+                            layer.msg('操作失败');
+                        }
+                    });
+                }, delMovies(index) { //删除
+                    var movies_id = this.list[index].id;
+                    var author_id = this.list[index].author_id;
+                    var _this = this;
+                    layer.confirm('确认删除？', {
+                        title: '提示',
+                        btn: ['确定', '取消']
+                    }, function () {
+                        $.post("/back/Comic/del", {'id': movies_id, author_id: author_id}, function (res) {
+                            if (res.code == 200) {
+                                _this.list.splice(index, 1);
+                                layer.msg('删除成功');
+                            } else {
+                                layer.msg('删除失败');
+                            }
+                        });
+                    });
+                }, save_comment(index) { //导入评论
+                    var movies_id = this.list[index].id;
+                    var movies_name = this.list[index].org_name ? this.list[index].org_name : this.list[index].name;
+                    var key = this.admininfo;
+                    window.open('/ImgTesting/Public/enter?name=' + movies_name + '&key=' + key + '&id=' + movies_id);
+                }, changeImg(movies_Id) { //批量去除图片后缀
+                    layer.confirm('确定操作批量去除图片后缀？', {
+                        btn: ['是的', '否']
+                    }, function () {
+                        var index = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post('/back/Comic/delectSuffix', {'movies_id': movies_Id}, function (data) {
+                            if (data.code == 200) {
+                                layer.confirm('是否进行图片检测？', {
+                                    btn: ['是的', '否']
+                                }, function () {
+                                    window.open('/back/Comic/checkImages?movies_id=' + movies_Id);
+                                });
+                            } else {
+                                if (typeof data.res != 'string') {
+                                    var text = "";
+                                    for (j in data.res) {
+                                        text += data.res[j] + "<br>";
+                                    }
+                                    layer.alert(text);
+                                }
+                            }
+                            layer.close(index);
+                        });
+                    });
+                }, editImages(movies_Id) { //修改图片地址
+                    layer.confirm('确认要修改图片地址?', {
+                        btn: ['确定', '取消']
+                    }, function () {
+                        $.post('/back/Comic/editImages', {'movies_id': movies_Id}, function (res) {
+                            if (res.code == 200) {
+                                layer.msg(res.msg);
+                            } else {
+                                layer.msg('修改错误');
+                            }
+                        });
+                    });
+                }, gratis(index) {
+                    var _this = this;
+                    var movies_id = this.list[index].id;
+                    this.free_date.movies_id = movies_id;
+                    $.post('/back/Comic/getMovies', {'moviesId': movies_id}, function (data) {
+                        if (data.code == 201) {
+                            _this.free_date.start_time = '';
+                            _this.free_date.end_time = '';
+                        } else {
+                            _this.free_date.start_time = data.start_time;
+                            _this.free_date.end_time = data.end_time;
+                        }
+                    });
+                    $('#gratis_modal').modal();
+                }, subFree() { //设置限时免费
+                    var from = this.free_date;
+                    for (i in this.list) {
+                        if (this.list[i].id == from.movies_id) {
+                            var index = this.list[i];
+                        }
+                    }
+                    var start_time = $("input[name=start_time]").val();
+                    var end_time = $("input[name=end_time]").val();
+                    from.start_time = start_time;
+                    from.end_time = end_time;
+                    $.post('/back/Comic/addFree', from, function (data) {
+                        if (data.code == 200) {
+                            layer.msg(data.data);
+                            index.is_free = 1;
+                            $('#gratis_modal').modal('hide');
+                        } else {
+                            layer.msg(data.data);
+                        }
+                    });
+                }, save_channel(movies_id) { //渠道白名单设置
+                    var _this_channel = this.channel_White_list;
+                    _this_channel.comic_id = movies_id;
+                    $.get('/back/Comic/getChannel', {'movies_id': movies_id}, function (res) {
+                        var data = '';
+                        data += res.channel_id != '' ? 'val=' + res.channel_id : '';
+                        data += res.vip_id != '' ? '&member_id=' + res.vip_id : '';
+                        layer.open({
+                            type: 2,
+                            title: '选择渠道',
+                            shadeClose: false,
+                            shade: 0.8,
+                            area: ['60%', '80%'],
+                            content: '/Back/SelectChannel/index?' + data, //iframe的url
+                            btn: ['确定', '取消'],
+                            yes: function (index) {
+                                //异常捕获，避免页面因js错误而终止运行 
+                                try {
+                                    var row = window["layui-layer-iframe" + index].callbackdata();
+                                    if (row.type == 0) {
+                                        return false;
+                                    }
+                                    _this_channel.channel_id = row.channel_id;
+                                    _this_channel.channel_id_remove = row.remove_channel;
+                                    _this_channel.vip_id = row.vip_id;
+                                    _this_channel.vip_id_remove = row.remove_vip;
+                                    if (row.channel_id == '' && row.vip_id == '') {
+                                        $.ajax({
+                                            type: 'get',
+                                            url: '{:U("Comic/setChannel")}?comic_id=' + movies_id + '&vip_remove=' + row.remove_vip + '&channel_remove=' + row.remove_channel,
+                                            success: function (res) {
+                                                if (res.code == 200) {
+                                                    $("#time_alert").modal('hide');
+                                                    layer.alert('绑定成功');
+                                                } else {
+                                                    layer.alert(res.msg);
+                                                }
+                                            }
+                                        })
+                                    } else {
+                                        $("#time_alert").modal();
+                                    }
+                                } catch (e) {
+                                    layer.alert("参数错误！");
+                                    return false;
+                                }
+                                layer.close(index);
+                            },
+                            btn2: function (index, layero) {
+                                layer.close(index);
+                            }
+                        });
+                    });
+                }, set_similarity(id) {
+                    layer.open({
+                        type: 2,
+                        title: '选择图解',
+                        shadeClose: false,
+                        shade: 0.8,
+                        area: ['60%', '60%'],
+                        content: '/Back/Comic/similarity?id=' + id, //iframe的url
+                        btn: ['确定', '取消'],
+                        yes: function (index) {
+                            //异常捕获，避免页面因js错误而终止运行 
+                            try {
+                                var row = window["layui-layer-iframe" + index].callbackdata();
+                                if (row.type == 0) {
+                                    return false;
+                                }
+                                var movies_id = row.movies_arr;
+                                $.post('/back/Comic/serSimilarity', {'id': movies_id, 'movies_id': id}, function (res) {
+                                    layer.msg(res.data);
+                                })
+                            } catch (e) {
+                                layer.alert("参数错误！");
+                                return false;
+                            }
+                            layer.close(index);
+                        },
+                        btn2: function (index, layero) {
+                            layer.close(index);
+                        }
+                    });
+                }, confirmTime() {
+                    var end_time = $("input[name=channel_white_time]").val();
+                    var form = this.channel_White_list;
+                    form.end_time = end_time;
+                    $.get('/back/Comic/setChannel', form, function (res) {
+                        if (res.code == 200) {
+                            $("#time_alert").modal('hide');
+                            layer.alert('绑定成功');
+                        } else {
+                            layer.alert(res.msg);
+                        }
+                    });
+                }, showInner(id) {
+                    var indexlay = layer.confirm('请选择查看推广类型', {
+                        btn: ['内推', '外推'] //按钮
+                    }, function () {
+                        window.open('/back/Inner/index?movies_id=' + id);
+                        layer.close(indexlay);
+                    }, function () {
+                        window.open('/back/Resource/index?movies_id=' + id);
+                        layer.close(indexlay);
+                    });
+                }, pushMessage(index) {
+                    var movies_id = this.list[index].id;
+                    var db_id = this.list[index].db_id;
+                    var indexlay = layer.confirm('确定推送？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        $.get('/back/Comic/sendMessage', {'db_id': db_id, 'movies_id': movies_id}, function (res) {
+                            layer.alert(res.msg);
+                        });
+                        layer.close(indexlay);
+                    }, function () {
+                        layer.close(indexlay);
+                    });
+                }, showBadge(index) {   //鼠标悬停显示标签
+                    $(".hideTags").eq(index).css('display', 'block');
+                }, hideBadge(index, txt) {   //鼠标滑过隐藏标签
+                    if (typeof (txt) == "undefined" || txt == null) {
+                        $(".hideTags").eq(index).css('display', 'none');
+                    }
+                }, editBadge(movies_id) { //标签弹窗
+                    var vue_this = this;
+                    vue_this.badge.movies_id = movies_id;
+                    $.post("{:U('Comic/getBadge')}", {'id': movies_id}, function (res) {
+                        if (res.code == 200) {
+                            vue_this.badge.badge_txt = res.data.badge_txt;
+                            vue_this.badge.badge_bg = res.data.badge_bg;
+                        } else {
+                            vue_this.badge.badge_txt = '';
+                            vue_this.badge.badge_bg = '';
+                        }
+                        $('#badge').modal();
+                        var color = vue_this.badge.badge_bg;
+                        if (color == '') {
+                            color = '#cb5469'
+                        }
+                        $('#colorExample').css('background-color', color);
+                        $('#colorSelect').colorpicker('setValue', color);
+                        $('#colorSelect').colorpicker().on('changeColor', function (ev) {
+                            $("input[name=badge_bg]").val(ev.color.toHex());
+                            $('#colorExample').css('background-color', ev.color.toHex());
+                        });
+                    });
+                }, subBadge(option) {   //保存标签数据
+                    var id = this.badge.movies_id;
+                    var bg = $("input[name=badge_bg]").val();
+                    var txt = $("input[name=badge_txt]").val();
+                    var page = this.page_number;
+
+                    $.post('/back/Comic/editBadge', {movies_id: id, txt: txt, bg: bg, option: option}, function (res) {
+                        if (res.code == 200) {
+                            layer.msg(res.msg);
+                            $('#badge').modal('hide');
+                            setTimeout(function () {
+                                jumpUrl(page);
+                            }, 600);
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    });
+                }, updateChapters(movie_id) {  //更新影片章节数
+                    var page = this.page_number;
+                    $.post('/back/Comic/updateChapters', {movies_id: movie_id}, function (res) {
+                        if (res.code == 200) {
+                            layer.msg('章节数更新成功');
+                            setTimeout(function () {
+                                getData(page);
+                            }, 600);
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    });
+                }, changeColor(color, txt) {   //选择示例
+                    $("input[name=badge_txt]").val(txt);
+                    $('#colorExample').css('background-color', color);
+                    $('#colorSelect').colorpicker('setValue', color);
+                    $('#colorSelect').colorpicker().on('changeColor', function (ev) {
+                        $("input[name=badge_bg]").val(ev.color.toHex());
+                        $('#colorExample').css('background-color', ev.color.toHex());
+                    });
+                }
+            }, mounted: function () {
+                var vue_this = this;
+                //获取作者、地区、上映年份、类别、工具后台登录token
+                $.get('/back/Comic/pageInfo', function (res) {
+                    vue_this.form = res.form;
+                    vue_this.author = res.author;
+                    vue_this.zone = res.zone;
+                    vue_this.showtime = res.showtime;
+                    vue_this.admininfo = res.admininfo;
+                });
+                //获取影片数据
+                $.get('/back/Comic/getMoviesData', this.search_data, function (res) {
+                    if (res.code == 200) {
+                        vue_this.list = res.data.data;
+                        vue_this.page = res.data.page;
+                    } else {
+                        layer.alert('请刷新重试');
+                    }
+                    $(".app-loading").hide();
+                });
+
+                //时间插件初始化
+                $('.form_datetime').datetimepicker({
+                    language: "zh-CN", //汉化
+                    todayBtn: true,  //显示今天按钮
+                    autoclose: true,   //选择日期后自动关闭日期选择框
+                    todayHighlight: false,   //当天高亮显示
+                    format: 'yyyy-mm-dd hh:ii:ss',
+                    showMeridian: 1,
+                    pickerPosition: "bottom-left"
+                }).on('changeDate', changeOverDate);
+
+                $('.form_date').datetimepicker({
+                    language: "zh-CN", //汉化
+                    todayBtn: true,  //显示今天按钮
+                    autoclose: true,   //选择日期后自动关闭日期选择框
+                    todayHighlight: false,   //当天高亮显示
+                    format: 'yyyy-mm-dd',
+                    showMeridian: 0,
+                    weekStart: 1,
+                    minView: 3,
+                    pickerPosition: "bottom-left"
+                }).on('changeDate', changeFormDate);
+            }
+        });
+
+        function changeFormDate(ev) {
+            var form_date = $("#movies_edit_info input[name=charging_time]").val();
+            app._data.edit_data.charging_time = form_date;
+        }
+
+        function changeOverDate(ev) {
+            var overdate = $("#movies_edit_info input[name=overdate]").val();
+            app._data.edit_data.overdate = overdate;
+        }
+
+        /**
+         * 翻页
+         * @param {type} page
+         * @returns {undefined}
+         */
+        function jumpUrl(page) {
+            app._data.page_number = page;
+            getData(page);
+        }
+
+        /**
+         * 刷新页面数据
+         * @param {type} page
+         * @returns {undefined}
+         */
+        function getData(page) {
+            $(".app-loading").show();
+            var vue_this = app._data;
+            var data = vue_this.search_data;
+            data.p = page;
+            $.get('/back/Comic/getMoviesData', data, function (res) {
+                if (res.code == 200) {
+                    vue_this.list = res.data.data;
+                    vue_this.page = res.data.page;
+                } else {
+                    layer.alert('请刷新重试');
+                }
+                $(".app-loading").hide();
+            });
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+        }
+
+        function authorOnchange(_this) {
+            var select = $(_this).val();
+            app._data.edit_data.author_id = select;
+        }
+
+        //单选框、复选框父元素加上 class
+        function checkedMo() {
+            $('input[type="checkbox"]:checked').each(function () {
+                $(this).parent().addClass('checked');
+            });
+            $('input[type="radio"]:checked').each(function () {
+                $(this).parent().addClass('checked');
+            });
+        }
+
+        $('.uploadImg').fileupload({
+            dataType: 'json',
+            url: '//resources.{:C("ADMIN_URL")}/index.php',
+            acceptFileTypes: /(\.|\/)(gif|jpg|jpeg|png|bmp|tiff|pcx|tga|svg|psd|ai|WMF)$/i,
+            maxFileSize: '1048576',
+            Type: 'post',
+            add: function (e, data) {
+                var type = $(this).data('type');
+                var files = data.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+                    var ret = [];
+                    reader.onload = function (theFile) {
+                        var image = new Image();
+                        image.onload = function () {
+                            var width = this.width;
+                            var height = this.height;
+                            if (type == 'cover' && width != 270 && height != 405) {
+                                layer.alert("上传的图片的宽和高不合适，当前图片高度" + height + "px,宽度" + width + "px，请裁剪为270*405再上传。");
+                                data.abort();
+                                return false;
+                            } else if (type == 'banner' && width != 640 && height != 460) {
+                                layer.alert("上传的图片的宽和高不合适，当前图片高度" + height + "px,宽度" + width + "px，请裁剪为640*460后再上传。");
+                                data.abort();
+                                return false;
+                            }
+                        };
+                        image.src = theFile.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                var sizeFile = data.originalFiles[0]['size'];
+                if (sizeFile > '1048576') {
+                    alert("图片大小不能超过1M");
+                } else {
+                    var movies_id = app._data.edit_data.id;
+                    var dataR = [{"name": "savepath", "value": movies_id}];
+                    dataR.push({"name": "type", "value": type});
+                    data.formData = dataR;
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+                if (data.result.code == 200) {
+                    var type = $(this).data('type');
+                    if (type == 'cover') {
+                        app._data.edit_data.cover = data.result.url;
+                    } else {
+                        app._data.edit_data.banner = data.result.url;
+                    }
+                } else {
+                    layer.alert(data.result.msg);
+                }
+            }
+        });
+
+        function getTime() {
+            var date = new Date();
+            var year = date.getFullYear();
+            /* 在日期格式中，月份是从0开始的，因此要加0
+             * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+             * */
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            // 拼接
+            return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+        }
+
+        //初始化radio选中状态，防止双选中情况出现
+        $('#edit_popup').on("hide.bs.modal", function () {
+            $('#edit_popup .radio span').removeClass('checked');
+        });
+        //初始化radio选中状态，防止双选中情况出现
+        $('#add_popup').on("hide.bs.modal", function () {
+            $('#add_popup .radio span').removeClass('checked');
+        });
+
+        $('.show_type_tip').on('click', function () {
+            var val = $(this).children().find('input').val();
+            if (val == 1) {
+                $('.type_tip').show();
+            } else {
+                $('.type_tip').hide();
+            }
+        });
+
+        //RMB购买价格显示
+        $('input[name=price_type]').on('change', function () {
+            var type = $(this).val();
+            var action = $(this).data('action');
+            if (type == 1) {
+                var price = $('#' + action + ' input[name=price]').val()
+                var rmb = (price / 100).toFixed(2);
+                $('#' + action + ' .rmb_price').val(rmb);
+                $('#' + action + ' .simple_price').hide();
+                $('#' + action + ' .rmb_price').show();
+            } else if (type == 0) {
+                var price = $('#' + action + ' .rmb_price').val()
+                var simple = price * 100;
+                $('#' + action + ' .simple_price').val(simple);
+                $('#' + action + ' .rmb_price').hide();
+                $('#' + action + ' .simple_price').show();
+            }
+        });
+
+        $('#add_popup .rmb_price').on('blur', function () {
+            var rmb = $('#add_popup .rmb_price').val();
+            $('#add_popup .simple_price').val(rmb * 100);
+        });
+
+        $('select[name="mold"]').on('change', function () {
+            var val = $(this).val();
+            var action = $(this).data('action');
+            if (val != 1) {
+                $('#' + action + ' .gmjg').hide();
+                $('#' + action + ' .jg').hide();
+                $('#' + action + ' .moldTips').show();
+            } else {
+                $('#' + action + ' .gmjg').show();
+                $('#' + action + ' .jg').show();
+                $('#' + action + ' .moldTips').hide();
+            }
+        });
+    </script>
+</block>

@@ -1,0 +1,235 @@
+<extend name="Public/admin" />
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12 text-right">
+            <form action="{:U('SeekMovies/index')}" role="form" method="get" id='search_model' class="form-inline">
+                <div class="portlet-title">
+                    <div class="actions btn-set">
+                        <div class="input-group  date-picker input-daterange">
+                            <select class='form-control input-sm' name='orderName'>
+                                <option value='1' <php> if($orderName ==1){ echo 'selected="true"';}</php> >求片人数排序</option>
+                                <option value='2' <php> if($orderName == 2){ echo 'selected="true"';}</php> >创建时间排序</option>
+                            </select>
+                        </div>
+                        <div class="input-group  date-picker input-daterange">
+                            <input type="text" name="start_time" autocomplete="off" value='{$start_time}' class="form-control table-group-action-input form-control input-inline input-sm form_datetime" placeholder="开始时间"> 
+                            <span class="input-group-addon" style='background: #ccc;'><font style="vertical-align: inherit;">to</font></span> 
+                            <input type="text" name="end_time" autocomplete="off" value='{$end_time}' class="form-control table-group-action-input form-control input-inline input-sm form_datetime" placeholder="结束时间">
+                        </div>
+
+                        <div class="portlet-input input-inline">
+                            <div class="input-icon right">
+                                <i class="icon-magnifier search-i-button" style='margin: 9px 2px 4px 10px;' onclick='search()'></i>
+                                <input name='movies_name' type="text" class="form-control table-group-action-input form-control input-inline input-sm" value='{$movies_name}'  placeholder="图解名称搜索">
+                            </div>
+                        </div>
+                        <button type="submit"  class="btn btn-sm blue table-group-action-submit">搜索</button>
+                        <button type="button" onclick="Reset()" class="btn btn-sm blue table-group-action-submit">重置</button>
+                        <button type="button" onclick="addsearchMovies()" class="btn btn-sm blue table-group-action-submit">批量导入</button>
+                        <a type="button" href="/Public/excelmode/seekMovies.xlsx" class="btn btn-sm blue table-group-action-submit">下载导入模板</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">影片信息</th>
+                        <th class="text-center">求片人数</th>
+                        <th class="text-center">内容库是否有</th>
+                        <th class="text-center">创建时间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td class="text-center">{$vo.id}</td>
+                        <td class="text-center">
+                            {$vo.name}<br/>
+                            <a href='{$vo.db_url}' target='blank'>{$vo.db_url}</a>
+                        </td>
+                        <td class="text-center"><a href="javascript:void(0)" onclick="showUser('{$vo.id}')">{$vo.search_count}</a></td>
+                        <td class="text-center">
+                    <if condition="$vo['movies_id']">
+                        是({$vo['status'] == 1 ? '已上架' : '未上架'})
+                        <else/>
+                        否
+                    </if>
+                    </td>
+                    <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                    <td class="text-center"> 
+                    <if condition="$vo['search_status'] == 0">
+                        <button type="button" onclick="openup('{$vo.id}')"  class="btn btn-sm green">上架</button>
+                        <else/>
+                        <button type="button" onclick="del('{$vo.id}')"  class="btn btn-sm res ">下架</button>
+                    </if>
+                    </td>
+                    </tr>
+                </volist>
+                <tr class="content">
+                    <td colspan="8" bgcolor="#FFFFFF">
+                        <div class="pages" style="float: right">
+                            {$page}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--上传文件-->
+    <div id="gratis_modal" class="modal fade" tabindex="-1" >
+        <div class="modal-dialog" role="document" style="margin-top: -62.5px;top: 50%;">
+            <div class="modal-content">
+                <form class="form-horizontal" role="form" action="/back/SeekMovies/addMoviesSearch" method="post" enctype="multipart/form-data">
+                    <input type='hidden' name='movies_id' value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">上传文件：</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group  date-picker input-daterange" >
+                                        <input type="file"  name="file" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn green">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--用户列表-->
+    <div id="user_modal" class="modal fade" tabindex="-1" >
+        <div class="modal-dialog" role="document" style="margin-top: -62.5px;top: 50%;">
+            <div class="modal-content">
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                    <input type='hidden' name='movies_id' value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">用户：</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 290px;">
+                                <div class="scroller" style="overflow: hidden; width: auto; height: 290px;" data-always-visible="1" data-rail-visible="0" data-initialized="1">
+                                    <ul class="feeds" id="user_list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script>
+                        $('.form_datetime').datetimepicker({
+                            minView: "0",
+                            language: 'zh-CN',
+                            format: 'yyyy-mm-dd hh:ii:ss',
+                            autoclose: true,
+                            todayBtn: true
+                        });
+
+                        $(".form_datetime").change(function () {
+                            var statr_time = $("input[name=start_time]").val();
+                            var end_time = $("input[name=end_time]").val();
+                            if (end_time && statr_time) {
+                                $("#search_model").submit();
+                            }
+                        });
+
+                        function search() {
+                            $("#search_model").submit();
+                        }
+
+                        function Reset() {
+                            $("#search_model").find('input').val('');
+                        }
+
+                        function addsearchMovies() {
+                            $("#gratis_modal").modal();
+                        }
+
+
+                        function del(id) {
+                            layer.confirm('确定下架?', {
+                                btn: ['确定', '取消']
+                            }, function () {
+                                $.post('{:U("SeekMovies/delect")}', {'id': id}, function (res) {
+                                    if (res.code == 200) {
+                                        layer.msg('下架成功');
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 1200);
+                                    } else {
+                                        layer.msg(res.mess);
+                                    }
+                                }, 'json')
+                            })
+                        }
+                        function openup(id) {
+                            layer.confirm('确定上架?', {
+                                btn: ['确定', '取消']
+                            }, function () {
+                                $.post('{:U("SeekMovies/upperShelf")}', {'id': id}, function (res) {
+                                    if (res.code == 200) {
+                                        layer.msg('上架成功');
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 1200);
+                                    } else {
+                                        layer.msg(res.mess);
+                                    }
+                                }, 'json')
+                            })
+                        }
+
+                        function showUser(id) {
+                            $.get('{:U("SeekMovies/showUser")}', {'id': id}, function (res) {
+                                if (res) {
+                                    $("#user_modal").modal();
+                                    var html = '';
+                                    for(i in res){
+                                        console.log(res[i]);
+                                        html += '<li><div class="col1"><div class="cont"><div class="cont-col2"><div class="desc">';
+                                        html += '<a href="/back/Fans/index?nick_name='+res[i].user_id+'" target="_blank">'+res[i].user_id+'：'+res[i].nick_name+'</a>';
+                                        html += '</div> </div></div></div></li>';
+                                    }
+                                    $("#user_list").html(html);
+                                } else {
+                                }
+                            }, 'json');
+                        }
+    </script>
+</block>

@@ -1,0 +1,254 @@
+<extend name="Public/admin" />
+<block name="style">
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <div id="sample_1_filter1" class="dataTables_filter">
+                <form class="form-horizontal" role="form">
+                    <div class="actions btn-set">
+                        <button type="button" class="btn btn-sm blue table-group-action-submit" id="NoticeAdd">发布公告
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">标题</th>
+                        <th class="text-center">发送文件</th>
+                        <th class="text-center">发送时间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td class="text-center">{$vo.id}</td>
+                            <td class="text-center">{$vo.title}</td>
+                            <td class="text-center">
+                                <a href="{$vo.url}" download="author">点击下载</a>
+                            </td>
+                            <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-info" onclick="edit('{$vo.id}')"> 编辑</button>
+                                <button onclick="del(this,'{$vo.id}')" type="button" class="btn red" data-id="{$vo['id']}">删除
+                                </button>
+                            </td>
+                        </tr>
+                    </volist>
+                    <tr class="content">
+                        <td colspan="5" bgcolor="#FFFFFF">
+                            <div class="pages" style="float: right">
+                                {$page}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--设置链接框框-->
+    <div class="modal fade" tabindex="-1" data-width="650" id="file_box"  data-backdrop="static" data-keyboard="false" data-attention-animation="false" aria-hidden="true" style=" margin-top: 212px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{:U('Notice/changeAuthor')}" class="form-horizontal" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">完善下方信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">标题</label>
+                                <div class="col-md-7">
+                                    <input type="text" name="title" value="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">请选择文件</label>
+                                <div class="col-md-7">
+                                    <span class="btn green fileinput-button col-md-12">
+                                        <span> 选择文件 </span>
+                                        <input type="file" name="moviesBanner"  class="uploadImg" data-type="banner">
+                                        <input type="hidden" name="url" >
+                                        <input type="hidden" name="id" value="">
+                                      
+                                    </span>
+                                    <p id="file_p"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit"  uetype="1" class="btn green">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" tabindex="-1" data-width="650" id="Notice">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" class="form-horizontal" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">添加公告</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="subtitle" class="col-md-3 control-label">标题</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="标题"  id="title" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">请选择上传文件</label>
+                                <div class="col-md-6">
+                                    <span class="btn green fileinput-button col-md-6">
+                                        <span> 选择文件 </span>
+                                        <input type="file" name="uploadFile"  class="uploadFile" >
+                                    </span><br/>
+                                    <span id="file_id"></span>
+                                    <input type="hidden" id="file_url" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" id="doAuthorAdd" class="btn green">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script>
+
+    function edit(id){
+        $.get('{:U("Notice/getAuthorNotice")}',{'id':id},function(res){
+            $("input[name=id]").val(id);
+            $("input[name=url]").val(res.url);
+            $("input[name=title]").val(res.title);
+            $("#file_p").text(res.url);
+            $("#file_box").modal();
+        });
+    }
+        
+      function del(_this,id){
+          layer.confirm('确定删除?',{
+              btn:['确定','取消']
+          },function () {
+              $.post('{:U("Notice/del")}',{'id':id,'type':3},function(res){
+                  if(res.code == 200){
+                      layer.msg('删除成功');
+                      setTimeout(function () {
+                          window.location.reload();
+                      },1200);
+                  }else{
+                      layer.msg('删除失败');
+                  }
+              },'json')
+          })
+      }
+
+        $('.uploadImg').fileupload({
+            dataType: 'json',
+            url: '//resources.{:C("ADMIN_URL")}/uploadImg.php',
+            acceptFileTypes:  /(\.|\/)(xlsx|xls|xlsm|doc|docx)$/i,
+            maxFileSize: '1048576',
+            Type: 'post',
+            add: function (e, data) {
+                var sizeFile = data.originalFiles[0]['size'];
+                if(sizeFile > '2108576'){
+                    alert("文件大小不能超过2M");
+                }else{
+                    var dataR = [{"name": "rootPath", "value":'Author/Notice' }];
+                    data.formData = dataR;
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+                if(data.result.code==200){
+                    $("#file_p").text(data.result.url);
+                    $("input[name=url]").val(data.result.url);
+                }else{
+                    layer.alert(data.result.msg);
+                }
+            }
+    }); 
+    
+        $("#NoticeAdd").click(function(){
+            $("#Notice").modal();
+        });
+        
+        $('.uploadFile').fileupload({
+            dataType: 'json',
+            url: '//resources.{:C("ADMIN_URL")}/uploadImg.php',
+            acceptFileTypes:  /(\.|\/)(xlsx|xls|xlsm|doc|docx)$/i,
+            maxFileSize: '1048576',
+            Type: 'post',
+            add: function (e, data) {
+                var sizeFile = data.originalFiles[0]['size'];
+                if(sizeFile > '2108576'){
+                    alert("文件大小不能超过2M");
+                }else{
+                    var dataR = [{"name": "rootPath", "value":'Author/Notice' }];
+                    data.formData = dataR;
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+                if(data.result.code==200){
+                    $("#file_id").text(data.result.url);
+                    $("#file_url").val(data.result.url);
+                }else{
+                    layer.alert(data.result.msg);
+                }
+            }
+    }); 
+    
+        //添加用户公告
+        $('#doAuthorAdd').click(function() {
+            //询问框
+            layer.confirm('确定提交？', {
+              btn: ['是的','否'] //按钮
+            }, function(){
+                var title = $('#title').val();
+                var content = $("#file_url").val();
+                if(title == "" || content == ""){
+                    layer.alert('标题或内容不能为空');
+                    return false;
+                }
+                $.post('{:U("Notice/doAdd")}',{'title':title,'url':content,'type':'3'},function(res){
+                    if(res.code == 200){
+                        window.location.href='/Back/Notice/authorList';
+                    }else{
+                        alert('error');
+                    }
+                },'json');
+            }, function(){
+                
+            });
+        });
+    </script>
+</block>

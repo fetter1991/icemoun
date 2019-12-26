@@ -1,0 +1,99 @@
+﻿<div class="modal fade" tabindex="-1" data-width="650" id="add_channel_popup">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" action="{:U('Author/doAddUser')}" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加账户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户名</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" minlength="3" name="nick_name"
+                                       placeholder="输入用户名(至少3位)" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">帐号</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="account" placeholder="输入帐号" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">电话号码</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="tel" placeholder="输入电话号码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">邮箱</label>
+                            <div class="col-md-7">
+                                <input type="email" class="form-control" name="email"
+                                       data-validation-message="自定义提示信息：输入地球上的电子邮箱撒" placeholder="输入邮箱"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="number">头像</label>
+                            <div class="col-md-7 img_div">
+                        <span class="col-md-12"
+                              style="color:#959595;font-size: 13px;word-break:break-all;margin-top: 8px;margin-left: -15px;">
+                            上传图片的格式png，jpeg，jpg，gif。大小不超过2M
+                        </span>
+                                <div class="col-md-5" id='Add_upload_img'
+                                     style="margin-top: 10px;width: 50.1%;height: auto;border:1px solid #c2cad8;padding:10px;">
+
+                                </div>
+                                <span class="col-md-6 btn green fileinput-button">
+                            <span> 选择图片 </span>
+                            <input type="file" name="img" id="addAvatar">
+                            <input type="hidden" value='' name="avatar" id="avatar_add">
+                        </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">标签</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="tags" placeholder="输入标签"/>
+                                <span>多个使用|符号分隔</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">简介</label>
+                            <div class="col-md-7">
+                                <textarea class="form-control" name="desc" rows="3"
+                                          placeholder="输入简介"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">分成比例</label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control" name="commission_ratio" value=""
+                                       placeholder="分成比例 1-100"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">密码</label>
+                            <div class="col-md-7">
+                                <input type="password" class="form-control" name="password" placeholder=" 输入密码(至少6位)"
+                                       required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">确认密码</label>
+                            <div class="col-md-7">
+                                <input type="password" class="form-control" name="rpassword" placeholder="请与上面输入的密码值一致"
+                                       data-equal-to="#doc-vld-pwd-1" required/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

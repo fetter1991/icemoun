@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>选择影片</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <meta name="renderer" content="webkit" />
+        <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="__MC__/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+        <style>
+        .hot-box{
+            width: 33%;
+            border: 1px solid #ddd;
+            padding: 5px;
+            float:left;
+            margin-right: 1px;
+            margin-bottom: 1px;
+            position: relative;
+        }
+      
+        .work-tui-box{
+            width: 49%;
+            border: 1px solid #ddd;
+            padding: 5px;
+            float:left;
+            margin-right: 1px;
+            margin-bottom: 1px;
+            position: relative;
+        }
+        .hot-box img{
+            width: 100%;
+            height: 222px;
+        }
+        .work-tui-box img{
+            width:100%;
+            height: 170px;
+        }
+        .hot-box-button{width:100%;background:#fff;}
+        .hot-box-button .movies-name{width:100%;font-size: 16px;    padding-top: 12px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis}
+        .hot-box-button .movies-tip{width:100%;   color: #9E9E9E; overflow: hidden;white-space: nowrap;text-overflow:ellipsis}
+        .work-box-button{width:100%;background:#fff;}
+        .work-box-button .movies-name{width:100%;font-size: 16px;    padding-top: 12px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis}
+        .work-box-button .movies-tip{width:100%;   color: #9E9E9E;overflow: hidden;white-space: nowrap;text-overflow:ellipsis}
+        .msg-edit-pic-overlay{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 203px;
+            background: rgba(0, 0, 0, .2);}
+        .msg-edit-pic-overlay:hover{display:block}
+        .channel-box{overflow: auto;}
+        </style>
+    </head>
+    <body>
+        <div  class="container">
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12">
+                    <div class="note">
+                        <h4 class="block">请选择渠道等级</h4>
+                        <div class="btn-group">
+                            <div class="mt-radio-inline">
+                                <div class="btn-toolbar">
+                                    <div class="btn-group btn-group-solid">
+                                        <for start="0" end="11">
+                                            <button type="button"  onclick="changeRank(this)" data-value='{$i}' class='btn btn-default <if condition="$rankIndex == $i"> green </if>'
+                                                    <if condition='$rankIndex == $i'> id='is_select' </if> 
+                                                >{$i}级</button>
+                                        </for>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabbable tabbable-custom" >
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_15_1" class="tab_15_1 a-type" data-toggle="tab" aria-expanded="true"> <i class='glyphicon glyphicon-fire'></i> 热门 </a>
+                            </li>
+                            <li class="">
+                                <a href="#tab_15_2" class="tab_15_2 a-type" data-toggle="tab" aria-expanded="false"> <i class="glyphicon glyphicon-thumbs-up"></i> 推荐 </a>
+                            </li>
+                            <li class="">
+                                <a href="#tab_15_3" class="tab_15_3 a-type" data-toggle="tab" aria-expanded="false"> <i class="glyphicon glyphicon-time"></i> 最新 </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" style='padding:5px 0;overflow: auto;'>
+                            <div class="tab-pane active" id="tab_15_1">
+                                <div class='contentBox form-group'>
+                                    <div class='col-md-7'>
+                                        <volist name="list_hot" id="hot">
+                                            <div class='hot-box'>
+                                                <div class='msg-edit-pic-overlay'>
+                                                    <span class="btn-edit-pic btn btn-success btn-xs" onclick="selectMovies(this)" data-type="hot" data-index="{$i}"><i class="icon-edit"></i> 选择影片</span>
+                                                </div>
+                                                <img src='{$hot.cover}'>
+                                                <div class='hot-box-button'>
+                                                    <div class='movies-name'>{$hot.name}</div>
+                                                    <div class='movies-tip'>{$hot.tags}</div>
+                                                    <div class='movies-tip'>热门值：{$hot.hot}</div>
+                                                </div>
+                                            </div>
+
+                                        </volist>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="tab_15_2">
+                                <div class='contentBox form-group'>
+                                    <div class='select-level-box'>
+                                        <div class='col-md-7'>
+                                            <volist name="list_level" id="level">
+                                                <div class='work-tui-box'>
+                                                    <img src='{$level.banner}'>
+                                                    <div class='hot-box-button'>
+                                                        <div class='movies-name'>{$level.name}</div>
+                                                        <div class='movies-tip'>{$level.subtitle}</div>
+                                                        <div class='movies-tip'>推荐值：{$level.order_num}</div>
+                                                    </div>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="tab_15_3">
+                                <div class='contentBox form-group'>
+                                    <div class='select-level-box'>
+                                        <div class='col-md-7'>
+                                            <volist name="list_new" id="new">
+                                                <div class='hot-box'>
+                                                    <img src='{$new.cover}'>
+                                                    <div class='hot-box-button'>
+                                                        <div class='movies-name'>{$new.name}</div>
+                                                        <div class='movies-tip'>{$new.tags}</div>
+                                                    </div>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script src="__MC__/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+    <script src="__MC__/pages/scripts/ui-extended-modals.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/scripts/app.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+        /**
+         * 翻页
+         * @param {type} _this
+         * @returns {undefined}
+         */
+        var pageHot = 1;
+        var pageLevel = 1;
+        function getMore(_this){
+            var type = $(_this).data('type');
+            var rank = $('#is_select').data('value');
+            var page = type== 'hot' ? pageHot : pageLevel;
+            var zhi = type== 'hot' ? '热门值' : '推荐值';
+            $.ajax({
+                type:'get',
+                data:{'page':page,'type':type,'rank':rank},
+                url:'{:U("Comic/getMoreMovies")}',
+                success:function(data){
+                    if(data.code == 200){
+                        var html = '';
+                        for(i in data.res){
+                            html += '<div class="row pai-box">';
+                            html += '<div class="col-md-12">';
+                            html += "<div class='col-sm-12'>";
+                            html += "<img class='hot-box-img' src='"+data.res[i].cover+"'>";
+                            html += '<div class="hot-box-button">';
+                            html += '<div class="movies-name">'+data.res[i].name+'</div>';
+                            html += '<div class="movies-tip">'+zhi+'：'+data.res[i].number+'</div>';
+                            html += '<div class="movies-tag"> '+data.res[i].showtime+' '+data.res[i].tags+' '+data.res[i].actor.tags+' '+data.res[i].director+'</div>';
+                            html += '<div class="movies-tip"> <i class="fa fa-quote-left"></i> '+data.res[i].subtitle+'</div>';
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        }
+                        if(type == 'hot'){
+                            $('.select-hot-box').append(html);
+                            pageHot++;
+                        }else{
+                            $('.select-level-box').append(html);
+                            pageLevel++;
+                        }
+                    }else{
+                        layer.alert(data.res);
+                    }
+                },error:function(){
+                    
+                }
+                
+            })
+        }
+        function changeRank(_this){
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            var rank = $(_this).data('value');
+            window.location.href='{:U("Comic/seeOrder")}?rank='+rank;
+        };
+    </script>
+</html>

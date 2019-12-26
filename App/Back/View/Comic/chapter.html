@@ -1,0 +1,744 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <style>
+        table td {
+            vertical-align: middle !important;
+        }
+
+        .progress {
+            height: 20px;
+            background: #ebebeb;
+            border-left: 1px solid transparent;
+            border-right: 1px solid transparent;
+            border-radius: 5px !important;
+            margin-bottom: -20px !important;
+            position: relative;
+            top: 10px;
+            display: none;
+        }
+
+        .progress > span {
+            position: relative;
+            float: left;
+            margin: 0 -1px;
+            height: 18px;
+            line-height: 16px;
+            text-align: right;
+            background: #cccccc;
+            border-color: #bfbfbf #b3b3b3 #9e9e9e;
+            border-radius: 5px !important;
+            background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dbdbdb 70%, #cccccc 100%);
+            background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dbdbdb 70%, #cccccc 100%);
+            background-image: -o-linear-gradient(top, #f0f0f0 0%, #dbdbdb 70%, #cccccc 100%);
+            background-image: linear-gradient(to bottom, #f0f0f0 0%, #dbdbdb 70%, #cccccc 100%);
+            -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress > span > span {
+            padding: 0 8px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #404040;
+            color: rgba(0, 0, 0, 0.7);
+            text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+            margin-top: 10px;
+        }
+
+        .progress > span:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            height: 18px;
+            border-radius: 10px;
+        }
+
+        .progress .green {
+            background: #85c440;
+            border-color: #78b337 #6ba031 #568128;
+            background-image: -webkit-linear-gradient(top, #b7dc8e 0%, #99ce5f 70%, #85c440 100%);
+            background-image: -moz-linear-gradient(top, #b7dc8e 0%, #99ce5f 70%, #85c440 100%);
+            background-image: -o-linear-gradient(top, #b7dc8e 0%, #99ce5f 70%, #85c440 100%);
+            background-image: linear-gradient(to bottom, #b7dc8e 0%, #99ce5f 70%, #85c440 100%);
+        }
+    </style>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet"
+          type="text/css"/>
+</block>
+<block name="content">
+    <if condition="$movies_id != ''"><h4 style="margin-top:-5px;">ID：{$movies_id}</h4>
+        <h3 style="margin-top:-3px;color: #337ab7;" v-if="vo.movies_id">{$movies.name}</h3></if>
+    <input type="hidden" value="{$movies.id}" id="hidden_id"/>
+    <input type="hidden" value="{$movies.movies_type}" id="movies_type"/>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <a href="{:U('Comic/index',array('id'=>$movies_id))}" class='btn btn-primary' style='margin-right:0.2rem;'>返回</a>
+            <button type="button" id="add" class="btn btn-success">新增</button>
+            <button type="button" id="change" data-id="{$movies_id}" class="btn btn-success">批量修改金币</button>
+        </div>
+        <div class="col-md-2 col-sm-2 pull-right">
+            <form class="form-horizontal" action="{:U('Comic/chapterImg')}" method="get" role="form">
+                <div class="input-group">
+                    <input type="number" name="chapter_id" value="" class="form-control" placeholder="请输入章节ID">
+                    <span class="input-group-btn">
+                        <button class="btn green" type="submit">搜索</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">名称</th>
+                    <if condition="$movies['movies_type'] != 4">
+                        <th class="text-center">封面</th>
+                        <th class="text-center">横幅图片</th>
+                        <else/>
+                        <th class="text-center" width="20%">视频链接</th>
+                        <th class="text-center">视频简介</th>
+                    </if>
+                    <th class="text-center">章节顺序</th>
+                    <th class="text-center">价格</th>
+                    <th class="text-center">状态</th>
+                    <th class="text-center">点击量</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <if condition='$vo["status"] eq 0'>
+                        <tr class='warning'>
+                            <elseif condition='$vo["status"] eq 1'/>
+                        <tr>
+                    </if>
+                    <td class="text-center">{$vo.id}</td>
+                    <td class="text-center">
+                        <if condition="$movies['movies_type'] != 4">
+                            <a href="{:U('Comic/chapterImg',array('chapter_id'=>$vo['id']))}">{$vo.name}</a>
+                            <else/>
+                            {$vo.name}
+                        </if>
+                    </td>
+                    <if condition="$movies['movies_type'] != 4">
+
+                        <php>if(!empty($vo['cover'])){</php>
+                        <td class="text-center"><img src="{$vo.cover}" style='height:160px;'></td>
+                        <php> }else{</php>
+                        <td class="text-center"><img src="__IMG__/not_img_s.png" style='height:120px;'></td>
+                        <php>}</php>
+                        <php>if(!empty($vo['banner'])){</php>
+                        <td class="text-center"><img src="{$vo.banner}" style='height:160px;'></td>
+                        <php> }else{</php>
+                        <td class="text-center"><img src="__IMG__/not_img_h.png" style='height:120px;'></td>
+                        <php>}</php>
+                        <else/>
+                        <td class="text-center">
+                            <video controls src="{$vo.source_url}" width="100%" id="video_index"></video>
+                        </td>
+                        <td class="text-center">
+                            {$vo.desc}
+                        </td>
+                    </if>
+                    <td class="text-center">{$vo.sortrank}</td>
+                    <td class="text-center">{$vo.price_tips}</td>
+                    <td class="text-center">
+                        <if condition='$vo["status"] eq 0'>未上架
+                            <elseif condition='$vo["status"] eq 1'/>
+                            上架
+                        </if>
+                    </td>
+                    <td class="text-center">
+                        {$vo.click_num}
+                    </td>
+                    <td class="text-center">
+                        <button onclick="setStatus('{$vo.id}',this)" type="button" class="btn green-sharp"
+                                data-id="{$vo['id']}">
+                            <if condition='$vo["status"] eq 0'>上架
+                                <elseif condition='$vo["status"] eq 1'/>
+                                下架
+                            </if>
+                        </button>
+                        <if condition="$movies['movies_type'] != 4 ">
+                            <button class="btn yellow-lemon myModal" data-toggle="modal" data-title="{$vo.name}"
+                                    data-id="{$vo.id}" id="chapte-{$vo.id}">预览
+                            </button>
+                        </if>
+                        <button type="button" class="btn btn-info" data-json='{:json_encode($vo)}' id="edit">编辑</button>
+                        <button onclick="del('{$vo.id}',this)" type="button" class="btn red" data-id="{$vo['id']}">删除
+                        </button>
+                    </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+
+            {$page}
+            &nbsp;
+            <div class="pagination pull-right no-margin" style="margin: 10px;">
+                <ul class="pagination" style="visibility: visible;">
+                    <li><span> 共{$UpperNumber}话上架</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <include file="Comic/chapterAdd"/>
+    <include file="Comic/chapterEdit"/>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         style=" padding-right: 17px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="modal-title"></h4>
+                </div>
+                <div class="modal-body" id="modal-content"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default preview" id="prev_chapte" style="display: none;">上一章
+                    </button>
+                    <button type="button" class="btn btn-primary preview" id="next_chapte">下一章</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"
+            type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script>
+        $(function () {
+            var num = $('#add_popup select[name="chapter_id"] option').length - 1;
+            var value = $('#add_popup select[name="chapter_id"] option').eq(num).val();
+
+            $('#add_popup select[name="chapter_id"]').val(value);
+
+
+            $('#editCover').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/index.php',
+                // url: '//r.flgwx.com/index.php',
+                acceptFileTypes: /(\.|\/)   (gif|jpg|jpeg|png|bmp|tiff|pcx|tga|svg|psd|ai|WMF)$/i,
+                maxFileSize: 10000000,
+                Type: 'post',
+                formData: function () {
+                    var movies_id = $('#edit_popup input[name="movies_id"]').val();
+                    var chapter_id = $('#edit_popup input[name="id"]').val();
+                    var data = [{"name": "savepath", "value": movies_id + '/' + chapter_id}];
+                    data.push({"name": "type", "value": 'cover'});
+                    return data;
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('#edit_popup input[name="cover"]').val(data.result.url);
+                        $('#editCover').parent().parent().children('.fileinput-filename').eq(0).html(data.result.url);
+                    } else {
+                        alert(data.result.msg);
+                    }
+                }
+            });
+
+            $('#editBanner').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/index.php',
+                acceptFileTypes: '/(\.|\/)(gif|jpg|jpeg|png|bmp|tiff|pcx|tga|svg|psd|ai|WMF)$/i',
+                maxFileSize: '10000000',
+                Type: 'post',
+                formData: function () {
+                    var movies_id = $('#edit_popup input[name="movies_id"]').val();
+                    var chapter_id = $('#edit_popup input[name="id"]').val();
+                    var data = [{"name": "savepath", "value": movies_id + '/' + chapter_id}];
+                    data.push({"name": "type", "value": 'banner'});
+                    return data;
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('#edit_popup input[name="banner"]').val(data.result.url);
+                        $('#editBanner').parent().parent().children('.fileinput-filename').eq(0).html(data.result.url);
+                    } else {
+                        alert(data.result.msg);
+                    }
+                }
+            });
+        });
+
+        function setStatus(id, _this) {
+            _this = $(_this);
+            layer.confirm('确认修改?', {
+                btn: ['确定', '取消']
+            }, function () {
+                $.post("{:U('Comic/chapterSetStatus')}", {'id': id}, function (res) {
+                    if (res.code == 200) {
+                        if (res.status == 0) {
+                            layer.msg('下架成功');
+                            _this.html('上架');
+                            _this.parent().parent().children('td').eq(6).html('未上架');
+                        } else {
+                            layer.msg('上架成功');
+                            _this.html('下架');
+                            _this.parent().parent().children('td').eq(6).html('上架');
+                        }
+                    } else {
+                        layer.msg('操作失败');
+                    }
+                })
+            })
+        }
+
+        function del(id, _this) {
+            _this = $(_this);
+            layer.confirm('确认删除?', {
+                btn: ['确定', '取消']
+            }, function () {
+                $.post("{:U('Comic/chapterDel')}", {'id': id}, function (res) {
+                    if (res.code == 200) {
+                        layer.msg('删除成功');
+                        _this.parent().parent().remove();
+                    } else {
+                        layer.msg('删除失败');
+                    }
+                })
+            })
+        }
+
+        $(function () {
+            //预览
+            $('#add_play').on('click', function () {
+                var url = $('#source_url_add').val();
+                $("#video_add").prop("src", url);
+                $("#video_add")[0].addEventListener("loadedmetadata", function () {
+                    var tol = this.duration;//获取总时长
+                    var height = this.videoHeight;//获取总时长
+                    var wight = this.videoWidth;//获取总时长
+                    if (height / wight > 1.5) {
+                        $('#source_typ_add').val(1)
+                    } else {
+                        $('#source_typ_add').val(0)
+                    }
+                    var time = parseInt(tol);
+                    if (time >= 60) {
+                        var sec = time % 60;
+                        var min = Math.floor(time / 60);
+                        $('#time_add').val(min + ':' + sec);
+                    } else {
+                        $('#time_add').val('0:' + time);
+                    }
+                    $('#source_time_add').val(time);
+                });
+                var video_add = document.getElementById("video_add");
+                video_add.play();
+            });
+
+            $('#edit_play').on('click', function () {
+                var url = $('#source_url_edit').val();
+                $("#video_edit").prop("src", url);
+                $("#video_edit")[0].addEventListener("loadedmetadata", function () {
+                    var tol = this.duration;//获取总时长
+                    var height = this.videoHeight;//获取总时长
+                    var wight = this.videoWidth;//获取总时长
+                    if (height / wight > 1.5) {
+                        $('#source_typ_edit').val(1)
+                    } else {
+                        $('#source_typ_edit').val(0)
+                    }
+                    var time = parseInt(tol);
+                    console.log(time);
+                    if (time >= 60) {
+                        var sec = time % 60;
+                        var min = Math.floor(time / 60);
+                        $('#time_edit').val(min + ':' + sec);
+                    } else {
+                        $('#time_edit').val('0:' + time);
+                    }
+                    $('#source_time_edit').val(time);
+                });
+                var video_edit = document.getElementById("video_edit");
+                video_edit.play();
+            });
+            var nowUrl = '';
+
+            //打开新增窗口
+            $('#add').click(function () {
+                var movies_type = $('#movies_type').val();
+                var video_index = document.getElementById("video_index");
+                if (movies_type == 4 && video_index != null) {
+                    video_pause();
+                }
+                $('#add_popup').modal();
+            });
+            //关闭新增窗口
+            // $('#add_popup').on('hide.bs.modal', function () {
+            //     var now = nowUrl;
+            //     var movies_type = $('#movies_type').val();
+            //     if (movies_type == 4 && now != '') {
+            //         var addUrl = $('#source_url_edit').val();
+            //         if (now != addUrl) {
+            //             var r = confirm('关闭后视频需要重新上传，请确认是否关闭?');
+            //             if (r == false) {
+            //                 return false;
+            //             }
+            //         }
+            //         $("#video_add").prop("src", '');
+            //         video_pause();
+            //     }
+            // });
+
+            //编辑窗口
+            $('table').on('click', '#edit', function () {
+                var json = $(this).data('json');
+                for (var i in json) {
+                    if ($('#edit_popup input[name=' + i + ']').length > 0) {
+                        $('#edit_popup input[name=' + i + ']').val(json[i]);
+                    } else if ($('#edit_popup select[name=' + i + ']').length > 0) {
+                        $('#edit_popup select[name=' + i + ']').val(json[i]);
+                    }
+                    if (i == 'id') {
+                        $('#edit_popup select[name="chapter_id"]').val(json[i]);
+                    }
+                }
+                var movies_type = $('#movies_type').val();
+                if (movies_type == 4) {
+                    $('#video_edit').prop('src', json.source_url);
+                    $("#edit_popup textarea[name=desc]").val(json.desc);
+                    var time = json.source_time;
+                    if (time >= 60) {
+                        var sec = time % 60;
+                        var min = Math.floor(time / 60);
+                        $('#time_edit').val(min + ':' + sec);
+                    } else {
+                        $('#time_edit').val('0:' + time);
+                    }
+                    nowUrl = '';
+                    nowUrl = json.source_url;
+                    video_pause();
+                }
+                //显示rmb价格框
+                var price_type = $('#edit_popup #price_type').val();
+                var price = $('#edit_popup .simple_price').val();
+                console.log(price_type);
+                console.log(price);
+                if (price_type == 1) {
+                    var rmb = (price / 100).toFixed(2);
+                    $('#edit_popup .rmb_price').val(rmb);
+                    $('#edit_popup .simple_price').hide();
+                    $('#edit_popup .rmb_price').show();
+                }
+                $('#edit_popup').modal();
+            });
+
+            //关闭编辑窗口
+            // $('#edit_popup').on('hide.bs.modal', function () {
+            //     var now = nowUrl;
+            //     var movies_type = $('#movies_type').val();
+            //     if (now != '' && movies_type == 4) {
+            //         var editUrl = $('#source_url_edit').val();
+            //         if (now != editUrl) {
+            //             var r = confirm('关闭后视频需要重新上传，请确认是否关闭?');
+            //             if (r == false) {
+            //                 return false;
+            //             }
+            //         }
+            //         video_pause();
+            //     }
+            // });
+
+            function video_pause() {
+                var video_index = document.getElementById("video_index");
+                var video_add = document.getElementById("video_add");
+                var video_edit = document.getElementById("video_edit");
+                video_index.pause();
+                video_add.pause();
+                video_edit.pause();
+            }
+
+            //上传视频-新增
+            $('.uploadVideo_add').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/uploadVideo.php',
+                //url: '//127.0.0.1/uploadTest/index.php',
+                acceptFileTypes: /(\.|\/)(mp4)$/i,
+                maxFileSize: '209715200',
+                Type: 'post',
+                add: function (e, data) {
+                    var sizeFile = data.originalFiles[0]['size'];
+                    if (sizeFile > 209715200) {
+                        alert("文件大小不能超过200M");
+                    } else {
+                        var movies_id = $('#hidden_id').val();
+                        var dataR = [{"name": "savepath", "value": ""}, {
+                            "name": "rootPath",
+                            "value": 'videos/' + movies_id
+                        }];
+                        dataR.push({"name": "type", "value": 'video'});
+                        data.formData = dataR;
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('.add_progress').css('display', 'none');
+                        $("#source_url_add").val(data.result.url);
+                        //预览视频 & 获取时长
+                        $("#video_add").prop("src", data.result.url);
+                        $("#video_add")[0].addEventListener("loadedmetadata", function () {
+                            var tol = this.duration;//获取总时长
+                            var time = parseInt(tol);
+                            console.log(time);
+                            if (time >= 60) {
+                                var sec = time % 60;
+                                var min = Math.floor(time / 60);
+                                $('#time_add').val(min + ':' + sec);
+                            } else {
+                                $('#time_add').val('0:' + time);
+                            }
+                            $('#source_time_add').val(time);
+                        });
+                        nowUrl = data.result.url;
+                    } else {
+                        alert(data.result.msg);
+                    }
+                },
+                progressall: function (e, data) {
+                    //进度条显示
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('.add_progress').css('display', 'block');
+                    $('.add_progress .green').css('width', progress + '%');
+                    $('.add_progress .nowPercent').text(progress + '%');
+                }
+            });
+
+            //上传文件-编辑
+            $('.uploadVideo_edit').fileupload({
+                dataType: 'json',
+                url: '//resources.{:C("ADMIN_URL")}/uploadVideo.php',
+                //url: '//127.0.0.1/uploadTest/index.php',
+                acceptFileTypes: /(\.|\/)(mp4)$/i,
+                maxFileSize: '209715200',
+                Type: 'post',
+                add: function (e, data) {
+                    var sizeFile = data.originalFiles[0]['size'];
+                    if (sizeFile > 209715200) {
+                        alert("文件大小不能超过200M");
+                    } else {
+                        var movies_id = $('#hidden_id').val();
+                        var dataR = [{"name": "savepath", "value": ""}, {
+                            "name": "rootPath",
+                            "value": 'videos/' + movies_id
+                        }];
+                        dataR.push({"name": "type", "value": 'video'});
+                        data.formData = dataR;
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        $('.edit_progress').css('display', 'none');
+                        $("#source_url_edit").val(data.result.url);
+                        //预览视频 & 获取时长
+                        $("#video_edit").prop("src", data.result.url);
+                        $("#video_edit")[0].addEventListener("loadedmetadata", function () {
+                            var tol = this.duration;//获取总时长
+                            var time = parseInt(tol);
+                            console.log(time);
+                            if (time >= 60) {
+                                var sec = time % 60;
+                                var min = Math.floor(time / 60);
+                                $('#time_edit').val(min + ':' + sec);
+                            } else {
+                                $('#time_edit').val('0:' + time);
+                            }
+                            $('#source_time_edit').val(time);
+                        });
+                    } else {
+                        alert(data.result.msg);
+                    }
+                },
+                progressall: function (e, data) {
+                    //进度条显示
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('.edit_progress').css('display', 'block');
+                    $('.edit_progress .green').css('width', progress + '%');
+                    $('.edit_progress .nowPercent').text(progress + '%');
+                }
+            });
+        });
+
+
+        var min_id = "{$list[0].id}";
+        var max_id = "{:$list[array_pop(array_keys($list))]['id']}";
+        $('.myModal').click(function () {
+            var id = $(this).data('id');
+            $.post('{:U("Comic/getContent")}', {'id': id}, function (res) {
+                $('#modal-title').html(res.title);
+                if (res.first_id == '') {
+                    $('#prev_chapte').hide();
+                } else {
+                    $('#prev_chapte').data('id', res.first_id);
+                    $('#prev_chapte').show();
+                }
+                console.log(res.last_id);
+                if (res.last_id == '') {
+                    $('#next_chapte').hide();
+                } else {
+                    $('#next_chapte').data('id', res.last_id);
+                    $('#next_chapte').show();
+                }
+                var str = '';
+                for (var i in res.content) {
+                    str += '<img width="100%" src="' + res.content[i].url + '!yy">';
+                    if (res.content[i].reading != '') {
+                        str += '<p> ' + res.content[i].reading + '</p>';
+                    }
+                }
+                $('#modal-content').html(str);
+                $('#myModal').modal();
+            });
+        });
+
+        $('.preview').click(function () {
+            var id = $(this).data('id');
+            $.post('{:U("Comic/getContent")}', {'id': id}, function (res) {
+                $('#modal-title').html(res.title);
+                if (res.first_id == '') {
+                    $('#prev_chapte').hide();
+                } else {
+                    $('#prev_chapte').data('id', res.first_id);
+                    $('#prev_chapte').show();
+                }
+                if (res.last_id == '') {
+                    $('#next_chapte').hide();
+                } else {
+                    $('#next_chapte').data('id', res.last_id);
+                    $('#next_chapte').show();
+                }
+
+
+                var str = '';
+                for (var i in res.content) {
+                    str += '<img width="100%" src="' + res.content[i].url + '!yy">';
+                    if (res.content[i].reading != '') {
+                        str += '<p> ' + res.content[i].reading + '</p>';
+                    }
+                }
+                $('#modal-content').html(str);
+                document.getElementById('myModal').scrollTop = 0;
+            });
+        });
+
+        /**
+         * 批量修改金币
+         * @type type
+         */
+        $("#change").click(function () {
+            layer.prompt({title: '请输入金币数', formType: 2}, function (text, index) {
+                var id = {$movies_id};
+                var price = text;
+                $.ajax({
+                    type: 'post',
+                    data: {'id': id, 'price': price},
+                    url: '{:U("Comic/changeMoviesGold")}',
+                    success: function (res) {
+                        if (res.code == 200) {
+                            alert('修改成功');
+                            window.location.reload();
+                        } else {
+                            layer.alert(res.res);
+                        }
+                    }, error: function () {
+                        layer.alert('修改失败');
+                    }
+                })
+            });
+        });
+
+        $('#source_url_add').on('blur', function () {
+            var url = $('#source_url_add').val();
+            $("#video_add").prop("src", url);
+            $("#video_add")[0].addEventListener("loadedmetadata", function () {
+                var tol = this.duration;//获取总时长
+                var height = this.videoHeight;//获取总时长
+                var wight = this.videoWidth;//获取总时长
+                if (height / wight > 1.5) {
+                    $('#source_typ_add').val(1)
+                } else {
+                    $('#source_typ_add').val(0)
+                }
+                var time = parseInt(tol);
+                if (time >= 60) {
+                    var sec = time % 60;
+                    var min = Math.floor(time / 60);
+                    $('#time_add').val(min + ':' + sec);
+                } else {
+                    $('#time_add').val('0:' + time);
+                }
+                $('#source_time_add').val(time);
+            });
+        });
+
+        $('#source_url_edit').on('blur', function () {
+            var url = $('#source_url_edit').val();
+            $("#video_edit").prop("src", url);
+            $("#video_edit")[0].addEventListener("loadedmetadata", function () {
+                var tol = this.duration;//获取总时长
+                var height = this.videoHeight;//获取总时长
+                var wight = this.videoWidth;//获取总时长
+                if (height / wight > 1.5) {
+                    $('#source_typ_edit').val(1)
+                } else {
+                    $('#source_typ_edit').val(0)
+                }
+                var time = parseInt(tol);
+                if (time >= 60) {
+                    var sec = time % 60;
+                    var min = Math.floor(time / 60);
+                    $('#time_edit').val(min + ':' + sec);
+                } else {
+                    $('#time_edit').val('0:' + time);
+                }
+                $('#source_time_edit').val(time);
+            });
+        });
+
+        //RMB购买价格显示
+        $('select[name=price_type]').on('change', function () {
+            var type = $(this).val();
+            var action = $(this).data('action');
+            console.log(type);
+            console.log(action);
+            if (type == 1) {
+                var price = $('#' + action + ' input[name=price]').val()
+                var rmb = (price / 100).toFixed(2);
+                $('#' + action + ' .rmb_price').val(rmb);
+                $('#' + action + ' .simple_price').hide();
+                $('#' + action + ' .rmb_price').show();
+            } else if (type == 0) {
+                var price = $('#' + action + ' .rmb_price').val()
+                var simple = price * 100;
+                $('#' + action + ' .simple_price').val(simple);
+                $('#' + action + ' .rmb_price').hide();
+                $('#' + action + ' .simple_price').show();
+            }
+        });
+
+        $('#edit_popup .rmb_price').on('blur', function () {
+            var rmb = $('#edit_popup .rmb_price').val();
+            $('#edit_popup .simple_price').val(rmb * 100);
+        });
+
+        $('#add_popup .rmb_price').on('blur', function () {
+            var rmb = $('#add_popup .rmb_price').val();
+            $('#add_popup .simple_price').val(rmb * 100);
+        });
+    </script>
+</block>

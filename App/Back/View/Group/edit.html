@@ -1,0 +1,126 @@
+<extend name="Public/admin" />
+
+<block name="content">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase">修改用户组</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form class="form-horizontal" action="{:U('update')}" role="form" id="form"  method="post">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"><span style="color: red;">*</span>用户组名</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="name" id="title" placeholder="用户组名" class="form-control" value="{$group.name}">
+                                    <input type="hidden" name="id" id="id" value="{$group.id}">
+                                    <span class="help-inline">
+                                        <span class="middle" style="color: red;">用户组名称，不能为空。</span>
+                                </div>
+                            </div>
+                            <input name="uid" value="{$data['id']}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"><span style="color: red;">*</span>是否启用</label>
+                                <div class="col-md-9">
+                                    <div class="md-radio-inline">
+                                        <div class="md-radio">
+                                            <input type="radio" id="bee" name="status" value="1" class="md-radiobtn" <if condition="$group['status']  eq  1">checked="checked"</if>>
+                                            <label for="bee">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> 是 </label>
+                                        </div>
+                                        <div class="md-radio">
+                                            <input type="radio" id="vip" name="status" value="0"class="md-radiobtn" <if condition="$group['status'] eq 0">checked="checked"</if>>
+                                            <label for="vip">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> 否 </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <if condition="$group.id neq 1">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"><span style="color: red;">*</span>权限选择 </label>
+                                <div class="col-md-9">
+                                    <div class="portlet box blue">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-gift"></i>请选择对应的权限 </div>
+                                            <div class="tools">
+                                                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="panel-group accordion" id="accordion">
+                                                <volist name="rule" id="v">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" >
+                                                                    <input name="rules[]" class="ace ace-checkbox-2 father"  id="father" type="checkbox" value="{$v['id']}"
+                                                                        <?php if(in_array($v['id'],$group['rules'])){echo 'checked="checked"';}?>/>
+                                                                    <span class="lbl"> {$v['name']}</span>
+                                                                    <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="one" class="panel-collapse in">
+                                                            <notempty name="v.children">
+                                                                <div class="panel-body">
+                                                                    <div class="widget-main row">
+                                                                        <volist name="v.children" id="vv">
+                                                                            <label class="col-xs-2" style="width:160px;">
+                                                                                <input name="rules[]" class="ace ace-checkbox-2 children" type="checkbox" value="{$vv['id']}"<?php if(in_array($vv['id'],$group['rules'])){echo 'checked="checked"';};?>/>
+                                                                                <span class="lbl"> {$vv['name']}</span>
+                                                                            </label>
+                                                                        </volist>
+                                                                    </div>
+                                                                </div>
+                                                            </notempty>
+                                                        </div>
+                                                    </div>
+                                                </volist>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </if>
+
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn green">提交</button>
+                                    <a href="{:U('Member/index')}" class="btn btn-danger">返回列表</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script>
+
+$(".children").click(function () {
+
+    var a=$(this).parent().parent().parent().parent().parent().parent().prev().find('input[class=father]').attr("checked",this.checked);
+})
+$(".father").click(function () {
+    if (this.checked) {
+        $(this).parent().parent().parent().parent().find(".children").prop("checked", true);
+    } else {
+        $(this).parent().parent().parent().parent().find(".children").prop("checked", false);
+    }
+})
+    </script>
+</block>

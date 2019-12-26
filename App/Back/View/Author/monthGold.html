@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>分成详情</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <meta name="renderer" content="webkit"/>
+    <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css"/>
+    <link href="__MC__/global/css/plugins.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="page-content">
+    <div class="">
+        <div class="col-md-12">
+            <!-- BEGIN BORDERED TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+                <div class="portlet-body">
+                    <div class="portlet-title">
+                        <div class="actions btn-set">
+                            <div class="portlet-input input-inline">
+                                <div class="input-icon right" style="display: inline-block;">
+                                    <select class="form-control input-inline input-sm" id="movies_id"
+                                            name="movies_id">
+                                        <option value="">选择影片</option>
+                                        <volist name="moviesList" id="vo">
+                                            <option value="{$vo.id}"
+                                            <if condition="$keyword == $vo['id']">selected</if>
+                                            >{$vo.name}</option>
+                                        </volist>
+                                    </select>
+                                    <input type="text" class="form-control input-inline input-sm" value="{$keyword}"
+                                           id="keyword" placeholder="输入名称搜索">
+                                </div>
+                                <button type="button" id="searchBtn" class="btn btn-sm green"
+                                        style="display: inline-block;">
+                                    搜索
+                                </button>
+                                <button type="button" id="reset" class="btn btn-sm blue" style="display: inline-block;">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <if condition="!empty($movies)">
+                        <div class="col-md-12" style="margin:12px 0px;font-size: 20px;">
+                            <span>ID：{$movies.id}</span>
+                            <span style="color: #337ab7;">《{$movies.name}》<if condition="$movies['org_name'] != ''">【{$movies.org_name}】</if></span>
+                        </div>
+                    </if>
+                    <div class="table-scrollable">
+                        <input type="hidden" id="author_id" value="{$author_id}"/>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>月份</th>
+                                <th> 消费总金币</th>
+                                <th>作者分成前金币</th>
+                                <th> 作者分成后金币</th>
+                                <if condition="!$keyword">
+                                    <th>操作</th>
+                                </if>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <if condition="!empty($list)">
+                                <volist name="list" id="vo">
+                                    <tr>
+                                        <td> {$vo.months}</td>
+                                        <td> {$vo.overgold}</td>
+                                        <td> {$vo.sum_amount|round=1}</td>
+                                        <td> {$vo.author_amount|round=1}</td>
+                                        <if condition="!$keyword">
+                                            <td>
+                                                <if condition="!$vo['isClose']">
+                                                    <button type="button" class="btn btn-sm blue settle"
+                                                            data-aid="{$author_id}" data-month="{$vo.months}"
+                                                            data-sumgold="{$vo.sum_amount}"
+                                                            data-execgold="{$vo.author_amount}">
+                                                        结算
+                                                    </button>
+                                                </if>
+                                            </td>
+                                        </if>
+                                    </tr>
+                                </volist>
+                                <else/>
+                                <tr>
+                                    <td colspan="4">暂无数据</td>
+                                </tr>
+                            </if>
+                            </tbody>
+                        </table>
+                    </div>
+                    {$page}
+                </div>
+            </div>
+            <!-- END BORDERED TABLE PORTLET-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="__MC__/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="__JS__/layer/2.4/layer.js"></script>
+<script>
+    //搜索
+    $('#searchBtn').on('click', function () {
+        var id = $('#author_id').val();
+        var keyword = $('#keyword').val();
+        window.location.href = '/Back/Author/monthGold?author_id=' + id + '&keyword=' + keyword;
+    });
+
+    //重置
+    $('#reset').on('click', function () {
+        var id = $('#author_id').val();
+        window.location.href = '/Back/Author/monthGold?author_id=' + id;
+    });
+
+    $('#movies_id').on('change', function () {
+        var id = $('#author_id').val();
+        var keyword = $(this).val();
+        window.location.href = '/Back/Author/monthGold?author_id=' + id + '&keyword=' + keyword;
+    });
+
+    //结算
+    $('.settle').on('click', function () {
+        var author_id = $(this).data('aid');
+        var month = $(this).data('month');
+        var sumgold = $(this).data('sumgold');
+        var execgold = $(this).data('execgold');
+
+        $.post("{:U('Author/settlement')}", {
+            author_id: author_id, month: month, sumgold: sumgold, execgold: execgold
+        }, function (res) {
+            if (res.code == 200) {
+                layer.msg('结算成功');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 300)
+            } else {
+                layer.alert('结算失败');
+            }
+        })
+    });
+</script>

@@ -1,0 +1,96 @@
+<extend name="Public/admin" />
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+    <style>
+        .page-content .row .col-md-12{overflow: inherit;};
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet">
+                <div class="portlet-title">
+                    <div class="caption">
+                        导出指定图解数据
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="{:U('MoviesData/downWord')}"  method="post" class="form-horizontal">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">图解ID</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" rows="3" name='comic_id'></textarea>
+                                    <span class="help-block">
+                                        最多输入200个，以英文逗号相连. </span>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-md-3 control-label">时间段</label>
+                                <div class="col-md-4">
+                                   <div class="input-group  date-picker input-daterange">
+                                       <input type="text" name="start_time" autocomplete="off" class="form-control form_datetime">
+                                       <span class="input-group-addon"><font style="vertical-align: inherit;">to</font></span> 
+                                       <input type="text" name="end_time" autocomplete="off" class="form-control form_datetime">
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-circle blue">导出表格</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+    <script src="__JS__/layer/2.4/layer.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+    <script>
+     
+        $('.form_datetime').datetimepicker({
+            language:"zh-CN", //汉化
+            todayBtn : true,  //显示今天按钮
+            autoclose : true,   //选择日期后自动关闭日期选择框
+            todayHighlight : false,   //当天高亮显示
+            format: 'yyyy-mm-dd',
+            showMeridian: 0,
+            weekStart: 1,
+            minView: 2,
+            pickerPosition: "bottom-left"
+        })
+        $("#saveExcel").click(function () {
+            var checks = document.getElementsByName("channel_id[]");
+            n = 0;
+            for (i = 0; i < checks.length; i++) {
+                if (checks[i].checked)
+                    n++;
+            }
+            if (n <= 0) {
+                layer.alert("请至少选择一项");
+                return false;
+            }
+            $("#contentId").submit();
+
+        })
+    </script>
+</block>

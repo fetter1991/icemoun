@@ -1,0 +1,31 @@
+<div id="addModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">导入小说</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <!--小说ID-->
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">小说ID</label>
+                            <div class="col-md-6">
+                                <input type="number" required class="form-control" id="novelID" placeholder="请输入小说ID"
+                                       name="movies_id" autocomplete="off">
+                            </div>
+                            <div class="col-xs-2">
+                                <button type="button" class="btn green-meadow " data-type="movies_id"
+                                        onclick="getNovelInfo(this)">获取小说信息
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,321 @@
+﻿<extend name="Public/admin" />
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <form class="form-inline" role="form" action="{:U('Comment/index')}" method="get"  id="formId" >
+                <div class="form-group">
+                    <button class="btn green" id='clean' type="button">清除搜索条件</button>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group date form_datetime" data-date="">
+                        <span class="input-group-btn">
+                            <button class="btn success date-set" type="button">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input size="16" type="text" name="start_time" id="start" value="{$start_time}" class="form-control form_datetimes" placeholder="开始时间" readonly="">
+                    </div>
+                    <span>-</span>
+                    <div class="input-group date form_datetime" data-date="">
+                        <span class="input-group-btn">
+                            <button class="btn success date-set" type="button">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input size="16" type="text" id="end" value="{$end_time}" name="end_time" class="form-control form_datetimes" placeholder="结束时间" readonly="">
+                    </div>
+                </div>
+ 
+                <div class="form-group">
+                    <select  name="status" class="form-control">
+                        <option value="null">请选择状态</option>
+                        <option value="over"  <if condition="$status eq over"> selected</if>>全部</option>
+                        <option value="0"  <if condition="isset($status) && $status == 0"> selected</if>>下架</option>
+                        <option value="1"  <if condition="isset($status) && $status == 1"> selected</if>>上架</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="movies_id" value="{$movies_id}" class="form-control" placeholder="图解ID">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="user_id" value="{$user_id}" class="form-control" placeholder="用户ID">
+                </div>
+                <div class="form-group">
+                    <button class="btn green" type="submit">搜索</button>
+                </div>
+                <div class="form-group pull-right">
+                    <button class="btn green" onclick='showModel(this)' type="button">添加评论</button>
+                </div>
+            </form>
+       </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="text-center">评论ID</th>
+                        <th class="text-center">用户ID</th>
+                        <th class="text-center">评论用户名称</th>
+                        <th class="text-center">评论影片</th>
+                        <th class="text-center">评论内容</th>
+                        <th class="text-center">审核通过时间</th>
+                        <th class="text-center">赞数量</th>
+                        <th class="text-center">踩数量</th>
+                        <th class="text-center">回复数量</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <if condition="!empty($data)">
+                    <volist name="data" id="vo">
+                        <tr>
+                            <td class="text-center">
+                              {$vo.id}
+                            </td>
+                        <td class="text-center" style="max-width:400px;">{$vo.user_id}</td>
+                        <td class="text-center">{$vo.user_id|getname}</td>
+                        <td class="text-center">{$vo.movies_id}:{$vo.name}</td>
+                        <td class="text-center" style='max-width:400px'>{$vo.comments}</td>
+
+                        <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td class="text-center">{$vo.num_oo}</td>
+                        <td class="text-center">{$vo.num_xx}</td>
+                        <td class="text-center">{$vo.num_reply}</td>
+                      
+                        <td class="text-center">
+                            <if condition="$vo['status'] == 1">
+                            <button type="button" class="btn red" data-type='0' data-id="{$vo.id}" onclick='changeType(this)'>下架评论</button>
+                            <else/>
+                                <button type="button" class="btn btn-info"  data-id="{$vo.id}" data-type='1' onclick='changeType(this)'>上架评论</button>
+                            </if>
+                            <button type="button" class="btn green"  data-id="{$vo.id}"   onclick='showModel(this)'>在此评论下添加评论</button>
+                            <button type="button" class="btn green"  data-id="{$vo.id}" onclick='getChildrenComment(this)'>查看子评论</button>
+                        </td>
+                        </tr>
+                    </volist>
+                    <tr class="content">
+                        <td colspan="13" bgcolor="#FFFFFF">
+                            <div style="float: right">
+                                {$page}
+                            </div>
+                        </td>
+                    </tr>
+                    <else/>
+                    <tr>
+                        <td colspan="9" style="font-size: 18px;font-weight: bolder;text-align: center;">暂无相关记录</td>
+                    </tr>
+                </if>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--添加评论-->
+    <div id="responsive" class="modal fade" tabindex="-1" data-width="650">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" action='{:U("Comment/add")}' role="form" id="fromComment">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title text-center">添加评论</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                    
+                                        <div class="form-group movies_box_comment">
+                                            <label for="subtitle" class="col-md-3 control-label">影片ID</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入影片ID" name="movies_id" id='add_movies_id'>
+                                                 <input type="hidden"  class="form-control" placeholder="" value='' name="id" id="commenr_id">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">评论内容</label>
+                                            <div class="col-md-7">
+                                                <textarea  required class="form-control" rows="3" name='comments'></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">赞数量</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入赞数量" name="num_oo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">踩数量</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入踩数量" name="num_xx" >
+                                            </div>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn green " id="addComment" data-dismiss="modal">提交</button>
+                        <button type="button" class="btn default" data-dismiss="modal">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        <if condition="I('get.add_movies_id') != ''">
+            $("#add_movies_id").val({$Think.get.add_movies_id});
+            $("#responsive").modal();
+        </if>
+        /**
+         * 添加评论
+         * @type type
+         */
+        $("#addComment").click(function(){
+            $("#responsive").modal();
+        })
+        
+        /**
+         * 上下架评论
+         * @param {type} id 审核ID
+         * @returns {undefined}
+         */
+        function changeType(e){
+            var type = $(e).data('type');
+            var id = $(e).data('id');
+            var name = type == 1 ? '上架' : '下架';
+            var indexi = layer.confirm('是否'+name+'？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                layer.close(indexi);
+                $.ajax({
+                    type:'post',
+                    data:{'id':id,'status':type},
+                    url:'{:U("Comment/changeStatus")}',
+                    success:function(res){
+                        if(res.code == 200){
+                            setTimeout(function(){
+                                 window.location.reload();
+                            },500);
+                            layer.msg(name+'成功', {icon: 1});
+                        }else{
+                            layer.msg(res.message, {icon: 2});
+                        }
+                    }
+                })
+            }, function(){
+                layer.close(indexi);
+            });
+        }
+        
+        /**
+         * 查看子评论
+         * @param {type} e
+         * @returns {undefined}
+         */
+        function getChildrenComment(e){
+            var id = $(e).data('id');
+            layer.open({
+                type: 2,
+                title: '评论详情',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['50%', '80%'],
+                content: '{:U("Comment/getChildrenComment")}?id='+id //iframe的url
+            }); 
+        }
+
+        /**
+         * 添加评论提交框显示
+         * @param {type} e
+         * @returns {undefined}
+         */
+        function showModel(e) {
+            $(".movies_box_comment").show();
+            var id = $(e).data('id');
+            if(id){
+                $("#commenr_id").val(id);
+                $(".movies_box_comment").hide();
+            }
+            $("#responsive").modal();
+        }
+        
+        /**
+         * 提交评论
+         * @type type
+         */
+        $("#addComment").click(function(){
+            var array = $("#fromComment").serializeArray();
+            $.post('{:U("Comment/add")}',{array},function(res){
+                if(res.code == 200){
+                    setTimeout(function(){
+                         window.location.reload();
+                    },500);
+                    layer.msg(res.res, {icon: 1});
+                }else{
+                    layer.msg(res.res, {icon: 2});
+                }
+            })
+        })
+        
+        
+        $('.form_datetimes').datetimepicker({
+            minView: "month",
+            language:  'zh-CN',
+            format: 'yyyy-mm-dd ',
+            autoclose: true,
+            todayBtn: true
+        });
+        
+        $("#downLoad").click(function(){
+            var form = $("#formId").serialize();
+            window.location.href= "{:U('Site/innerEx')}?"+form;
+        })
+        
+        /**
+         * 清除搜索条件
+         * @type type
+         */
+        $("#clean").click(function(){
+            $(".form-control").val('');
+            $("select[name=status]").val(3);
+            $("#select").selectpicker('refresh');
+        })
+        
+        function inputCheck(e){
+            if($(e).is(':checked') == false){
+                $("input[name=check_id]").parent().removeClass('checked');
+                $("input[name=check_id]").prop('checked',false); 
+            }else if($("input[name=check_id]").attr('disabled') != true){
+                $("input[name=check_id]").parent().addClass('checked');
+                $("input[name=check_id]").prop('checked',true);
+            }
+        }
+
+    </script>
+</block>

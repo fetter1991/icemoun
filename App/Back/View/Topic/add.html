@@ -1,0 +1,154 @@
+<div id="add_popup" class="modal fade" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" action="{:U('Topic/add')}" id="fromId" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加专辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="title" class="col-md-3 control-label">标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入标题" name="name" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtitle" class="col-md-3 control-label">副标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入副标题" name="subtitle" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-md-3 control-label">作者</label>
+                            <div class="col-md-9">
+                                <div class="radio-list">
+                                    <button type="button" class="btn green  freeInput butt-green" data-type="freeInput" onclick="changeshebei(this)"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">填写作者</font></font></button>
+                                    <button type="button" class="btn btn-default  selectInput butt-green" data-type="selectInput" onclick="changeshebei(this)"> <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选择本站作者</font></font></button>
+                                    <input name="Pushtarget" value="freeInput"  type="hidden">
+                                </div>
+                                <div class="radis-box col-md-7" >
+                                    <div class="radio-list changetarget " style="display: none;" id="selectInput">
+                                        <select  class="form-control selectpicker" data-live-search="true" data-max-options="1"   name="authorSelect" >
+                                            <volist  name="author" id="vo">
+                                                <option value="{$vo.id}" >{$vo.nick_name}</option>
+                                            </volist>
+                                        </select>
+                                    </div>
+                                    <div class="radio-list changetarget "  id="freeInput">
+                                        <input type="text" required class="form-control" placeholder="请输入作者" name="author" >
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                        <div  class="form-group">
+                            <label for="desc" class="col-md-3 control-label">简介</label>
+                            <div class="col-md-7">
+                                <textarea name="desc" required class="form-control" rows="3" ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">影片</label>
+                            <div class="col-md-6">
+                                <input type="text" required class="form-control" id="addMovie" placeholder="请输入影片ID，请用英文逗号分隔" name="movies_id" autocomplete="off">
+                                <p class="help-block"> 排序值为您选择的顺序排列,由大到小排列 </p>
+                            </div>
+                            <div class="col-xs-2">
+                                <button type="button" class="btn green-meadow " data-type="addMovie" onclick="selectInner(this)">选择影片</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">上架时间设置</label>
+                            <div class="col-md-6">
+                                <div class="radio-list">
+                                    <label class="radio-inline">
+                                        <input name="is_online"  value="0" type="radio" checked>
+                                        立即
+                                    </label>
+
+                                    <label class="radio-inline">
+                                        <input name="is_online"   value="1" type="radio" >
+                                        指定时间
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"  id="addOverdate" style="display:none">
+                            <label for="addOverdate" class="col-md-3 control-label">上架时间</label>
+                            <div class="col-md-7">
+                                <input type="text"  value='' class="form-control"  placeholder="请输入上架时间" name="online_time" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">标签</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入标签" name="tags">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">排序值（越大排序越前）</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="" name="order_num" >
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="total_size" class="col-md-3 control-label">专辑等级</label>
+                            <div class="col-md-7">
+                                <select  class="form-control" name="rank" >
+                                    <option value="0" >0级</option>
+                                    <option value="1" >1级</option>
+                                    <option value="2" >2级</option>
+                                    <option value="3" >3级</option>
+                                    <option value="4" >4级</option>
+                                    <option value="5" >5级</option>
+                                    <option value="6" selected="selected">6级</option>
+                                    <option value="7" >7级</option>
+                                    <option value="8" >8级</option>
+                                    <option value="9" >9级</option>
+                                    <option value="10" >10级</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="topic_type" class="col-md-3 control-label">专辑类型</label>
+                            <div class="col-md-7">
+                                <select  class="form-control topic_type_add" name="topic_type" data-content="_add">
+                                    <option value="1" >一般专辑</option>
+                                    <option value="2" >影人专辑</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: none;" id="actor_add">
+                            <label for="actor" class="col-md-3 control-label">演员</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" placeholder="请输入演员名称" name="actor">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-md-3 control-label">价格</label>
+                            <div class="col-md-7">
+                                <input type="number" value='40' required class="form-control" placeholder="请输入价格" name="price" pattern="^[1-9]\d*|0$">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-3 control-label">状态</label>
+                            <div class="col-md-7">
+                                <select  class="form-control" name="status" >
+                                    <option value="0" >下架</option>
+                                    <option value="1" >上架</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn green" id="confirmAdd">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

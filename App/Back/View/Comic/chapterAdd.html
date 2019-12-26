@@ -1,0 +1,153 @@
+<div id="add_popup" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" action="{:U('Comic/chapterAdd')}" method="post"
+                  enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加章节</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="title" class="col-md-3 control-label">标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" placeholder="请输入标题" name="name"
+                                       id="title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price_type" class="col-md-3 control-label">购买类型</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="price_type" id="price_type" data-action="add_popup">
+                                    <option value="0">金币购买</option>
+                                    <option value="1">RMB购买</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-md-3 control-label">价格</label>
+                            <div class="col-md-7">
+                                <input type="number" value='{$price}' required class="form-control simple_price" placeholder="请输入价格"
+                                       name="price" id="price" pattern="^[1-9]\d*|0$">
+                                <input type="text" class="form-control rmb_price" placeholder="请输入价格"
+                                       style="display: none;">
+                                <p class="help-block"> 作品若为整本收费，章节价格无效</p>
+                            </div>
+                        </div>
+                        <if condition="$movies['movies_type'] == 4">
+                            <div class="form-group">
+                                <label for="addVideo" class="col-md-3 control-label">视频地址</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" value="" required="" name="source_url"
+                                           id="source_url_add">
+                                    <button type="button" class="btn green" id="add_play" style="margin-top: 15px;">预览
+                                    </button>
+                                </div>
+                            </div>
+                            <!--上传文件-->
+                            <!--                            <div class="form-group">-->
+                            <!--                                <label for="addVideo" class="col-md-3 control-label">选择视频</label>-->
+                            <!--                                <div class="col-md-9">-->
+                            <!--                                    <div class='row'>-->
+                            <!--                                        <div class="col-md-8">-->
+                            <!--                                            <div class="progress add_progress">-->
+                            <!--                                            <span class="green" style="width: 0%;"><span-->
+                            <!--                                                    class="nowPercent">0%</span></span>-->
+                            <!--                                            </div>-->
+                            <!--                                            <div class='upload-img'>-->
+                            <!--                                                <p id="file_video_add"-->
+                            <!--                                                   style="margin-top: 10px;text-align: left;color: #ff0000;">&nbsp;</p>-->
+                            <!--                                            </div>-->
+                            <!--                                            <span class="btn green fileinput-button col-md-4">-->
+                            <!--                                    <span> 选择文件 </span>-->
+                            <!--                                    <input type="file" class="uploadVideo_add" data-type="_add">-->
+                            <!--                                </span>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <span class="fileinput-filename"> </span>-->
+                            <!--                                    <input type="hidden" value="" name="source_url" id="source_url_add">-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <!--预览-->
+                            <div class="form-group">
+                                <label for="addVideo" class="col-md-3 control-label">预览</label>
+                                <div class="col-md-9">
+                                    <div class='row'>
+                                        <div class="col-md-8">
+                                            <div class='upload-img' id="add_preview">
+                                                <video id="video_add" width="100%" controls></video>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--资源时长-->
+                            <div class="form-group">
+                                <label for="title" class="col-md-3 control-label">资源时长</label>
+                                <div class="col-md-7">
+                                    <input type="text" required class="form-control" placeholder="点击预览获取资源时长"
+                                           id="time_add" name="time_add" data-action="_add" readonly>
+                                    <input type="hidden" required class="form-control" id="source_time_add"
+                                           name="source_time"/>
+                                    <input type="hidden" required class="form-control" id="source_typ_add"
+                                           name="source_type" value="0"/>
+                                </div>
+                            </div>
+                            <!--简介-->
+                            <div class="form-group">
+                                <label for="title" class="col-md-3 control-label">简介</label>
+                                <div class="col-md-7">
+                                    <textarea name="desc" required class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </if>
+                        <div class="form-group">
+                            <label for="status" class="col-md-3 control-label">状态</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="status" id="status">
+                                    <option value="0">下架</option>
+                                    <option value="1">上架</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="chapter_id" class="col-md-3 control-label">选择章节</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="chapter_id" id="chapter_id">
+                                    <empty name='chapter'>
+                                        <option value='0'>插入新章节</option>
+                                        <else/>
+                                        <volist name='chapter' id='ch'>
+                                            <option value='{$ch.id}'>{$ch.name}</option>
+                                        </volist>
+                                    </empty>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="chapter_id" class="col-md-3 control-label">插入位置</label>
+                            <div class="col-md-7">
+                                <div class="radio-list">
+                                    <label class="radio-inline">
+                                        <input name="before_or_after" id="attention1" value="1" type="radio">
+                                        插入章节前
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input name="before_or_after" id="attention2" value="2" type="radio" checked>
+                                        插入章节后
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input value='{$movies_id}' type='hidden' required name="movies_id">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn green" id="confirm">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

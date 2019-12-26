@@ -1,0 +1,106 @@
+<extend name="Public/admin" />
+<block name="style">
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">标题</th>
+                        <th class="text-center">等级</th>
+                        <th class="text-center">发布时间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td class="text-center">{$vo.id}</td>
+                            <td class="text-center">
+                                <a onclick="getContent('{$vo.id}')" href="javascript:;">{$vo.title}</a>
+                            </td>
+                            <td class="text-center">{$vo.rank}</td>
+                            <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-info" onclick="edit('{$vo.id}')"> 编辑</button>
+                                <button onclick="del(this,'{$vo.id}')" type="button" class="btn red" data-id="{$vo['id']}">删除
+                                </button>
+                            </td>
+                        </tr>
+                    </volist>
+                    <tr class="content">
+                        <td colspan="4" bgcolor="#FFFFFF">
+                            <div class="pages" style="float: right">
+                                {$page}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="notice" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" id="modaltitle">关于国庆期间打款通知</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn green" data-dismiss="modal">确定</button>
+            </div>
+            </div>
+            </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+        function getContent(id){
+            $.post('{:U("Notice/getContent")}',{'id':id},function(res){
+                if(res.code == 200){
+                    $('#notice').modal();
+                    $('.modal-body').html(res.content);
+                    $('#modaltitle').html(res.title);
+                }else{
+                    alert('error');
+                }
+            },'json')
+        }
+        function edit(id){
+            window.location.href = '/Back/Notice/edit/id/'+id;
+        }
+
+        $('.close,.modal-footer button').click(function(){
+            $('.modal-backdrop').hide();
+            $('.modal').hide();
+        });
+      function del(_this,id){
+          layer.confirm('确定删除?',{
+              btn:['确定','取消']
+          },function () {
+              $.post('{:U("Notice/del")}',{'id':id,'type':1},function(res){
+                  if(res.code == 200){
+                      layer.msg('删除成功');
+                      setTimeout(function () {
+                          window.location.reload();
+                      },1200);
+                  }else{
+                      layer.msg('删除失败');
+                  }
+              },'json')
+          })
+      }
+    </script>
+</block>

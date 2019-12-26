@@ -1,0 +1,85 @@
+<extend name="Public/admin" />
+<block name="style">
+</block>
+<block name="content">
+    <div id="BApp">
+        <div style="color:#EF4F4F;" v-if="status==0">注意：请不要关闭本页面，图片正在加载中</div>
+        <div v-else-if="status==1">图片预处理成功，页面可以关闭了！</div>
+        <div v-else-if="status==2">图片加载失败太多，请刷新本页面再试一次。</div>
+        <br /><br /><br /><br />
+        <div>《{$movies.name}》 （ID：{$movies.id} ）</div>
+        <div>耗时：{{usetime/10}} 秒</div>
+        图片预处理中：{{load.length}}  剩余：<span style="color:#00b9ff;">{{imgs.length}}</span>
+        <div style="color:#EF4F4F" v-if="errorList.length > 0">
+            失败： {{errorList.length}}<br />
+            <div v-for="vo in errorList">章节ID：{{vo.chapter_id}} 图片ID:{{vo.id}}  图片地址:<a :href="'https://cdn-yp.yymedias.com/'+vo.url+'!yy'" target="_blank">{{vo.url}}</a></div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script>
+        $('.theme-panel').remove();
+        $('.page-header').html('');
+        $('.page-title').html('图片预处理');
+        $('.navbar-collapse').remove();
+    </script>
+    <script>
+        var app = new  Vue({
+            el: '#BApp',
+            methods: {
+                loadImg:function(){
+                    if (this.imgs.length ==0) {
+                        app.status=1;
+                        clearInterval(this.timmer);
+                        return;
+                    }
+                    var img = this.imgs.pop();
+                    $.ajax({
+                        url:'//resources.yymedias.com/upyun/upyunUpload.php',
+                        data:{filename:img.url},
+                        success:function(rst){
+                            if(typeof rst == 'string') {
+                                try {rst = $.parseJSON(rst);}catch (ex){alert('图片CDN加速失败: 请截图发给研发人员；' + rst);}
+                            }
+                            /*0：失败
+1：成功
+2：已经上传成功，文件已经存在
+3：目标文件不存在
+4：json格式中filename不能为空
+                             */
+                            if(rst.status_code == 1 || rst.status_code == 2) {
+                                app.load.push(img);
+                                app.loadImg();
+                            } else {
+                                app.errorList.push(img);
+                                if (app.errorList.length>=10){
+                                    app.status=2;
+                                    clearInterval(app.timmer);
+                                } else {
+                                    app.loadImg();
+                                }
+                            }
+                        }, error :function(ex){
+                            alert('网络错误');
+                        }
+                    });
+                }
+            },
+            mounted:function(){
+                this.timmer = setInterval(function(){
+                    app.usetime ++;
+                },100);
+                this.loadImg();
+            },
+            data:{
+                status:0,
+                timmer :null,
+                usetime : 0,
+                isSupportWebp : !![].map && document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') == 0,
+                errorList:[],
+                load:[],
+                imgs:{:json_encode($imgs)}
+        }
+        });
+    </script>
+</block>

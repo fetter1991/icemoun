@@ -1,0 +1,187 @@
+<extend name="Public/admin" />
+<block name="style">
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">用户名</th>
+                    <th class="text-center">组别</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="data" id="vo">
+                    <tr>
+                        <td class="text-center">{$vo.id}</td>
+                        <td class="text-center">{$vo.account}</td>
+                        <td class="text-center">{$vo.name}</td>
+                        <td class="text-center">
+                            <if condition="$vo['id'] neq 1">
+                                <a href="{:U('Member/edit')}?uid={$vo['id']}" class="btn btn-info">编辑
+                                </a>
+                                <else/>
+                                <a href="javascript:void(0)"  class="btn btn-info" disabled>编辑
+                                </a>
+                            </if>
+                            <if condition="$vo['id'] neq 1">
+                                
+                                <button onclick="del(this,'{$vo.id}')" <if condition="$vo['status'] eq 2">disabled</if> type="button" class="btn red" data-id="{$vo['id']}">删除
+                                </button>
+                                <if condition="$vo['status'] eq 0">
+                                    <button type="button" class="btn green" onclick="stop(this)" data-type="0" data-id="{$vo['id']}">启用
+                                    </button>
+                                <elseif condition="$vo['status'] eq 1"/>
+                                    <button type="button" class="btn red" onclick="stop(this)" data-type="1" data-id="{$vo['id']}">停用
+                                    </button>
+                                </if>
+                                <else/>
+                                <button type="button" class="btn red" disabled data-id="{$vo['id']}">删除
+                                </button>
+                            </if>
+                            <if condition="$vo['id'] neq 1">
+                                <button type="button" class="btn am-danger js-reset-pwd" data="{$vo.id}" id="editpwd">
+                                    <span class="am-icon-eye"></span> 修改密码
+                                </button>
+                                <else/>
+                                <button type="button" class="btn am-danger js-reset-pwd"   disabled>
+                                   修改密码
+                                </button>
+                            </if>
+                            <if condition="session('user_id') == 1">
+                                <button onclick='signOut(this)'  type="button"  data="{$vo.id}" class="btn green  ">强制下线</button>
+                            </if>
+                        </td>
+                    </tr>
+                </volist>
+                <tr class="content">
+                    <td colspan="4" bgcolor="#FFFFFF">
+                        <div class="pages" style="float: right">
+                            {$page}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal fade" tabindex="-1" data-width="650" id="my-prompt-reset-pwd">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{:U('Member/doResetPwd')}" class="form-horizontal" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">修改密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">新密码</label>
+                                <div class="col-md-7">
+                                    <input type="password" class="form-control" name="password" placeholder="请输入新密码" id="oldpwd">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">确认密码</label>
+                                <div class="col-md-7">
+                                    <input type="password" class="form-control" name="rpassword" placeholder="请输入确认密码" id="rpwd">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="js-id" name="id" id="id"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn green" id="respwd">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+        function del(_this,id){
+            layer.confirm('确定删除?',{
+                btn:['确定','取消']
+            },function () {
+                $.post('{:U("member/del")}',{'id':id},function(res){
+                    if(res.code == 200){
+                        layer.msg('删除成功');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1200)
+                    }else{
+                        layer.msg('删除失败');
+                    }
+                },'json')
+            })
+        }
+        
+        function stop(e){
+            var id = $(e).data('id');
+            var type = $(e).data('type');
+            var name = type == 0 ? '启用' :'停用';
+            layer.confirm('确定'+name+'?',{
+                btn:['确定','取消']
+            },function () {
+                $.post('{:U("member/stop")}',{'id':id,'type':type},function(res){
+                    if(res.code == 200){
+                        layer.msg(name+'成功');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1200)
+                    }else{
+                        layer.msg(name+'失败');
+                    }
+                },'json')
+            })
+            
+        }
+        
+            $('#respwd').click(function(){
+               var oldpwd=$('#oldpwd').val();
+                var rpwd=$('#rpwd').val();
+                if(oldpwd!==rpwd){
+                    layer.msg("两次密码不一致");
+                    return false;
+                }
+            })
+
+
+
+            $('table').on('click','#editpwd',function () {
+                $('#my-prompt-reset-pwd').modal();
+                var id = $(this).attr('data');
+                $('#id').val(id);
+            })
+            
+        /**
+         * 强制下线
+         * @param {type} _this
+         * @returns {undefined}
+         */
+        function signOut(_this){
+            var id = $(_this).attr('data');
+            $.post('{:U("Member/signOut")}',{'id':id},function(res){
+                if(res.code == 200){
+                    layer.alert(res.msg);
+                }else{
+                    layer.alert(res.msg);
+                }
+            })
+        }
+    </script>
+</block>

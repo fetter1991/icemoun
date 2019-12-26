@@ -1,0 +1,134 @@
+<extend name="Public/admin" />
+<block name="content">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="title">标题：</label>
+                    <input type="text" value="{$details.title}" class="form-control" id="title">
+                </div>
+                <div class="form-group">
+                    <label for="title">等级：</label>
+                    <select  class="form-control" name="rank" id="rank">
+                          <for start="0" end="11">
+                              <option value="{$i}" <if condition="$details.rank == $i">selected</if>>{$i}级</option>
+                          </for>
+                     </select>
+                </div>
+                <button id="doAdd" class="btn btn-success" type="button">保存</button>
+            </form>
+        </div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div style="height:20px;"></div>
+        <div class="am-g">
+            <!-- 配置文件 -->
+            <script src="/ThinkPHP/Library/Vendor/ueditor/ueditor.config.js"></script>
+            <!-- 编辑器源码文件 -->
+            <script src="/ThinkPHP/Library/Vendor/ueditor/ueditor.all.js"></script>
+            <!-- 加载编辑器的容器 -->
+            <script id="container" name="content" type="text/plain">{$details.content|html_entity_decode=###}</script>
+
+
+        </div>
+    </div>
+    <!--设置链接框框-->
+    <div class="modal fade" tabindex="-1" data-width="650" id="stack1"  data-backdrop="static" data-keyboard="false" data-attention-animation="false" aria-hidden="true" style=" margin-top: 212px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{:U('Channel/changePay')}" class="form-horizontal" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">完善下方信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">请输入图解ID</label>
+                                <div class="col-md-7">
+                                    <input type="number" class="form-control" id="movies_id" placeholder="" name="movies_id" >
+                                </div>
+                            </div>
+                      
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" id="subPay" uetype="1" class="btn green">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+    var ue = UE.getEditor('container', {
+        autoHeightEnabled:false,
+        contextMenu: [
+            {label: '', cmdName: 'selectall'},
+            {
+                label: '',
+                cmdName: 'cleardoc',
+                exec: function () {
+                    this.execCommand('cleardoc');
+                }
+            },
+            {
+                cmdName: 'copy'
+            },
+            {
+                cmdName: 'paste'
+            },
+            {label: '生成推广跳转链接', cmdName: 'cleardoc',
+                icon: 'link',
+                exec: function () {
+                    $("#movies_id").val('');
+                    $("#stack1").modal();
+                }
+            }
+        ]
+    });
+        var id = '{$details.id}';
+        var type = '{$type}';
+        $('#doAdd').click(function() {
+            var title = $('#title').val();
+            var rank = $('#rank').val();
+            var content = UE.getEditor('container').getContent();
+            $.post('{:U("Notice/doEdit")}',{'id':id,'title':title,'content':content,'type':type,'rank':rank},function(res){
+                if(res.code == 200){
+                    layer.msg('修改成功');
+                    if(type == 2){
+                        setTimeout(function () {
+                            window.location.href='/Back/Notice/userList';
+                        },1000);
+                    }else{
+                        setTimeout(function () {
+                            window.location.href='/Back/Notice/index';
+                        },1000);
+                    }
+                }else{
+                    layer.msg('修改失败');
+                    window.location.reload();
+                }
+            },'json');
+        });
+        
+    /**
+    * 模态框确认按钮触发事件
+    * @type type
+    */
+    $("#subPay").click(function(){
+        var title = $("#movies_id").val();
+        if(title == ''){
+            layer.msg('请填写图解ID');
+            return false;
+        }
+        var json = '<a href="/Channel/Comic/index?open_model_id='+title+'" target="_blank" style="box-sizing: border-box; background: 0px 0px rgb(255, 255, 255); color: rgb(22, 158, 244); text-decoration-line: none; text-shadow: none; font-family: &quot;Open Sans&quot;, sans-serif; font-size: 13px; white-space: normal; border-radius: 0px !important;font-weight: 700;">点击前往</a>';
+        ue.execCommand('insertHtml', json,true);
+        $("#stack1").modal('hide');
+           
+    })
+    </script>
+</block>

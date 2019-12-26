@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>评论详情</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <meta name="renderer" content="webkit" />
+        <link rel="icon" sizes="any" mask="" href="__MC__/apps/img/logo.png">
+        <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS  页面样式-->
+        <style>
+            .text-middle{
+                vertical-align: middle !important;
+            }
+            .page-content .row .col-md-12{overflow: auto;}
+        </style>
+        <block name="style"> </block>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES 全局主题样式-->
+        <link href="__MC__/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="__MC__/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES  主题布局样式-->
+        <link href="__MC__/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <!--<link href="__MC__/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />-->
+        <link href="__MC__/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/apps/css/todo-2.css" rel="stylesheet" type="text/css" />
+        <style>
+      
+            hr{margin:5px 0}
+            p{margin: 0 0 10px;}
+
+        </style>
+    </head>
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+        <div class="page-container">
+        <div class="col-md-12 col-sm-12" style='padding: 30px;'>
+            <div class="slimScrollDiv" >
+                <div class="scroller" >
+                    <form action="#" class="form-horizontal">
+                        <!-- TASK HEAD -->
+                        <div class="form">
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="todo-taskbody-user">
+                                        <img class="todo-userpic pull-left" src="{$index.avatar}" width="50px" height="50px">
+                                        <span class="todo-username pull-left">{$index.nick_name}</span>
+                                        <button type="button" class=" btn btn-link " style=' padding: 15px 0 0 15px;' data-id="{$index.id}" onclick="showModel(this)"> 回复 </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <br/>
+                                            <p class="todo-text-color">
+                                               {$index.comments}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                            </div>
+                       
+                        </div>
+                        <div class="tabbable-line">
+                            <ul class="nav nav-tabs ">
+                                <li class="active">
+                                    <a href="#tab_1" data-toggle="tab">
+                                        评论 </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_1">
+                                    <!-- TASK COMMENTS -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <ul class="media-list">
+                                                <volist name='list' id='vo'>
+                                                        <li class="media">
+                                                            <a class="pull-left" href="#">
+                                                                <img class="todo-userpic" src="{$vo.avatar}" width="27px" height="27px">
+                                                            </a>
+                                                            <div class="media-body todo-comment">
+                                                                <p class="todo-comment-head">
+                                                                    <span class="todo-comment-username">{$vo.nick_name}</span>  
+                                                                    <span class="todo-comment-date">{$vo.add_time|date="Y-m-d H:i:s",###}</span>
+                                                                    <button type="button" class=" btn btn-link btn-xs" data-id="{$vo.id}" onclick="showModel(this)"> 回复 </button>
+                                                                    <if condition="$vo['status'] == 1">
+                                                                        <button type="button" class=" btn  btn-xs  btn-link" style='color:red' data-id="{$vo.id}" data-type='0' onclick='changeType(this)'> 屏蔽 </button>
+                                                                        <else/>
+                                                                        <button type="button" class=" btn  btn-link btn-xs" data-id="{$vo.id}" style='color:#35aa47' data-type='1' onclick='changeType(this)'> 恢复 </button>
+                                                                    </if>
+                                                                    
+                                                                </p>
+                                                                <p class="todo-text-color">{$vo.comments}&nbsp;&nbsp;&nbsp;<span style="color:#467fce">点赞量：{$vo.num_oo} 踩数量：{$vo.num_xx}</span> </p>
+                                                                <p></p>
+                                                                <volist name='vo["children"]' id='childrenarr'>
+                                                                    <div class="media">
+                                                                        <a class="pull-left" href="#">
+                                                                            <img class="todo-userpic" src="{$childrenarr.avatar}" width="27px" height="27px">
+                                                                        </a>
+                                                                        <div class="media-body">
+                                                                            <p class="todo-comment-head">
+                                                                                <span class="todo-comment-username">{$childrenarr.nick_name}</span>  
+                                                                                <span class="todo-comment-date">{$childrenarr.add_time|date="Y-m-d H:i:s",###}</span>
+                                                                                <button type="button" class=" btn btn-link btn-xs" data-id="{$childrenarr.id}" onclick="showModel(this)"> 回复 </button>
+                                                                                <if condition="$childrenarr['status'] == 1">
+                                                                                    <button type="button" class=" btn btn-xs  btn-link" style='color:red' data-id="{$childrenarr.id}" data-type='0' onclick='changeType(this)'> 屏蔽 </button>
+                                                                                    <else/>
+                                                                                    <button type="button" class=" btn  btn-link btn-xs" style='color:#35aa47' data-id="{$childrenarr.id}" data-type='1' onclick='changeType(this)'> 恢复 </button>
+                                                                                </if>
+                                                                            </p>
+                                                                            <p class="todo-text-color">
+                                                                                <if condition="$childrenarr['reply_comments_id'] != $vo['id']">
+                                                                                    <span style="color:#3385ff">@{$childrenarr.to_user_id|getname}</span> 
+                                                                                </if>
+                                                                                {$childrenarr.comments}&nbsp;&nbsp;&nbsp;<span style="color:#467fce">点赞量：{$childrenarr.num_oo} 踩数量：{$childrenarr.num_xx}</span>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </volist>
+                                                            </div>
+                                                        </li>
+                                                </volist>
+
+           
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- END TASK COMMENTS -->
+                                    <!-- TASK COMMENT FORM -->
+                                    <!-- END TASK COMMENT FORM -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <!--添加评论-->
+    <div id="responsive" class="modal fade" tabindex="-1" data-width="650" style="padding-right:0px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" action='{:U("Comment/add")}' role="form" id="fromComment">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title text-center">添加评论</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">评论内容</label>
+                                            <div class="col-md-7">
+                                                <input type="hidden"  class="form-control" placeholder="" value='' name="id" id="commenr_id">
+                                                <textarea  required class="form-control" rows="3" name='comments'></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group movies_box_comment">
+                                            <label for="subtitle" class="col-md-3 control-label">影片ID</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入影片ID" name="movies_id" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">赞数量</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入赞数量" name="num_oo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="subtitle" class="col-md-3 control-label">踩数量</label>
+                                            <div class="col-md-7">
+                                                <input type="number" class="form-control" placeholder="请输入踩数量" name="num_xx" >
+                                            </div>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn green " id="addComment" data-dismiss="modal">提交</button>
+                        <button type="button" class="btn default" data-dismiss="modal">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </body>
+    <script src="__MC__/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!--<script src="__MC__/apps/scripts/todo.js" type="text/javascript"></script>-->
+    <script src="__JS__/vue.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS 页面插件-->
+
+    <!-- END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS 全局脚本-->
+    <script src="__MC__/global/scripts/app.min.js" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+
+    <!-- BEGIN THEME LAYOUT SCRIPTS 主题布局脚本-->
+    <script src="__MC__/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+        /**
+         * 上下架评论
+         * @param {type} id 审核ID
+         * @returns {undefined}
+         */
+        function changeType(e){
+            var type = $(e).data('type');
+            var id = $(e).data('id');
+            var name = type != 1 ? '屏蔽' : '恢复';
+            var indexi = layer.confirm('是否'+name+'？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                 layer.close(indexi);
+                $.ajax({
+                    type:'post',
+                    data:{'id':id,'status':type},
+                    url:'{:U("Comment/changeStatus")}',
+                    success:function(res){
+                        if(res.code == 200){
+                            setTimeout(function(){
+                                 window.location.reload();
+                            },500);
+                            layer.msg(name+'成功', {icon: 1});
+                           
+                        }else{
+                            layer.msg(res.message, {icon: 2});
+                        }
+                    }
+                })
+            }, function(){
+                layer.close(indexi);
+            });
+        }
+        
+        
+        /**
+         * 添加评论提交框显示
+         * @param {type} e
+         * @returns {undefined}
+         */
+        function showModel(e) {
+            $(".movies_box_comment").show();
+            var id = $(e).data('id');
+            if(id){
+                $("#commenr_id").val(id);
+                $(".movies_box_comment").hide();
+            }
+            $("#responsive").modal();
+            setTimeout(function(){
+               $(".modal").css('padding','0px');
+            },200);
+        }
+        
+        /**
+         * 提交评论
+         * @type type
+         */
+        $("#addComment").click(function(){
+          
+            var array = $("#fromComment").serializeArray();
+            $.post('{:U("Comment/add")}',{array},function(res){
+                if(res.code == 200){
+                    setTimeout(function(){
+                         window.location.reload();
+                    },500);
+                    layer.msg(res.res, {icon: 1});
+                }else{
+                    layer.msg(res.res, {icon: 2});
+                }
+            })
+        })
+    </script>
+</html>

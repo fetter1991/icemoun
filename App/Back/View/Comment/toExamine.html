@@ -1,0 +1,366 @@
+﻿<extend name="Public/admin" />
+<block name="style">
+    <link href="__MC__/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="__MC__/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        table td{
+            vertical-align: middle !important;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <form class="form-inline" role="form" action="{:U('Comment/toExamine')}" method="get"  id="formId" >
+                <div class="form-group">
+                    <button class="btn green" id='clean' type="button">清除搜索条件</button>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group date form_datetime" data-date="">
+                        <span class="input-group-btn">
+                            <button class="btn success date-set" type="button">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input size="16" type="text" name="start_time" id="start" value="{$start_time}" class="form-control form_datetimes" placeholder="开始时间" readonly="">
+                    </div>
+                    <span>-</span>
+                    <div class="input-group date form_datetime" data-date="">
+                        <span class="input-group-btn">
+                            <button class="btn success date-set" type="button">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input size="16" type="text" id="end" value="{$end_time}" name="end_time" class="form-control form_datetimes" placeholder="结束时间" readonly="">
+                    </div>
+                </div>
+ 
+                <div class="form-group">
+                    <select  name="status" class="form-control">
+                        <option value="null">请选择状态</option>
+                        <option value="over"  <if condition="$status eq over"> selected</if>>全部</option>
+                        <option value="0"  <if condition="isset($status) && $status == 0"> selected</if>>待处理</option>
+                        <option value="1"  <if condition="isset($status) && $status == 1"> selected</if>>已通过</option>
+                        <option value="2"  <if condition="isset($status) && $status == 2"> selected</if>>未通过</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="movies_id" value="{$movies_id}" class="form-control" placeholder="图解ID">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="user_id" value="{$user_id}" class="form-control" placeholder="用户ID">
+                </div>
+                <div class="form-group">
+                    <button class="btn green" type="submit">搜索</button>
+                </div>
+                <div class="form-group pull-right">
+                    <button class="btn red" id="piComment"  type="button">批量处理</button>
+                </div>
+            </form>
+       </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead>
+                    <tr>
+                        <th class="" style="width: 76px">
+                            全选&nbsp;&nbsp;<input type="checkbox" onclick="inputCheck(this)" id="checkover">
+                        </th>
+                        <th class="text-center">用户ID</th>
+                        <th class="text-center">主评论ID</th>
+                        <th class="text-center">用户名称</th>
+                        <th class="text-center">评论影片</th>
+                        <th class="text-center">评论内容</th>
+                        <th class="text-center">评论时间</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <if condition="!empty($data)">
+                    <volist name="data" id="vo">
+                        <tr>
+                            <td class="text-center">
+                                 <if condition="$vo['status'] eq 0">
+                                <input type="checkbox" name="check_id" value="{$vo.id}">
+                               
+                                 </if>
+                            </td>
+                        <td class="text-center" style="max-width:400px;">{$vo.user_id}</td>
+                        <td class="text-center" style=""><a href="{:U('Comment/index')}?comment_id={$vo['comments_id'] ? $vo['comments_id'] : $vo['check_id']}"  target="_blank">{$vo['comments_id'] ? $vo['comments_id'] : $vo['check_id']}</a></td>
+                        <td class="text-center">{$vo.user_id|getname}</td>
+                        <td class="text-center">{$vo.movies_id}:{$vo.name}</td>
+                        <td class="text-center" style='max-width:400px;'>{$vo.comments}</td>
+
+                        <td class="text-center">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td class="text-center">
+                            <switch name="vo.status">
+                                <case value="0"><span class="text-warning">未处理</span></case>
+                                <case value="1"><span class="text-success ">已通过</span></case>
+                                <case value="2"><span class="text-danger">未通过</span></case>
+                                <default />未知
+                            </switch>
+                        </td>
+                        <td class="text-center">
+                        <if condition="$vo['status'] eq 0">
+                            <a href="javascript:void(0);"  onclick="comment(this)"  uid="{$vo.user_id}" data-id="{$vo.id}" data-content='{$vo|json_encode}' data-channelname="{$vo.user_id|getFeedbackName}" class="btn btn-success">处理</a>
+                            <else/>
+                            <a href="javascript:void(0);"  pid="{$vo.id}" class="btn btn-info disabled">已处理</a>
+                        </if>
+                        <button type="button" class="btn green" data-content='{$vo|json_encode}'  data-id="{$vo.id}" 
+                                data-channelname="{$vo.user_id|getFeedbackName}" 
+                                data-userName="{$vo.user_id|getname}"  onclick='showModel(this)'>查看</button>
+                        </td>
+                        </tr>
+                    </volist>
+                    <tr class="content">
+                        <td colspan="13" bgcolor="#FFFFFF">
+                            <div style="float: right">
+                                {$page}
+                            </div>
+                        </td>
+                    </tr>
+                    <else/>
+                    <tr>
+                        <td colspan="9" style="font-size: 18px;font-weight: bolder;text-align: center;">暂无相关记录</td>
+                    </tr>
+                </if>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--反馈处理-->
+    <div id="responsive" class="modal fade" tabindex="-1" data-width="650">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" role="form" id="formSubId">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title text-center">评论详情</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">用户信息：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='user_info_see'></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">评论影片：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='movies_see'></p>
+                                            </div>
+                                         
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">评论内容：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='content_see'></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">评论时间：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='add_time_see'></p>
+                                            </div>
+                                        </div>
+                                       <div class="form-group">
+                                            <label class="col-md-3 control-label">状态：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='status_see'></p>
+                                            </div>
+                                        </div>
+                                       <div class="form-group">
+                                            <label class="col-md-3 control-label">审核人：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='comuser_see'></p>
+                                            </div>
+                                        </div>
+                                       <div class="form-group">
+                                            <label class="col-md-3 control-label">审核时间：</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static" id='check_time_see'></p>
+                                            </div>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        /**
+         * 单个审核
+         * @param {type} e
+         * @returns {undefined}
+         */
+        function comment(e){
+            var id = $(e).data('id');
+            submitComment(id);
+        }
+        
+        /**
+         * 批量审核
+         * @type type
+         */
+        $("#piComment").click(function(){
+          
+            var str_id = '';
+            $("input[name=check_id]").each(function(){
+                if($(this).is(':checked') == true){
+                    str_id += $(this).val()+',';
+                }
+            });
+            console.log(str_id);
+            if(str_id == ''){
+                layer.alert('请选择至少一条');
+                return false;
+            }
+            var strId =str_id.substring(0,str_id.lastIndexOf(','));
+            submitComment(strId);
+            
+        })
+        
+        /**
+         * 提交审核
+         * @param {type} id 审核ID
+         * @returns {undefined}
+         */
+        function submitComment(id){
+            var indexi = layer.confirm('是否审核通过？', {
+                btn: ['通过','不通过'] //按钮
+            }, function(){
+                $.ajax({
+                    type:'get',
+                    data:{'id':id,'type':1},
+                    url:'{:U("Comment/check")}',
+                    success:function(res){
+                        if(res.code == 200){
+                            setTimeout(function(){
+                                 window.location.reload();
+                            },500);
+                            layer.msg('审核成功', {icon: 1});
+                            layer.close(indexi);
+                        }else{
+                            layer.msg(res.message, {icon: 2});
+                            layer.close(indexi);
+                        }
+                    }
+                })
+            }, function(){
+                 var index = layer.prompt({title: '请输入不通过原因', formType: 2}, function(text, index){
+                    $.ajax({
+                        type:'get',
+                        data:{id:id,type:2,reason:text},
+                        url:'{:U("Comment/check")}',
+                        success:function(res){
+                            if(res.code == 200){
+                                setTimeout(function(){
+                                     window.location.reload();
+                                },500);
+                                layer.msg('审核成功', {icon: 1});
+                                layer.close(indexi);
+                            }else{
+                                layer.msg(res.message, {icon: 2});
+                                layer.close(indexi);
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        
+        
+
+
+        function showModel(e) {
+            var id = $(e).data('id');
+            $.ajax({
+                type:'get',
+                data:{'id':id},
+                url:'{:U("Comment/getInfo")}',
+                success:function(res){
+                    $("#user_info_see").text(res.user_id+':'+res.nick_name);
+                    $("#movies_see").text(res.name);
+                    $("#content_see").text(res.comments);
+                    $("#add_time_see").text(res.add_time);
+                    if(res.status == 1){
+                        $("#status_see").text('已通过');
+                        $("#comuser_see").text(res.username);
+                        $("#check_time_see").text(res.check_time);
+                    }else if(res.status == 2){
+                        $("#status_see").text('未通过；不通过原因：'+res.reason);
+                        $("#comuser_see").text(res.username);
+                        $("#check_time_see").text(res.check_time);
+                    }else{
+                         $("#status_see").text('待审核');
+                    }
+                    
+                 
+
+                }
+            })
+         
+          
+            $("#responsive").modal();
+        }
+        
+        $('.form_datetimes').datetimepicker({
+            minView: "month",
+            language:  'zh-CN',
+            format: 'yyyy-mm-dd ',
+            autoclose: true,
+            todayBtn: true
+        });
+        
+        $("#downLoad").click(function(){
+            var form = $("#formId").serialize();
+            window.location.href= "{:U('Site/innerEx')}?"+form;
+        })
+        
+        /**
+         * 清除搜索条件
+         * @type type
+         */
+        $("#clean").click(function(){
+            $(".form-control").val('');
+            $("select[name=status]").val(3);
+            $("#select").selectpicker('refresh');
+        })
+        
+        function inputCheck(e){
+            if($(e).is(':checked') == false){
+                $("input[name=check_id]").parent().removeClass('checked');
+                $("input[name=check_id]").prop('checked',false); 
+            }else if($("input[name=check_id]").attr('disabled') != true){
+                $("input[name=check_id]").parent().addClass('checked');
+                $("input[name=check_id]").prop('checked',true);
+            }
+        }
+
+    </script>
+</block>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>选择影片</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <meta name="renderer" content="webkit" />
+        <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="__MC__/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+        <link href="__MC__/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+        <link href="__CSS__/my_style.css?v=2.0" rel="stylesheet" type="text/css" />
+        <style>
+            .pagination{
+                margin: 0px;
+                padding: 0px;
+                float: left!important;
+            }
+            hr{margin:5px 0}
+            .my-index-css{width:45%;margin-top: 10px;margin-left: 10px; padding-left: 20px;}
+            .radio-list>label.radio-inline:first-child {
+                padding-left: 20px;
+            }
+            .disnone{opacity:0}
+        </style>
+    </head>
+    <body>
+        <div  class="container disnone" id='app' >
+            <div class="row" style="margin-top: 15px;" v-if="switch_on">
+                <div class="col-xs-12">
+                    <div class="portlet light portlet-fit portlet-form ">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tabbable-custom tabbable-full-width">
+                             
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" >
+                                            <div class="row">
+                                                <div class="actions col-xs-6">
+                                                    <div class="btn-group btn-group-devided col-xs-12" data-toggle="buttons">
+                                                        <div class="col-xs-12">
+                                                            <div class="input-group">
+                                                                <input type="text" v-model="search_data.name" placeholder="名称或ID搜索" class="form-control">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn blue" @click="search()" type="button">搜索</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group form-md-radios">
+                                                        <div v-if='Similarity.length != "" '>
+                                                            <div class="form-group form-md-radios" style="margin-bottom:0px;">
+                                                                <form > 
+                                                                <div class="radio-list"> 
+                                                                    <label class="radio-inline my-index-css" >已选择</label>
+                                                                </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="form-group form-md-radios">
+                                                                <form >
+                                                                    <div class="radio-list">
+                                                                        <label class="radio-inline my-index-css" v-for='(vo,index) in Similarity' >
+                                                                            <span>{{vo.id}}: {{vo.name}}</span>  
+                                                                            <span v-if='vo.org_name'>[原名：{{vo.org_name}}]</span>
+                                                                            <span><i class="fa fa-times"   @click="removeMovies(index)"></i></span>
+                                                                            
+                                                                        </label>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group form-md-radios">
+                                                            <form >
+                                                                <div class="radio-list" id='vip_data'>
+                                                                    <label class="radio-inline my-index-css" v-for='(vo,index) in list'>
+                                                                        <input type="checkbox" onclick="checkInputVip(this)" v-bind:value='vo.id'   v-bind:data-index="index" v-model="Similarity_ar" class="check_vip"   >
+                                                                        <span>{{vo.id}}: {{vo.name}} 
+                                                                            <span v-if='vo.org_name'>[原名：{{vo.org_name}}]</span>
+                                                                            <span class='font-red' v-if='vo.is_select'> （已被关联）</span>
+                                                                        </span> 
+                                                                    </label>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pagination pull-right no-margin" v-html='page'></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script src="__MC__/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="__JS__/vue.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS 页面插件-->
+    <block name="script">
+
+    </block>
+    <!-- END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS 全局脚本-->
+    <script src="__MC__/global/scripts/app.min.js" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+
+    <!-- BEGIN THEME LAYOUT SCRIPTS 主题布局脚本-->
+    <script src="__MC__/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="__MC__/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <script>
+
+
+        var app = new Vue({
+            el:'#app',
+            data:{
+                'list':{},
+                'switch_on':true,
+                'Similarity':{},
+                'Similarity_ar':[],
+                'movies_id':"{$movies_id}",
+                'search_data':{'name':''},
+                'page':''
+            },
+            methods:{
+                checkInputVip:function(index){
+                    var data = this.list[index];
+                    var bull = true;
+                    if(this.Similarity.length >= 4){
+                        layer.msg('只允许添加4条');
+                        return false;
+                    }
+                    for(i in this.Similarity){
+                        if(this.Similarity[i].id == data.id){
+                            bull = false;
+                        }
+                    }
+                    if(bull){
+                        this.Similarity.push(data);
+                    }
+                },removeMovies:function(index){
+                    var id = this.Similarity[index].id;
+                    for(i in this.Similarity_ar){
+                        if(this.Similarity_ar[i] == id){
+                             this.Similarity_ar.splice(i,1);
+                        }
+                    }
+                    this.Similarity.splice(index,1);
+                },search(){
+                    getData(1);
+                }
+            },mounted:function (){
+                var vue_this = this;
+                $.get('/back/Comic/getSimilarityData',{'id':this.movies_id},function(res){
+                    if(res.code == 200){
+                        if(!res.data.switch){
+                            layer.alert('请先在公众号浏览该作品后，再添加。');
+                        }
+                        for(j in res.data.similarity_data){
+                            vue_this.Similarity_ar.push(res.data.similarity_data[j].id);
+                        }
+                        vue_this.switch_on = res.data.switch;
+                        vue_this.list = res.data.data;
+                        vue_this.Similarity = res.data.similarity_data;
+                        vue_this.page = res.data.page;
+                        $("#app").removeClass('disnone');
+                    }else{
+                        layer.alert('请刷新重试');
+                    }
+                    $(".app-loading").hide();
+               });
+               
+            }
+        });
+        
+        /**
+         * 翻页
+         * @param {type} page
+         * @returns {undefined}
+         */
+        function jumpUrl(page){
+            app._data.page_number = page;
+            getData(page);
+        }
+
+        /**
+         * 刷新页面数据
+         * @param {type} page
+         * @returns {undefined}
+         */
+        function getData(page){
+            $(".app-loading").show();
+            var vue_this = app._data;
+            var data = vue_this.search_data;
+            data.p = page;
+            data.id = vue_this.movies_id;
+            $.get('/back/Comic/getSimilarityData',data,function(res){
+                if(res.code == 200){
+                    vue_this.list = res.data.data;
+                    vue_this.page = res.data.page;
+                }else{
+                    layer.alert('请刷新重试');
+                }
+            });
+        }
+        
+        
+        function checkInputVip(_this){
+            var vue = app._data;
+            var checked = $(_this).is(':checked');
+            var index = $(_this).data('index');
+            var arr = vue.list[index];
+            if (checked == true) {
+                if(app._data.Similarity.length >= 4){
+                    $(_this).attr('checked',false);
+                    layer.msg('只允许添加4条');
+                    return false;
+                }
+                var bull = true;
+                for(i in vue.Similarity){
+                    if(vue.Similarity[i].id == arr.id){
+                        bull = false;
+                    }
+                }
+                if(bull){
+                    vue.Similarity.push(arr);
+                }
+            } else {
+                for(i in vue.Similarity){
+                    if(vue.Similarity[i].id == arr.id){
+                        vue.Similarity.splice(i,1);
+                    }
+                }
+            }
+        }
+        
+        var callbackdata = function () {
+            var movies_id = app._data.Similarity_ar;
+            var type = 200;
+            var data = {
+                type:type,
+                movies_arr: movies_id
+            };
+            return data;
+        }
+
+
+    </script>
+</html>
