@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
+    <meta name="referrer" content="no-referrer"/>
     <meta name="theme-color" content="#{THEME_COLOR}">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
     <meta name="author" content="LancerComet">
@@ -72,52 +72,13 @@
                 </div>
             </div>
             <div class="manga-list m-auto">
-                <div class="list-data border-box m-auto">
-                    <a href="#" title="鬼灭之刃" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">鬼灭之刃</div>
-                        <div class="manga-info"><span>更新至 188 话</span></div>
-                    </a>
-                    <a href="#" title="BEASTARS 动物狂想曲" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">BEASTARS 动物狂想曲</div>
-                        <div class="manga-info"><span>更新至 157 话</span></div>
-                    </a>
-                    <a href="#" title="一拳超人" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">一拳超人</div>
-                        <div class="manga-info"><span>更新至 165 话</span></div>
-                    </a>
-                    <a href="#" title="入间同学入魔了！"
-                       class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">入间同学入魔了！</div>
-                        <div class="manga-info"><span>更新至 136 话</span></div>
-                    </a>
-                    <a href="#" title="石纪元（Dr.Stone）" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">石纪元（Dr.Stone）</div>
-                        <div class="manga-info"><span>更新至 134 话</span></div>
-                    </a>
-                    <a href="#" title="租借女友" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">租借女友</div>
-                        <div class="manga-info"><span>更新至 121 话</span></div>
-                    </a>
-                    <a href="#" title="五等分的新娘" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">五等分的新娘</div>
-                        <div class="manga-info"><span>更新至 115 话</span></div>
-                    </a>
-                    <a href="#" title="辉夜大小姐想让我告白 ~天才们的恋爱头脑战~" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">辉夜大小姐想让我告白 ~天才们的恋爱头脑战~</div>
-                        <div class="manga-info"><span>更新至 172 话</span></div>
-                    </a>
-                    <a href="#" title="幽冥诡匠" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center"></div>
-                        <div class="manga-title">幽冥诡匠</div>
-                        <div class="manga-info"><span>更新至 221 话</span></div>
+                <div class="list-data border-box m-auto" id="app">
+                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/article?id="+item.id' v-bind:title="item.name" class="manga-card border-box dp-i-block">
+                        <div class="manga-cover bg-cover bg-center">
+                            <img v-bind:src="item.cover" width="100%"/>
+                        </div>
+                        <div class="manga-title">{{item.name}}</div>
+                        <div class="manga-info"><span>共{{item.total_chapters}}话</span></div>
                     </a>
                 </div>
             </div>
@@ -125,4 +86,58 @@
     </div>
 </div>
 </body>
+<script src="__STATIC__/js/vue.js"></script>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/vue-lazyload.js"></script>
+<script>
+    Vue.use(VueLazyload, {
+        preLoad: 1.6,
+        error: '__STATIC__/img/load-error.png',
+        loading: '__STATIC__/img/loading.png',
+        attempt: 2,
+        listenEvents: ['scroll']
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            'list': []
+        },
+        methods: {},
+        mounted: function () {
+            var vue_this = this;
+            //获取数据
+            $.get("{:U('Index/getMoviesData')}", {}, function (res) {
+                if (res.code == 200) {
+                    vue_this.list = res.data.data;
+                } else {
+                    layer.alert('请刷新重试');
+                }
+                $(".app-loading").hide();
+            });
+        }
+    });
+
+    /**
+     * 刷新页面数据
+     * @param {type} page
+     * @returns {undefined}
+     */
+    function getData(page) {
+        $(".app-loading").show();
+        var vue_this = app._data;
+        var data = vue_this.search_data;
+        data.p = page;
+        $.get('/back/Comic/getMoviesData', data, function (res) {
+            if (res.code == 200) {
+                vue_this.list = res.data.data;
+                vue_this.page = res.data.page;
+            } else {
+                layer.alert('请刷新重试');
+            }
+            $(".app-loading").hide();
+        });
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+</script>
 </html>

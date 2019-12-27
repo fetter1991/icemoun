@@ -20,6 +20,7 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 define( 'ROOT_PATH', './' );
 // 定义应用目录
 define( 'APP_PATH', './App/' );
+define( 'BOOK', './Public/book/' );
 
 //开启调试模式
 define( 'APP_DEBUG', false );

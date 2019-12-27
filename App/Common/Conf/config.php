@@ -43,7 +43,7 @@ return array(
 		'__IMG__'    => __ASSETS__ . '/Public/img', // 增加新的上传路径替换规则
 		'__LIB__'    => __ASSETS__ . '/Public/lib', // 增加新的上传路径替换规则
 		'__MC__'     => '/Public/metronic', // 增加新的上传路径替换规则
-		'__STATIC__' => '/Public/'
+		'__STATIC__' => '/Public'
 	),
 	'UPLOAD_FILE_QINIU'    => array(
 		'maxSize'      => 5 * 1024 * 1024,//文件大小

@@ -235,4 +235,32 @@ class AdminToolsController extends CommonController {
 
 		$objWriter->save( 'php://output' );
 	}
+
+	public function addTags() {
+		$Model = M( 'comic' );
+		$p     = I( 'get.page' );
+		$left  = $p * 1000;
+		$right = ( $p + 1 ) * 1000;
+		$list  = $Model->where( "id > " . $left . " and id < " . $right . " and tags !=''" )->select();
+
+		foreach ( $list as $item ) {
+			$arr = explode( '|', $item['tags'] );
+			if ( $arr ) {
+				foreach ( $arr as $val ) {
+					if ( $val ) {
+						$val     = trim( $val );
+						$isExist = M( 'tags' )->where( "name = '" . $val . "'" )->find();
+						if ( ! $isExist ) {
+							$data['tag_type'] = 2;
+							$data['name']     = trim( $val );
+							$res              = M( 'tags' )->add( $data );
+						} else {
+							$res = M( 'tags' )->where( "name = '" . $val . "'" )->setInc( 'order_num' );
+						}
+						echo $res . '<br/>';
+					}
+				}
+			}
+		}
+	}
 }
