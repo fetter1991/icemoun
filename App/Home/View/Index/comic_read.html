@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>测试Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <title></title>
     <style>
         * {
             padding: 0;
@@ -31,13 +31,18 @@
     new Vue({
         el: '#app',
         data: {
-            imgs: []
+            imgs: [],
+            'search_data': {
+                'id': "{$Think.get.id}",
+                'author_name': '',
+                'tags': ''
+            },
         },
         methods: {},
         mounted: function () {
             var vue_this = this;
             //获取数据
-            $.get("{:U('Index/getImg')}", {id: 2}, function (res) {
+            $.get("{:U('Index/getImg')}", {id: vue_this.search_data.id}, function (res) {
                 console.log(res);
                 if (res.code == 200) {
                     vue_this.imgs = res.data;
