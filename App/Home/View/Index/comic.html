@@ -73,7 +73,8 @@
             </div>
             <div class="manga-list m-auto">
                 <div class="list-data border-box m-auto" id="app">
-                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/article?id="+item.id' v-bind:title="item.name" class="manga-card border-box dp-i-block">
+                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/article?id="+item.id'
+                       v-bind:title="item.name" class="manga-card border-box dp-i-block">
                         <div class="manga-cover bg-cover bg-center">
                             <img v-bind:src="item.cover" width="100%"/>
                         </div>
@@ -101,13 +102,19 @@
     var app = new Vue({
         el: '#app',
         data: {
-            'list': []
+            'list': [],
+            'search_data': {
+                'p': "{$Think.get.p}",
+                'author_name': '',
+                'tags': ''
+            },
         },
         methods: {},
         mounted: function () {
             var vue_this = this;
+            var p = vue_this.search_data.p;
             //获取数据
-            $.get("{:U('Index/getMoviesData')}", {}, function (res) {
+            $.get("{:U('Index/getMoviesData')}", {p: p}, function (res) {
                 if (res.code == 200) {
                     vue_this.list = res.data.data;
                 } else {

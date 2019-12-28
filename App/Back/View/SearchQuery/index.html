@@ -1,0 +1,28 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <link href="__CSS__/my_style.css?v=2.0" rel="stylesheet" type="text/css"/>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card m-b-30">
+                <div class="card-header bg-white">
+                    <h5 class="card-title text-black">关键词采集</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{:U('Comic/searchQuery')}" method="post">
+                        <div class="form-group">
+                            <label for="keyword">关键词</label>
+                            <input type="text" class="form-control" name="keyword" placeholder="关键词">
+                        </div>
+                        <div class="form-group">
+                            <label for="page">页码</label>
+                            <input type="text" class="form-control" name="page" placeholder="页码">
+                        </div>
+                        <button type="submit" class="btn btn-primary">开始</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

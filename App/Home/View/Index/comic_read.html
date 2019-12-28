@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="app">
-    <img v-for="img in imgs" v-lazy="img">
+    <img v-for="img in imgs" v-lazy="img" width="100%">
     <img v-for="img in imgs" v-lazy:background-image="img">
 </div>
 <script src="__STATIC__/js/vue.js"></script>
@@ -42,7 +42,7 @@
         mounted: function () {
             var vue_this = this;
             //获取数据
-            $.get("{:U('Index/getImg')}", {id: vue_this.search_data.id}, function (res) {
+                $.get("{:U('Index/getImg')}", {id: vue_this.search_data.id}, function (res) {
                 console.log(res);
                 if (res.code == 200) {
                     vue_this.imgs = res.data;

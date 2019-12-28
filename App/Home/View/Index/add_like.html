@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>《{$info.name}》作者:{$info.author}</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="referrer" content="no-referrer"/>
+    <link href="__STATIC__/css/novel.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .item {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-size: 16px;
+            padding-left: 10px;
+        }
+
+        .link {
+            width: 70%;
+            font-size: 18px;
+        }
+
+        .sub {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            touch-action: manipulation;
+            cursor: pointer;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .aui-scrollView {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<section class="aui-flexView">
+    <header class="aui-navBar aui-navBar-fixed">
+        <a href="javascript:;" class="aui-navBar-item">
+            <i class="icon icon-return"></i>
+        </a>
+        <div class="aui-center">
+            <span class="aui-center-title">{$info.name}</span>
+        </div>
+        <a href="javascript:;" class="aui-navBar-item">
+            <i class="icon icon-share"></i>
+        </a>
+    </header>
+    <section class="aui-scrollView">
+        <form action="{:U('Index/addLike')}" method="post">
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <div class="item">
+                <label class="label">链接</label>
+                <input type="text" class="form-control link" name="link[]"/>
+            </div>
+            <button class="sub" type="btn" id="submit">提交</button>
+        </form>
+    </section>
+</section>
+</body>
+</html>

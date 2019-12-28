@@ -236,31 +236,31 @@ class AdminToolsController extends CommonController {
 		$objWriter->save( 'php://output' );
 	}
 
-	public function addTags() {
-		$Model = M( 'comic' );
-		$p     = I( 'get.page' );
-		$left  = $p * 1000;
-		$right = ( $p + 1 ) * 1000;
-		$list  = $Model->where( "id > " . $left . " and id < " . $right . " and tags !=''" )->select();
-
-		foreach ( $list as $item ) {
-			$arr = explode( '|', $item['tags'] );
-			if ( $arr ) {
-				foreach ( $arr as $val ) {
-					if ( $val ) {
-						$val     = trim( $val );
-						$isExist = M( 'tags' )->where( "name = '" . $val . "'" )->find();
-						if ( ! $isExist ) {
-							$data['tag_type'] = 2;
-							$data['name']     = trim( $val );
-							$res              = M( 'tags' )->add( $data );
-						} else {
-							$res = M( 'tags' )->where( "name = '" . $val . "'" )->setInc( 'order_num' );
-						}
-						echo $res . '<br/>';
-					}
-				}
-			}
-		}
-	}
+//	public function addNew() {
+//		$where['status']  = 1;
+//		$where['maxpage'] = array( 'gt', 0 );
+//
+//		$list = M( 'comic' )->where( $where )->select();
+//		foreach ( $list as $item ) {
+//			$addData                = array();
+//			$addData['link']        = $item['link'];
+//			$addData['name']        = $item['title'];
+//			$addData['org_name']    = $item['title'];
+//			$addData['movies_type'] = 3;
+//			$addData['total_page']  = $item['maxpage'];
+//			$addData['editor_note'] = $item['summary'];
+//			$addData['author_id']   = 0;
+//			$addData['tags']        = $item['tags'];
+//			$addData['author']      = $item['author'];
+//			$addData['db_id']       = $item['id'];
+//			$addData['cover']       = $item['cover'];
+//			$addData['banner']      = $item['cover'];
+//			$addData['status']      = 1;
+//			$addData['desc']        = $item['desc'];
+//			$addData['add_time']    = time();
+//			$res                    = M( 'ice_comic' )->add( $addData );
+//			print_r( $res );
+//			echo '<br/>';
+//		}
+//	}
 }

@@ -286,7 +286,7 @@ class ComicController extends CommonController {
 				$this->updateAuthorForm( $movies_info['author_id'] );
 			}
 			//上架Push
-			if ($data['status'] == 1){
+			if ( $data['status'] == 1 ) {
 				$pushSever = new PushSettingController();
 				$pushSever->handlePush( '1006', $id );
 			}
