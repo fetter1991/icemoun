@@ -21,6 +21,7 @@ define( 'ROOT_PATH', './' );
 // 定义应用目录
 define( 'APP_PATH', './App/' );
 define( 'BOOK', './Public/book/' );
+define( 'CDN', '127.0.0.1:81/' );
 
 //开启调试模式
 define( 'APP_DEBUG', false );
