@@ -5,6 +5,7 @@ namespace Back\Controller;
 
 use Common\Lib\Redis;
 use AppAdmin\Controller\PushSettingController;
+use QL\QueryList;
 
 /**
  * 管理员工具
@@ -263,4 +264,26 @@ class AdminToolsController extends CommonController {
 //			echo '<br/>';
 //		}
 //	}
+
+	public function queryTest() {
+		// 采集规则
+		$rules = [
+			// 小说链接
+			'link'  => [ 'a', 'href' ],
+			// 小说标题
+			'title' => [ 'img', 'title' ],
+			// 小说封面
+			'cover' => [ 'img', 'data-original' ],
+			//标签
+		];
+
+		// 切片选择器
+		$range = '.well-sm';
+
+		$url = 'https://18comic.life/search/photos?search_query=tolove&page=1';
+
+		$data = QueryList::Query( $url, $rules, $range )->data;
+
+		print_r( $data );
+	}
 }

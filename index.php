@@ -20,13 +20,12 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 define( 'ROOT_PATH', './' );
 // 定义应用目录
 define( 'APP_PATH', './App/' );
-define( 'BOOK', './Public/book/' );
-define( 'CDN', '127.0.0.1:81/' );
 
 //开启调试模式
 define( 'APP_DEBUG', false );
 //本地库
 define( 'IS_LOCAL', true );
+define( '__BOOKS__', './Books/' );
 
 define( '__FRONT__', 'graphmovie.yymedias.com' );
 define( '__BACK__', 'auth-graphmovie.yymedias.com' );
@@ -34,8 +33,9 @@ define( '__ASSETS__', '//auth-graphmovie.yymedias.com' );
 // 定义生成目录安全文件True
 define( 'BUILD_DIR_SECURE', true );
 // 引入ThinkPHP入口文件
+require './vendor/autoload.php';
+
 require './ThinkPHP/ThinkPHP.php';
 // 亲^_^ 后面不需要任何代码了 就是如此简单
-?>
 
 
