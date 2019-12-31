@@ -13,7 +13,6 @@ use QL\QueryList;
 
 class SeekMoviesController extends CommonController {
 	private $table = 'ice_comic_copy';
-	private $server = 'https://www.18comic.life/';
 
 	public function __construct() {
 		parent::__construct();
@@ -24,9 +23,9 @@ class SeekMoviesController extends CommonController {
 	 * 求片列表
 	 */
 	public function index() {
-		$count = M( $this->table )->where( 'status = 1' )->count( '1' );
+		$count = M( $this->table )->where( 'status != 2' )->count( '1' );
 		$page  = new \Common\Page( $count, 15 );
-		$list  = M( $this->table )->where( 'status = 1' )
+		$list  = M( $this->table )->where( 'status != 2' )
 		                          ->limit( $page->firstRow, $page->listRows )
 		                          ->order( 'id desc' )
 		                          ->select();
@@ -55,6 +54,35 @@ class SeekMoviesController extends CommonController {
 			$this->ajaxReturn( array( 'code' => 200, 'data' => $info ) );
 		} else {
 			$this->ajaxReturn( array( 'code' => 0, 'data' => array() ) );
+		}
+	}
+
+	public function doEdit() {
+		$data = I( 'post.' );
+
+		if ( ! $data['id'] ) {
+			$this->ajaxReturn( array( 'code' => 0, 'msg' => 'ID不能为0' ) );
+		}
+
+		$saveData['name']       = trim( $data['name'] );
+		$saveData['org_name']   = trim( $data['org_name'] );
+		$saveData['tags']       = trim( $data['tags'] );
+		$saveData['total_page'] = intval( $data['tags'] );
+		$saveData['desc']       = trim( $data['desc'] );
+		$saveData['add_time']   = time();
+
+		$path    = iconv( "utf-8", "gbk", $saveData['org_name'] );
+		$isExist = file_exists( __BOOKS__ . $path );
+
+		if ( $isExist ) {
+			$saveData['status'] = 3;
+		}
+
+		$res = M( $this->table )->where( 'id = ' . $data['id'] )->save( $saveData );
+		if ( $res ) {
+			$this->ajaxReturn( array( 'code' => 200, 'msg' => '保存成功' ) );
+		} else {
+			$this->ajaxReturn( array( 'code' => 0, 'msg' => '修改失败' ) );
 		}
 	}
 

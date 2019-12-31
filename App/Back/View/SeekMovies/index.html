@@ -100,22 +100,22 @@
                     <div class="modal-body">
                         <div class="form-body">
                             <div class="form-group">
-                                <label for="name" class="col-md-3 control-label">原标题</label>
+                                <label for="name" class="col-md-3 control-label">标题</label>
                                 <div class="col-md-7">
-                                    <input type="text" required class="form-control" name="name" id="nlink"
-                                           value="1235">
+                                    <input type="text" required class="form-control" name="name" id="nlink">
                                 </div>
                             </div>
                         </div>
-                        <div class="form-body">
+                        <div class="form-body" style="display: none">
+                            <input type="hidden" name="id">
                             <div class="form-group">
-                                <label for="org_name" class="col-md-3 control-label">标题</label>
+                                <label for="org_name" class="col-md-3 control-label">原标题</label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" placeholder="请输入标题" name="org_name">
+                                    <input type="text" class="form-control" readonly name="org_name">
                                 </div>
                             </div>
                         </div>
-                        <div class="form-body">
+                        <div class="form-body" style="display: none;">
                             <div class="form-group">
                                 <label for="db_id" class="col-md-3 control-label">原ID</label>
                                 <div class="col-md-7">
@@ -128,6 +128,14 @@
                                 <label for="total_page" class="col-md-3 control-label">图片数</label>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control" name="total_page">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="tags" class="col-md-3 control-label">标签</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="tags">
                                 </div>
                             </div>
                         </div>
@@ -181,10 +189,12 @@
                 console.log(res);
                 if (res.code == 200) {
                     var data = res.data;
+                    $('input[name="id"]').val(data.id);
                     $('input[name="name"]').val(data.name);
                     $('input[name="org_name"]').val(data.name);
                     $('input[name="db_id"]').val(data.db_id);
                     $('input[name="total_page"]').val(data.total_page);
+                    $('input[name="tags"]').val(data.tags);
                     $('textarea[name="desc"]').val(data.desc);
                     $('#llink').attr('rows', data.total_page);
                     $('#llink').html(data.str);
@@ -194,11 +204,35 @@
         });
 
         $('#sub').on('click', function () {
+            var id = $('input[name="id"]').val();
+            var name = $('input[name="name"]').val();
+            var org_name = $('input[name="org_name"]').val();
+            var db_id = $('input[name="db_id"]').val();
+            var total_page = $('input[name="total_page"]').val();
+            var tags = $('input[name="tags"]').val();
+            var desc = $('textarea[name="desc"]').val();
 
+            $.post("{:U('SeekMovies/doEdit')}", {
+                id: id,
+                name: name,
+                org_name: org_name,
+                db_id: db_id,
+                total_page: total_page,
+                tags: tags,
+                desc: desc
+            }, function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    window.location.reload();
+                } else {
+                    layer.msg('修改失败');
+                }
+            })
         });
 
         //复制标题
         $('#ncopy').click(function () {
+            $('#nlink').val($.trim($('#nlink').val()));
             var url = $('#nlink').val();
             if (url == '') {
                 toastr.error("获取连接错误");

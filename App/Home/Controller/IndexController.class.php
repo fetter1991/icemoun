@@ -62,13 +62,25 @@ class IndexController extends CommonController {
 		$search   = array(
 			"https://18comic.life/",
 			"http://18comic.life/",
+			"https://www.18comic.life/",
+			"http://www.18comic.life/",
 			"album/",
+			"标签： ",
+			"叙述：",
+			"叙述：",
+			"作者： ",
+			"页数：",
 			"photo/",
+			"Comics - 禁漫天堂",
+			"\n",
+			"\r",
+			"\t",
+			"　　",
 			"?read_mode=read-by-full"
 		);
 		$saveData = array();
 		foreach ( $data['link'] as $item ) {
-			if ( $item ) {
+			if ( ! empty( $item ) ) {
 				if ( ! is_numeric( $item ) ) {
 					$str = str_replace( $search, "", $item );
 					$ex  = explode( '/', $str );
@@ -76,79 +88,66 @@ class IndexController extends CommonController {
 				} else {
 					$cid = $item;
 				}
+
+				$isExist = M( 'ice_comic_copy' )->where( 'db_id = ' . $cid )->find();
+				if ( ! $isExist ) {
+					$link = 'album/' . $cid;
+					$url  = $this->server . $link;
+
+					// 采集规则
+					$rules = [
+						// 小说标题
+						'title'   => [ 'title', 'text' ],
+						//链接
+						'link'    => [ 'link:eq(2)', 'href' ],
+						// 小说作者
+						'author'  => [ '.tag-block:eq(3)', 'text', 'a' ],
+						// 页数
+						'maxpage' => [ '.p-t-5:eq(1)', 'text' ],
+						//简介
+						'summary' => [ '.p-t-5:eq(0)', 'text' ],
+						//tag
+						'tags'    => [ '.tag-block:eq(2)', 'text', 'a' ]
+					];
+
+					$result = QueryList::Query( $url, $rules )->data;
+					if ( $result ) {
+						$data    = $result[0];
+						$author  = preg_replace( '/<a.*">/', '', $data['author'] );
+						$author  = preg_replace( '/<\/a>/', '|', $author );
+						$author  = str_replace( $search, "", $author );
+						$tags    = preg_replace( '/<a.*">/', '', $data['tags'] );
+						$tags    = preg_replace( '/<\/a>/', '|', $tags );
+						$tags    = str_replace( $search, "", $tags );
+						$title   = str_replace( $search, '', $data['title'] );
+						$summary = str_replace( $search, '', $data['summary'] );
+						$maxpage = intval( str_replace( $search, '', $data['maxpage'] ) );
+						$link    = str_replace( $search, '', $data['link'] );
+
+						$linkId                 = explode( '/', $link );
+						$saveData['name']       = $title;
+						$saveData['org_name']   = $title;
+						$saveData['author']     = $author;
+						$saveData['tags']       = $tags;
+						$saveData['link']       = 'album/' . $linkId[0];
+						$saveData['total_page'] = $maxpage;
+						$saveData['desc']       = $summary;
+						$saveData['db_id']      = $linkId[0];
+						$saveData['status']     = 1;
+						$saveData['add_time']   = time();
+						$saveData['banner']     = 'https://cdn-ms.18comic.life/media/albums/' . $cid . '.jpg';
+						$saveData['cover']      = 'https://cdn-ms.18comic.life/media/photos/' . $cid . '/00001.jpg';
+
+						$res = M( 'ice_comic_copy' )->add( $saveData );
+					}
+					if ( $res ) {
+						$this->success( '成功', '/Home/Index/like' );
+					} else {
+						$this->error( '失败' );
+					}
+				}
 			}
 		}
-		$link = 'album/' . $cid;
-		$url  = $this->server . $link;
-
-		// 采集规则
-		$rules = [
-			// 小说标题
-			'title'   => [ 'title', 'text' ],
-			//链接
-			'link'    => [ 'link:eq(2)', 'href' ],
-			// 小说作者
-			'author'  => [ '.tag-block:eq(3)', 'text', 'a' ],
-			// 页数
-			'maxpage' => [ '.p-t-5:eq(1)', 'text' ],
-			//简介
-			'summary' => [ '.p-t-5:eq(0)', 'text' ],
-			//tag
-			'tags'    => [ '.tag-block:eq(2)', 'text', 'a' ]
-		];
-
-		$res    = QueryList::Query( $url, $rules )->data;
-		$search = array( "\n", "\r", "\t", "　　" );
-		print_r( $res );
-		if ( $res ) {
-			$data    = $res[0];
-			$author  = preg_replace( '/<a.*">/', '', $data['author'] );
-			$author  = preg_replace( '/<\/a>/', '|', $author );
-			$author  = str_replace( $search, "", $author );
-			$tags    = preg_replace( '/<a.*">/', '', $data['tags'] );
-			$tags    = preg_replace( '/<\/a>/', '|', $tags );
-			$tags    = str_replace( '标签： ', "", $tags );
-			$title   = str_replace( 'Comics - 禁漫天堂', '', $data['title'] );
-			$summary = str_replace( '叙述：', '', $data['summary'] );
-			$maxpage = intval( str_replace( '页数：', '', $data['maxpage'] ) );
-			$link    = str_replace( 'https://18comic.org', '', $data['link'] );
-
-			$saveData['name']       = $title;
-			$saveData['org_name']   = $title;
-			$saveData['author']     = $author;
-			$saveData['tags']       = $tags;
-			$saveData['link']       = $link;
-			$saveData['total_page'] = $maxpage;
-			$saveData['desc']       = $summary;
-			$saveData['db_id']      = $cid;
-			$saveData['status']     = 1;
-			$saveData['add_time']   = time();
-			$saveData['banner']     = 'https://cdn-ms.18comic.life/media/albums/' . $cid . '.jpg';
-			$saveData['cover']      = 'https://cdn-ms.18comic.life/media/photos/' . $cid . '/00001.jpg';
-
-
-			$res = M( 'ice_comic_copy' )->add( $saveData );
-			if ( $res ) {
-				$this->success( '添加成功', '/Home/Index/like' );
-			} else {
-				$this->error( '添加失败' );
-			}
-		}
-
-	}
-
-	public function getImg() {
-		$id    = I( 'id' );
-		$comic = M( $this->table )->where( 'id = ' . $id )->find();
-		$dir   = BOOK . $comic['name'] . '/';
-		$path  = iconv( "utf-8", "gbk", $dir );
-		$temp  = scandir( $path );
-		unset( $temp[0] );
-		unset( $temp[1] );
-		foreach ( $temp as $key => $item ) {
-			$temp[ $key ] = '/Public/book/' . trim( $comic['name'] ) . '/' . $item;
-		}
-		$this->ajaxReturn( array( 'code' => 200, 'data' => $temp ) );
 	}
 
 	/**
