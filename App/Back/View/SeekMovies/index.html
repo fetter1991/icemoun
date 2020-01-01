@@ -133,6 +133,14 @@
                         </div>
                         <div class="form-body">
                             <div class="form-group">
+                                <label for="tags" class="col-md-3 control-label">标签</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="tags">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
                                 <label for="desc" class="col-md-3 control-label">简介</label>
                                 <div class="col-md-7">
                                     <textarea name="desc" required class="form-control" rows="3"></textarea>
@@ -181,10 +189,12 @@
                 console.log(res);
                 if (res.code == 200) {
                     var data = res.data;
+                    $('input[name="id"]').val(data.id);
                     $('input[name="name"]').val(data.name);
                     $('input[name="org_name"]').val(data.name);
                     $('input[name="db_id"]').val(data.db_id);
                     $('input[name="total_page"]').val(data.total_page);
+                    $('input[name="tags"]').val(data.tags);
                     $('textarea[name="desc"]').val(data.desc);
                     $('#llink').attr('rows', data.total_page);
                     $('#llink').html(data.str);
@@ -194,11 +204,35 @@
         });
 
         $('#sub').on('click', function () {
+            var id = $('input[name="id"]').val();
+            var name = $('input[name="name"]').val();
+            var org_name = $('input[name="org_name"]').val();
+            var db_id = $('input[name="db_id"]').val();
+            var total_page = $('input[name="total_page"]').val();
+            var tags = $('input[name="tags"]').val();
+            var desc = $('textarea[name="desc"]').val();
 
+            $.post("{:U('SeekMovies/doEdit')}", {
+                id: id,
+                name: name,
+                org_name: org_name,
+                db_id: db_id,
+                total_page: total_page,
+                tags: tags,
+                desc: desc
+            }, function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    window.location.reload();
+                } else {
+                    layer.msg('修改失败');
+                }
+            })
         });
 
         //复制标题
         $('#ncopy').click(function () {
+            $('#nlink').val($.trim($('#nlink').val()));
             var url = $('#nlink').val();
             if (url == '') {
                 toastr.error("获取连接错误");
