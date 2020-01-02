@@ -59,7 +59,9 @@
                                             <tr>
                                                 <td class="text-center">{$vo.c_id}</td>
                                                 <td class="text-center">{$vo.link}</td>
-                                                <td class="text-center">{$vo.name}</td>
+                                                <td class="text-center">
+                                                    <!--{$vo.name}-->
+                                                </td>
                                                 <td class="text-center">
                                                     <if condition='$vo["status"] eq 3'>
                                                         是
@@ -67,7 +69,7 @@
                                                         否
                                                     </if>
                                                 <td class="text-center">
-                                                    <img src="{$vo.cover}" width="30%"/>
+                                                    <!--<img src="{$vo.cover}" width="30%"/>-->
                                                 </td>
                                                 <td class="text-center">
                                                     <if condition='$vo["status"] eq 3'>

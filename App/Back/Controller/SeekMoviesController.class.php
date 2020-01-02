@@ -13,7 +13,7 @@ use QL\QueryList;
 
 class SeekMoviesController extends CommonController
 {
-    private $table = 'ice_comic';
+    private $table = 'ice_comic_copy';
 
     public function __construct()
     {
