@@ -49,7 +49,7 @@ class SeekMoviesController extends CommonController
             $path = iconv("utf-8", "gbk", $item['name']);
             $res = file_exists(__BOOKS__ . $path);
             if ($res) {
-                $list[$key]['cover'] = 'http://127.0.0.1/Books/' . $item['name'] . '/00001.jpg';
+                $list[$key]['cover'] = '/Books/' . $item['name'] . '/00001.jpg';
             } else {
                 $list[$key]['cover'] = '';
             }

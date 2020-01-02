@@ -39,7 +39,7 @@ class SearchQueryController extends CommonController
             $path = iconv("utf-8", "gbk", $item['name']);
             $res = file_exists(__BOOKS__ . $path);
             if ($res) {
-                $list[$key]['cover'] = 'http://127.0.0.1/Books/' . $item['name'] . '/00001.jpg';
+                $list[$key]['cover'] = '/Books/' . $item['name'] . '/00001.jpg';
             } else {
                 $list[$key]['cover'] = '';
             }
@@ -113,6 +113,55 @@ class SearchQueryController extends CommonController
             //数据存在，更新
             M('query_search')->where('id = ' . $info['id'])->save($status);
             $this->ajaxReturn(array('code' => 200, 'msg' => '数据已存在', 'id' => $info['id']));
+        }
+    }
+
+
+    public function getInfo()
+    {
+        $id = I('id');
+        $info = M('query_search')->where('id = ' . $id)->find();
+        $str = '';
+        for ($i = 1; $i <= $info['total_page']; $i++) {
+            $p = str_pad($i, 5, "0", STR_PAD_LEFT);
+            $str .= "https://cdn-ms.18comic.life/media/photos/" . $info['db_id'] . '/' . $p . ".jpg\n";
+        }
+        $info['str'] = $str;
+
+        if ($info) {
+            $this->ajaxReturn(array('code' => 200, 'data' => $info));
+        } else {
+            $this->ajaxReturn(array('code' => 0, 'data' => array()));
+        }
+    }
+
+    public function doEdit()
+    {
+        $data = I('post.');
+        $saveData['name'] = trim($data['name']);
+        $saveData['author'] = trim($data['author']);
+        $saveData['org_name'] = trim($data['org_name']);
+        $saveData['link'] = 'album/'.$data['db_id'];
+        $saveData['tags'] = trim($data['tags']);
+        $saveData['db_id'] = intval($data['db_id']);
+        $saveData['total_page'] = intval($data['total_page']);
+        $saveData['desc'] = trim($data['desc']);
+        $saveData['add_time'] = time();
+
+        $path = iconv("utf-8", "gbk", $saveData['org_name']);
+        $isExist = file_exists(__BOOKS__ . $path);
+
+        if ($isExist) {
+            $saveData['status'] = 3;
+        }
+
+        $res = M('ice_comic')->add($saveData);
+        if ($res) {
+            $status['status'] = 3;
+            $res = M('query_search')->where('db_id = '.$data['db_id'])->save($status);
+            $this->ajaxReturn(array('code' => 200, 'msg' => '保存成功'));
+        } else {
+            $this->ajaxReturn(array('code' => 0, 'msg' => '修改失败'));
         }
     }
 

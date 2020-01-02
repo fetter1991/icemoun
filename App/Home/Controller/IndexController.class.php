@@ -45,14 +45,17 @@ class IndexController extends CommonController
 
         $getData = I('get.');
 
-        $where['movies_type'] = 2;
+        $where['status'] = 3;
+        $where['total_page'] = array('gt', 0);
         $count = M($this->table)->where($where)->count(1);
 
         import('Common.Lib.Page');
         $Page = new Page($count, 15);
 
-        $list = M($this->table)->where($where)->limit($Page->firstRow, $Page->listRows)->select();
-
+        $list = M($this->table)->where($where)->limit($Page->firstRow, $Page->listRows)->order(array('add_time' => 'desc', 'id' => 'desc'))->select();
+        foreach ($list as $key => $item) {
+            $list[$key]['cover'] = '/Books/' . $item['name'] . '/00001.jpg';
+        }
         $returnData['page'] = $Page->show();
         $returnData['data'] = $list;
         $this->ajaxReturn(array('code' => 200, 'data' => $returnData));
@@ -116,4 +119,18 @@ class IndexController extends CommonController
 
         }
     }
+
+    public function getImg()
+    {
+        $id = I('id');
+        $comic = M($this->table)->where('id = ' . $id)->find();
+
+        for ($i = 1; $i <= $comic['total_page']; $i++) {
+            $page = str_pad($i, 5, "0", STR_PAD_LEFT);
+            $temp[] = '/Books/' . $comic['name'] . '/' . $page . '.jpg';
+        }
+        $this->ajaxReturn(array('code' => 200, 'data' => $temp));
+    }
+
+
 }

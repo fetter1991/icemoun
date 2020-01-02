@@ -105,6 +105,110 @@
             </div>
         </div>
     </div>
+    <div id="editModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" role="form" method="post" id="edit" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">漫画预览</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="name" class="col-md-3 control-label">标题</label>
+                                <div class="col-md-7">
+                                    <input type="text" required class="form-control" name="name" id="nlink">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body" style="display: none">
+                            <input type="hidden" name="id">
+                            <div class="form-group">
+                                <label for="org_name" class="col-md-3 control-label">原标题</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" readonly name="org_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body" style="display: none">
+                            <div class="form-group">
+                                <label for="author" class="col-md-3 control-label">作者</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" readonly name="author">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="link" class="col-md-3 control-label">鏈接</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" readonly name="link">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body" style="display: none;">
+                            <div class="form-group">
+                                <label for="db_id" class="col-md-3 control-label">原ID</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="db_id" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="total_page" class="col-md-3 control-label">图片数</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="total_page">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="tags" class="col-md-3 control-label">标签</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="tags">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body" style="display: none">
+                            <div class="form-group">
+                                <label for="desc" class="col-md-3 control-label">简介</label>
+                                <div class="col-md-7">
+                                    <textarea name="desc" required class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="desc" class="col-md-3 control-label">链接</label>
+                                <div class="col-md-7">
+                                    <textarea id="llink" required class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="desc" class="col-md-3 control-label"></label>
+                                <button type="button" class="btn btn-primary ncopy" id='ncopy'
+                                        data-clipboard-action="ncopy" data-clipboard-target="#nlink">
+                                    复制标题
+                                </button>
+                                <button type="button" class="btn btn-primary lcopy" id='lcopy'
+                                        data-clipboard-action="lcopy" data-clipboard-target="#llink">
+                                    复制链接
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn green" id="sub">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </block>
 <block name="script">
     <script src="__JS__/layer/2.4/layer.js"></script>
@@ -127,5 +231,85 @@
                 }
             })
         }
+
+        $('.edit').on('click', function () {
+            var id = $(this).data('id');
+            $.post("{:U('SearchQuery/getInfo')}", {id: id}, function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    var data = res.data;
+                    $('input[name="id"]').val(data.id);
+                    $('input[name="author"]').val(data.author);
+                    $('input[name="link"]').val(data.link);
+                    $('input[name="name"]').val(data.name);
+                    $('input[name="org_name"]').val(data.name);
+                    $('input[name="db_id"]').val(data.db_id);
+                    $('input[name="total_page"]').val(data.total_page);
+                    $('input[name="tags"]').val(data.tags);
+                    $('textarea[name="desc"]').val(data.desc);
+                    $('#llink').attr('rows', data.total_page);
+                    $('#llink').html(data.str);
+                    $('#editModal').modal();
+                }
+            });
+        });
+
+        $('#sub').on('click', function () {
+            var id = $('input[name="id"]').val();
+            var name = $('input[name="name"]').val();
+            var org_name = $('input[name="org_name"]').val();
+            var db_id = $('input[name="db_id"]').val();
+            var total_page = $('input[name="total_page"]').val();
+            var tags = $('input[name="tags"]').val();
+            var desc = $('textarea[name="desc"]').val();
+            var author = $('textarea[name="author"]').val();
+            var link = $('textarea[name="link"]').val();
+
+            $.post("{:U('SearchQuery/doEdit')}", {
+                id: id,
+                name: name,
+                author: author,
+                org_name: org_name,
+                db_id: db_id,
+                total_page: total_page,
+                tags: tags,
+                link: link,
+                desc: desc
+            }, function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    window.location.reload();
+                } else {
+                    layer.msg('修改失败');
+                }
+            })
+        });
+
+        //复制标题
+        $('#ncopy').click(function () {
+            $('#nlink').val($.trim($('#nlink').val()));
+            var url = $('#nlink').val();
+            if (url == '') {
+                toastr.error("获取连接错误");
+                return;
+            } else {
+                $('#nlink').select();
+                document.execCommand("Copy");
+                toastr.success("标题已复制");
+            }
+        });
+
+        //复制U口令
+        $('#lcopy').click(function () {
+            var link = $('#llink').val();
+            if (link == '') {
+                toastr.error("获取连接错误");
+                return;
+            } else {
+                $('#llink').select();
+                document.execCommand("Copy");
+                toastr.success("链接已复制");
+            }
+        });
     </script>
 </block>

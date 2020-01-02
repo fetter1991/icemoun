@@ -11,6 +11,7 @@
     <title id="app-title">漫画</title>
     <link rel="icon" type="image/png" href="__STATIC__/img/logo.png">
     <link href="__STATIC__/css/comic_style.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="manga-mobile-app">
@@ -83,6 +84,17 @@
                     </a>
                 </div>
             </div>
+            <div class='col-lg-12' v-html="page"></div>
+            <div class="label-list m-auto border-box p-relative">
+                <div class="label-row" style=" text-align: center;font-size: 18px;font-weight: bold; padding-top: 0px;">
+                    <div class="first-label dp-i-block v-top">
+                        <div class="classify-label selected">页码：</div>
+                    </div>
+                    <div class="first-label dp-i-block v-top">
+                        <div class="classify-label selected" id="pp">1</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -117,6 +129,7 @@
             $.get("{:U('Index/getMoviesData')}", {p: p}, function (res) {
                 if (res.code == 200) {
                     vue_this.list = res.data.data;
+                    vue_this.page = res.data.page;
                 } else {
                     layer.alert('请刷新重试');
                 }
@@ -135,7 +148,7 @@
         var vue_this = app._data;
         var data = vue_this.search_data;
         data.p = page;
-        $.get('/back/Comic/getMoviesData', data, function (res) {
+        $.get("{:U('Index/getMoviesData')}", data, function (res) {
             if (res.code == 200) {
                 vue_this.list = res.data.data;
                 vue_this.page = res.data.page;
@@ -146,5 +159,11 @@
         });
         document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
+
+    $('#pp').on('click', function () {
+        var page = parseInt($('#pp').text()) + 1;
+        getData(page);
+        $('#pp').text(page)
+    })
 </script>
 </html>
