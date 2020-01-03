@@ -1,0 +1,129 @@
+<div id="editModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" method="post" id="edit" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">漫画预览</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="db_id" class="col-md-3 control-label">ID</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" name="db_id" id="nlink" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="name" class="col-md-3 control-label">标题</label>
+                            <div class="col-md-7">
+                                <input type="text" required class="form-control" name="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="author" class="col-md-3 control-label">作者</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="author">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="total_page" class="col-md-3 control-label">图片数</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="total_page">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="tags" class="col-md-3 control-label">标签</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="tags">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="desc" class="col-md-3 control-label">简介</label>
+                            <div class="col-md-7">
+                                <textarea name="desc" required class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label for="cover" class="col-md-3 control-label">封面</label>
+                        <div class="col-md-9">
+                            <span class="col-md-12 img-tips">
+                                上传图片的最佳尺寸为<span style="color: #f00">64*64</span>
+                            </span>
+                            <div class='row'>
+                                <div class="col-md-3">
+                                    <div class='upload-img'>
+                                        <img id="edit_cover" class="img-responsive">
+                                    </div>
+                                    <span class="btn green fileinput-button col-md-12">
+                                        <span> 选择文件 </span>
+                                        <input type="file" id="editCover">
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="fileinput-filename"></span>
+                            <input type="hidden" name='cover'>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label for="banner" class="col-md-3 control-label">封面</label>
+                        <div class="col-md-9">
+                            <span class="col-md-12 img-tips">
+                                上传图片的最佳尺寸为<span style="color: #f00">64*64</span>
+                            </span>
+                            <div class='row'>
+                                <div class="col-md-3">
+                                    <div class='upload-img'>
+                                        <img id="edit_banner" class="img-responsive">
+                                    </div>
+                                    <span class="btn green fileinput-button col-md-12">
+                                        <span> 选择文件 </span>
+                                        <input type="file" id="editBanner">
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="fileinput-filename"></span>
+                            <input type="hidden" name='banner'>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="desc" class="col-md-3 control-label">链接</label>
+                            <div class="col-md-7">
+                                <textarea id="llink" required class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="desc" class="col-md-3 control-label"></label>
+                            <button type="button" class="btn btn-primary ncopy" id='ncopy'
+                                    data-clipboard-action="ncopy" data-clipboard-target="#nlink">
+                                复制标题
+                            </button>
+                            <button type="button" class="btn btn-primary lcopy" id='lcopy'
+                                    data-clipboard-action="lcopy" data-clipboard-target="#llink">
+                                复制链接
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn green" id="sub">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
