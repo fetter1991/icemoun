@@ -26,7 +26,7 @@ define( 'APP_DEBUG', false );
 //本地库
 define( 'IS_LOCAL', true );
 define( '__BOOKS__', './Books/' );
-define( '__BOOK__', './Book/' );
+define( '__BEEN__', './be_download/' );
 
 define( '__FRONT__', 'graphmovie.yymedias.com' );
 define( '__BACK__', 'auth-graphmovie.yymedias.com' );

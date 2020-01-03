@@ -30,11 +30,11 @@ return array(
 		'yycm0.com',
 		'yycm5.com',
 	],
-	'ADMIN_URL'            => 'yymedias.test/uploadTest', //后端域名
+	'ADMIN_URL'            => 'icemoun.test:83/uploadTest', //后端域名
 	'PAGE_LIST_SIZE'       => 20,
 	'SHOW_PAGE_TRACE'      => false,
 	'DB_FIELDS_CACHE'      => false,
-	'DOMAIN'               => 'jiayoumei-tech.com',//前端域名
+	'DOMAIN'               => 'ice.icemoun.com',//前端域名
 	'URL_CASE_INSENSITIVE' => false,
 	'TMPL_PARSE_STRING'    => array(
 		'__PUBLIC__' => __ASSETS__ . '/Public', // 更改默认的/Public 替换规则
@@ -43,7 +43,8 @@ return array(
 		'__IMG__'    => __ASSETS__ . '/Public/img', // 增加新的上传路径替换规则
 		'__LIB__'    => __ASSETS__ . '/Public/lib', // 增加新的上传路径替换规则
 		'__MC__'     => '/Public/metronic', // 增加新的上传路径替换规则
-		'__STATIC__' => '/Public'
+		'__STATIC__' => '/Public',
+		'__IMAGE__' => '/Public/img'
 	),
 	'UPLOAD_FILE_QINIU'    => array(
 		'maxSize'      => 5 * 1024 * 1024,//文件大小

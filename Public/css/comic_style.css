@@ -761,7 +761,7 @@ a, button {
     width: 3.16667rem;
     height: 3.16667rem;
     border-radius: .41667rem;
-    background-image: url(//s1.hdslb.com/bfs/static/manga/mobile/static/img/27cdf32977379b3.png)
+    background-image: url(../img/27cdf32977379b3.png)
 }
 
 .download-hinter .icon-part .text {
@@ -824,7 +824,7 @@ a, button {
 .forbidden-component .hint-image {
     width: 80vw;
     height: 50vw;
-    background-image: url(//s1.hdslb.com/bfs/static/manga/mobile/static/img/5a70fa629cf284f.png)
+    background-image: url(../img/5a70fa629cf284f.png)
 }
 
 .forbidden-component .hint-text {
@@ -871,7 +871,7 @@ a, button {
     width: 2.16667rem;
     height: 2.16667rem;
     margin-right: .66667rem;
-    background-image: url(//s1.hdslb.com/bfs/static/manga/mobile/static/img/27cdf32977379b3.png)
+    background-image: url(../img/27cdf32977379b3.png)
 }
 
 .navbar-container .nav-items .nav-item {
@@ -925,7 +925,7 @@ a, button {
     height: 90vw;
     max-width: 25rem;
     max-height: 25rem;
-    background-image: url(//s1.hdslb.com/bfs/static/manga/mobile/static/img/1ffaadc93341d63.png)
+    background-image: url(../img/1ffaadc93341d63.png)
 }
 
 .manga-card {
@@ -935,7 +935,8 @@ a, button {
 }
 
 .manga-card .manga-cover {
-    background-color: #f4f4f4
+    padding-left: 5%;
+    background-color: #ffffff
 }
 
 .manga-card .manga-info, .manga-card .manga-title {
@@ -1044,7 +1045,7 @@ a, button {
     height: 90vw;
     max-width: 25rem;
     max-height: 25rem;
-    background-image: url(//s1.hdslb.com/bfs/static/manga/mobile/static/img/34efb7ca330bfb2.png)
+    background-image: url(../img/34efb7ca330bfb2.png)
 }
 
 .app-container.with-navbar {

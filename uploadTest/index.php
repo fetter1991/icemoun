@@ -1,6 +1,5 @@
 <?php
 	require_once 'Upload.class.php';
-
 	if(empty($_POST)){
 		exit('非法请求');
 	}
@@ -17,7 +16,7 @@
 
 	if($info){
 		$arr = reset($info);
-		echo json_encode(array('code'=>200,'url'=>'http://resources.yymedias.test/uploadTest/movies/'.$arr['savepath'].$arr['savename']));
+		echo json_encode(array('code'=>200,'url'=>'http://resources.icemoun.test:83/uploadTest/comic/'.$arr['savepath'].$arr['savename']));
 	}else{
 		echo json_encode(array('code'=>0,'msg'=>$upload->getError()));
 	}

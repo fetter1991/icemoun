@@ -72,13 +72,13 @@
                                                     <!--<img src="{$vo.cover}" width="30%"/>-->
                                                 </td>
                                                 <td class="text-center">
-                                                    <if condition='$vo["status"] eq 3'>
-                                                        <button type="button" class="btn bule ">已下载</button>
-                                                        <else/>
+                                                    <if condition='$vo["desc"] eq "数目不一致"'>
                                                         <button type="button" class="btn green edit"
                                                                 data-id="{$vo['id']}">
                                                             未下载
                                                         </button>
+                                                        <else/>
+                                                        <button type="button" class="btn bule ">已下载</button>
                                                     </if>
                                                 </td>
                                             </tr>
@@ -102,12 +102,20 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                         <h4 class="modal-title">漫画预览</h4>
                     </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="db_id" class="col-md-3 control-label">原ID</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="db_id" readonly id="nlink">
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-body">
-                        <div class="form-body">
+                        <div class="form-body" style="display: none">
                             <div class="form-group">
                                 <label for="name" class="col-md-3 control-label">标题</label>
                                 <div class="col-md-7">
-                                    <input type="text" required class="form-control" name="name" id="nlink">
+                                    <input type="text" required class="form-control" name="name">
                                 </div>
                             </div>
                         </div>
@@ -117,14 +125,6 @@
                                 <label for="org_name" class="col-md-3 control-label">原标题</label>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control" readonly name="org_name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-body" style="display: none;">
-                            <div class="form-group">
-                                <label for="db_id" class="col-md-3 control-label">原ID</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control" name="db_id" readonly>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-body">
+                        <div class="form-body" style="display: none">
                             <div class="form-group">
                                 <label for="desc" class="col-md-3 control-label">简介</label>
                                 <div class="col-md-7">
@@ -190,7 +190,7 @@
     <script>
         $('.edit').on('click', function () {
             var id = $(this).data('id');
-            $.post("{:U('SeekMovies/getInfo')}", {id: id}, function (res) {
+            $.post("{:U('SeekMovies/checkImgNum')}", {id: id}, function (res) {
                 console.log(res);
                 if (res.code == 200) {
                     var data = res.data;

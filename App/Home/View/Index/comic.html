@@ -22,51 +22,22 @@
                     <div class="first-label dp-i-block v-top">
                         <div class="classify-label selected">全部</div>
                     </div>
+                    <div class="classify-label">小说</div>
+                    <div class="classify-label">漫画</div>
+                </div>
+                <div class="label-row">
+                    <div class="first-label dp-i-block v-top">
+                        <div class="classify-label selected">全部</div>
+                    </div>
                     <div class="classify-label">冒险</div>
-                    <div class="classify-label">热血</div>
-                    <div class="classify-label">搞笑</div>
-                    <div class="classify-label">恋爱</div>
-                    <div class="classify-label">少女</div>
-                    <div class="classify-label">纯爱</div>
-                    <div class="classify-label">日常</div>
-                    <div class="classify-label">校园</div>
-                    <div class="classify-label">运动</div>
-                    <div class="classify-label">正能量</div>
-                    <div class="classify-label">治愈</div>
-                    <div class="classify-label">橘味</div>
-                    <div class="classify-label">古风</div>
-                    <div class="classify-label">玄幻</div>
-                    <div class="classify-label">奇幻</div>
-                    <div class="classify-label">惊奇</div>
-                    <div class="classify-label">悬疑</div>
-                    <div class="classify-label">都市</div>
-                    <div class="classify-label">总裁</div>
-                </div>
-                <div class="label-row">
-                    <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected">全部</div>
-                    </div>
-                    <div class="classify-label">大陆</div>
-                    <div class="classify-label">日本</div>
+                    <div class="classify-label">欢乐向</div>
+                    <div class="classify-label">轻小说</div>
                     <div class="classify-label">其他</div>
+                    <div class="classify-label">励志</div>
+                    <div class="classify-label">风傲天</div>
+                    <div class="classify-label">游戏</div>
+                    <div class="classify-label">异世界</div>
                 </div>
-                <div class="label-row">
-                    <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected">全部</div>
-                    </div>
-                    <div class="classify-label">连载</div>
-                    <div class="classify-label">完结</div>
-                    <div class="classify-label">新上架</div>
-                </div>
-                <div class="label-row">
-                    <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected">全部</div>
-                    </div>
-                    <div class="classify-label">免费</div>
-                    <div class="classify-label">付费</div>
-                    <div class="classify-label">等就免费</div>
-                </div>
-
                 <div class="switch-btn p-absolute pointer">
                     <span class="icon v-middle dp-i-block icon-down"></span>
                     <span class="v-middle">筛选</span>
@@ -77,7 +48,8 @@
                     <a v-for="(item,index) in list" v-bind:href='"/Home/Index/article?id="+item.id'
                        v-bind:title="item.name" class="manga-card border-box dp-i-block">
                         <div class="manga-cover bg-cover bg-center">
-                            <img v-bind:src="item.cover" width="100%"/>
+                            <img v-lazy="item.cover" style='height:120px;' v-if="item.cover" width="100%">
+                            <img src="__IMAGE__/cover.jpg" style='height:120px;' v-else>
                         </div>
                         <div class="manga-title">{{item.name}}</div>
                         <div class="manga-info"><span>共{{item.total_chapters}}话</span></div>

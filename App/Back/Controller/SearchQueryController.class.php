@@ -7,7 +7,7 @@ use QL\QueryList;
 class SearchQueryController extends CommonController {
 	private $server = 'https://www.18comic.life/';
 	private $serverQuery = 'https://18comic.life/search/photos?search_query=';
-	private $table = 'query_search';
+	private $table = 'query_search_0103';
 
 	public function __construct() {
 		parent::__construct();
@@ -19,8 +19,10 @@ class SearchQueryController extends CommonController {
 	 */
 	public function index() {
 		$keyword = I( 'keyword' );
+		$status  = I( 'status' );
+		$order   = I( 'order' );
+		$sort    = I( 'sort' );
 		if ( $keyword && is_numeric( $keyword ) ) {
-			$map['link']       = array( 'like', '%' . $keyword . '%' );
 			$map['db_id']      = array( 'like', '%' . $keyword . '%' );
 			$map['_logic']     = 'or';
 			$where['_complex'] = $map;
@@ -29,7 +31,13 @@ class SearchQueryController extends CommonController {
 			$map['_logic']     = 'or';
 			$where['_complex'] = $map;
 		}
-		$where['status'] = 1;
+		//状态选择
+		if ( is_numeric( $status ) ) {
+			$where['status'] = $status;
+		}
+
+		$where['status'] = 0;
+
 
 		$count = M( $this->table )->where( $where )->count( '1' );
 		$page  = new \Common\Page( $count, 15 );
@@ -37,17 +45,12 @@ class SearchQueryController extends CommonController {
 		                          ->limit( $page->firstRow, $page->listRows )
 		                          ->order( array( 'add_time' => 'desc' ) )
 		                          ->select();
-		foreach ( $list as $key => $item ) {
-			$path = iconv( "utf-8", "gbk", $item['name'] );
-			$res  = file_exists( __BOOKS__ . $path );
-			if ( $res ) {
-				$list[ $key ]['cover'] = '/Books/' . $item['name'] . '/00001.jpg';
-			} else {
-				$list[ $key ]['cover'] = '';
-			}
-		}
 
 		$this->assign( 'list', $list );
+		$this->assign( 'status', $status );
+		$this->assign( 'order', $order );
+		$this->assign( 'sort', $sort );
+		$this->assign( 'keyword', $keyword );
 		$this->assign( 'page', $page->show() );
 		$this->display();
 	}
@@ -124,9 +127,9 @@ class SearchQueryController extends CommonController {
 	 * 获取信息
 	 */
 	public function getInfo() {
-		$id   = I( 'id' );
-		$info = M( $this->table )->where( 'id = ' . $id )->find();
-		$str  = '';
+		$db_id = I( 'id' );
+		$info  = M( $this->table )->where( 'db_id = ' . $db_id )->find();
+		$str   = '';
 		for ( $i = 1; $i <= $info['total_page']; $i ++ ) {
 			$p   = str_pad( $i, 5, "0", STR_PAD_LEFT );
 			$str .= "https://cdn-ms.18comic.life/media/photos/" . $info['db_id'] . '/' . $p . ".jpg\n";
@@ -144,7 +147,8 @@ class SearchQueryController extends CommonController {
 	 * 编辑
 	 */
 	public function doEdit() {
-		$data                   = I( 'post.' );
+		$data = I( 'post.' );
+
 		$saveData['name']       = trim( $data['name'] );
 		$saveData['author']     = trim( $data['author'] );
 		$saveData['org_name']   = trim( $data['org_name'] );
@@ -153,51 +157,17 @@ class SearchQueryController extends CommonController {
 		$saveData['db_id']      = intval( $data['db_id'] );
 		$saveData['total_page'] = intval( $data['total_page'] );
 		$saveData['desc']       = trim( $data['desc'] );
+		$saveData['cover']      = $data['cover'];
+		$saveData['banner']     = $data['banner'];
 		$saveData['add_time']   = time();
 
-		$path    = iconv( "utf-8", "gbk", $saveData['name'] );
-		$isExist = file_exists( __BOOKS__ . $path );
-
-		if ( $isExist ) {
-			$saveData['status'] = 3;
-		}
-
-		$res = M( 'ice_comic' )->add( $saveData );
+		$res = M( 'query_search' )->where( 'db_id = ' . $data['db_id'] )->save( $saveData );
 		if ( $res ) {
-			$status['status'] = 3;
-			$res              = M( $this->table )->where( 'db_id = ' . $data['db_id'] )->save( $status );
-			$this->makeFolder( $data['db_id'] );
 			$this->ajaxReturn( array( 'code' => 200, 'msg' => '保存成功' ) );
 		} else {
 			$this->ajaxReturn( array( 'code' => 0, 'msg' => '修改失败' ) );
 		}
 	}
-
-	/**
-	 * 创建文件
-	 */
-	public function makeFolder( $id ) {
-		$info = M( $this->table )->where( 'db_id = ' . $id )->find();
-
-		$path = __BOOKS__ . $id;
-		mkdir( $path );
-
-		$handel             = fopen( $path . '/' . $id . '.json', 'a+' );
-		$data['db_id']      = $info['db_id'];
-		$data['link']       = $info['link'];
-		$data['name']       = $info['name'];
-		$data['org_name']   = $info['org_name'];
-		$data['author']     = $info['author'];
-		$data['tags']       = $info['tags'];
-		$data['total_page'] = $info['total_page'];
-		$data['cover']      = $info['cover'];
-		$data['banner']     = $info['banner'];
-		$json               = json_encode( $data, JSON_UNESCAPED_UNICODE );
-
-		fwrite( $handel, $json );
-		fclose( $handel );
-	}
-
 
 	/**
 	 * curl post
@@ -223,33 +193,4 @@ class SearchQueryController extends CommonController {
 
 		return $sResult;
 	}
-
-	public function isExist() {
-		$list = M( 'ice_comic' )->where( 'id < 704' )->select();
-		foreach ( $list as $info ) {
-
-
-			$path    = iconv( "utf-8", "gbk", $info['name'] );
-			$isExist = file_exists( __BOOKS__ . $path );
-			$handel             = fopen( __BOOKS__ . $path . '/' . $info['db_id'] . '.json', 'a+' );
-			$data['db_id']      = $info['db_id'];
-			$data['link']       = $info['link'];
-			$data['name']       = $info['name'];
-			$data['org_name']   = $info['org_name'];
-			$data['author']     = $info['author'];
-			$data['tags']       = $info['tags'];
-			$data['total_page'] = $info['total_page'];
-			$data['cover']      = $info['cover'];
-			$data['banner']     = $info['banner'];
-			$json               = json_encode( $data, JSON_UNESCAPED_UNICODE );
-
-			fwrite( $handel, $json );
-			fclose( $handel );
-
-			if ( $isExist ) {
-				$res = rename( __BOOKS__ . $path, __BOOKS__ . $info['db_id'] );
-			}
-		}
-	}
-
 }
