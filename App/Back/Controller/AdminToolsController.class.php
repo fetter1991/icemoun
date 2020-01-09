@@ -4,7 +4,6 @@
 namespace Back\Controller;
 
 use Common\Lib\Redis;
-use AppAdmin\Controller\PushSettingController;
 use QL\QueryList;
 
 /**
@@ -20,44 +19,6 @@ class AdminToolsController extends CommonController {
 
 	public function index() {
 		phpinfo();
-	}
-
-
-	public function pushTest() {
-		$user_id          = I( 'id' );
-		$userInfo         = M( 'app_user_info as app' )->where( 'app.user_id = ' . $user_id )
-		                                               ->join( 'left join yy_user_info as ui on app.user_id = ui.user_id' )
-		                                               ->field( 'app.xg_token,app.platform,ui.nick_name' )
-		                                               ->find();
-		$data['yy2c']     = '{"a":6, "v": 1, "p":{}}';
-		$data['title']    = '你的金币余额不足';
-		$data['content']  = '尊敬的{user_name}，您的金币余额不足100金币，限时特惠，首充9.9元，可得7天VIP。';
-		$data['platform'] = $userInfo['platform'];
-		$data['data']     = array(
-			array(
-				'token'     => $userInfo['xg_token'],
-				'user_name' => $userInfo['nick_name']
-			)
-		);
-		$res              = $this->push( $data );
-		$this->ajaxReturn( $res );
-	}
-
-	public function push( $data ) {
-		if ( $data['data'] ) {
-			$code  = json_encode( $data, JSON_UNESCAPED_UNICODE );
-			$crypt = new \Org\Encry\CryptAES();
-			$crypt->set_key( 'a3fc338dcca1642037d3a56082fc5453' );
-			$crypt->require_pkcs5();
-			$decrypt_code = $crypt->encrypt( $code );
-
-			$url      = 'http://wxapp-test.jiayoumei-tech.com/api/app/v1/push';
-			$postdata = array( 'params' => $decrypt_code );
-			$res      = http_request( $url, $postdata );
-			$jsonres  = json_decode( $res, true );
-
-			return $jsonres;
-		}
 	}
 
 
@@ -89,19 +50,19 @@ class AdminToolsController extends CommonController {
 		}
 	}
 
+
 	/**
 	 * redis 测试工具
 	 */
 	public function redisTest() {
 		$formData = I( 'get.' );
 
+		$val    = $formData['val'];                         //方法的值
+		$key    = $formData['key'];                         //方法的Key
+		$action = $formData['action'];                      //redis方法名
+		$db     = $formData['db'] ? $formData['db'] : 0;    //数据库编号
 
-		//日期
-		$val    = $formData['val'];
-		$key    = $formData['key'];
-		$action = $formData['action'];
-		$db     = $formData['db'] ? $formData['db'] : 0;
-
+		$res   = '';
 		$redis = new Redis( $db );
 		switch ( $action ) {
 			case 'zScore';
@@ -115,9 +76,6 @@ class AdminToolsController extends CommonController {
 				break;
 			case 'zRevRange';
 				$res = $redis->zRevRange( $key );
-				break;
-			case 'stringGet';
-				$res = $redis->stringGet( $val );
 				break;
 			case 'stringGet';
 				$res = $redis->stringGet( $val );
@@ -242,58 +200,210 @@ class AdminToolsController extends CommonController {
 		$objWriter->save( 'php://output' );
 	}
 
-	/*
-	public function updateDate() {
-		$queryList = M( 'query_search' )->where( 'db_id > 0' )->select();
 
-		$data['status']       = 0;
-		$data['desc']         = '待采集';
-		$data['image_status'] = 0;
-		$data['add_time']     = 0;
-		foreach ( $queryList as $item ) {
-			$res = M( 'query_search' )->where( 'id = ' . $item['id'] )->save( $data );
-			print_r( $res );
+	/**
+	 * 加入检测表
+	 */
+	public function addToCheck() {
+		$tableList = array(
+			'ice_comic_check_copy',
+			'ice_comic_copy',
+			'ice_comic_copy1',
+			'ice_comic_copy2',
+			'query_search_1',
+			'query_search_2',
+			'query_search_3'
+		);
+		$this->_addCheck( $tableList );
+	}
+
+	/**
+	 * 入库
+	 *
+	 * @param $tableList
+	 *
+	 * @return array|string
+	 */
+	private function _addCheck( $tableList ) {
+		if ( ! $tableList ) {
+			return '';
 		}
 
-	}
-	*/
+		$comicList = array();
+		foreach ( $tableList as $table ) {
+			$list      = M( $table )->where( 'db_id > 0' )->select();
+			$comicList = array_merge( $comicList, $list );
+		}
 
-	/*
-	public function checkTotalPage() {
-		$where['status'] = 0;
-		$comicList       = M( 'query_search' )->where( $where )->select();
+
+		$msg = '';
 		foreach ( $comicList as $item ) {
-			$isExist = file_exists( __BOOKS__ . $item['db_id'] );
-			if ( $isExist ) {
-				$res        = scandir( __BOOKS__ . $item['db_id'] );
-				$total_page = count( $res ) - 2;
-				if ( intval( $total_page ) == intval( $item['total_page'] ) ) {
-					$saveData['desc']       = '已下载';
-					$saveData['status']     = 3;
-					$saveData['img_status'] = 1;
-					$saveData['add_time']   = time();
-				} elseif ( intval( $total_page ) > intval( $item['total_page'] ) ) {
-					$saveData['desc']       = '数据异常，图片超出';
-					$saveData['status']     = 2;
-					$saveData['img_status'] = 3;
-					$saveData['add_time']   = time();
+			$res1 = M( 'ice_comic' . __COPY__ )->where( 'db_id = ' . $item['db_id'] )->find();
+			$res2 = M( 'ice_comic_check_error' . __COPY__ )->where( 'db_id = ' . $item['db_id'] )->find();
+			if ( ! $res1 && ! $res2 ) {
+				unset( $item['id'] );
+				$save             = $item;
+				$save['desc']     = "";
+				$save['status']   = 0;
+				$save['add_time'] = 0;
+
+				$addRes = M( 'ice_comic_check_new' . __COPY__ )->add( $save );
+				if ( $addRes ) {
+					echo $item['db_id'] . "添加成功<br/>";
 				} else {
-					$saveData['desc']       = '数据异常，图片缺失';
-					$saveData['status']     = 2;
-					$saveData['img_status'] = 2;
-					$saveData['add_time']   = time();
+					echo $item['db_id'] . "添加失败<br/>";
 				}
 			} else {
-				$saveData['desc']       = '待采集';
-				$saveData['status']     = 0;
-				$saveData['img_status'] = 0;
-				$saveData['add_time']   = time();
-
+				echo $item['db_id'] . "已存在<br/>";
 			}
-			$res = M( 'query_search' )->where( 'db_id = ' . $item['db_id'] )->save( $saveData );
-			echo $res;
-			echo '<br/>';
 		}
 	}
-	*/
+
+	/**
+	 * 检测图片数量
+	 *
+	 * @param $status
+	 */
+	public function checkImgStatus() {
+		$msg = '';
+		//0：待检测 1:已检测，数据未下载 2:已检测,数据有异常 3:数据正常，可入库
+		$list = M( 'ice_comic_check_new' . __COPY__ )->where( 'db_id > 0' )->select();
+		//检测文件夹及文件数量
+		foreach ( $list as $key => $item ) {
+			echo $key . ":正在检测ID：" . $item['db_id'] . "<br/>";
+			$path    = __BKSER__ . $item['db_id'];
+			$isExist = file_exists( $path );
+			if ( $isExist ) {
+				echo $key . ":ID：" . $item['db_id'] . "已下载，检测图片数量<br/>";
+				//计算文件数量，去掉"./"和"../"
+				$count = intval( count( scandir( $path ) ) ) - 2;
+				if ( $count != $item['total_page'] ) {
+					$saveData['desc']       = '图片数量异常';
+					$saveData['img_status'] = $count < $item['total_page'] ? '2' : '3';
+					$saveData['status']     = 2;
+					echo $key . ":ID：" . $item['db_id'] . "图片数量异常，状态码" . $saveData['img_status'] . "<hr/>";
+				} else {
+					$saveData['desc']       = '处理完成';
+					$saveData['img_status'] = 1;
+					$saveData['status']     = 3;
+					echo $key . ":ID：" . $item['db_id'] . "图片正常<hr/>";
+				}
+			} else {
+				$saveData['desc']       = '未下载';
+				$saveData['img_status'] = 0;
+				$saveData['status']     = 1;
+				echo $key . ":ID：" . $item['db_id'] . "未下载<hr/>";
+			}
+			$saveData['add_time'] = time();
+
+			$res = M( 'ice_comic_check_new' . __COPY__ )->where( 'db_id = ' . $item['db_id'] )->save( $saveData );
+			if ( ! $res ) {
+				$msg = $item['db_id'] . "更新失败\n";
+			}
+		}
+	}
+
+
+	/**
+	 * 入库操作
+	 */
+	public function addComic() {
+		$msg  = '';
+		$list = M( 'ice_comic_check_new' . __COPY__ )->where( 'status = 3' )->order( array( 'db_id' => 'asc' ) )->select();
+		foreach ( $list as $item ) {
+			$isExist = M( 'ice_comic' . __COPY__ )->where( 'db_id = ' . $item['db_id'] )->find();
+			if ( ! $isExist ) {
+				unset( $item['id'] );
+				$saveData               = $item;
+				$saveData['img_status'] = 1;
+				$saveData['status']     = 3;
+				$saveData['desc']       = '';
+				$saveData['add_time']   = time();
+				$res                    = M( 'ice_comic' . __COPY__ )->add( $saveData );
+				if ( ! $res ) {
+					echo $item['db_id'] . "入库失败<br/>";
+				}
+			}
+		}
+	}
+
+	/**
+	 * 抓取数据并更新
+	 */
+	public function updateCheckDate() {
+		//采集方法
+		$Comic = new GetComicController();
+		//逐个更新，由前端控制
+		$info = M( 'ice_comic_check_new' . __COPY__ )->where( 'status = 4' )->find();
+		if ( ! $info ) {
+			$this->ajaxReturn( array( 'code' => 500, 'msg' => '无数据' ) );
+		}
+
+		$result = $Comic->getComic( $info['db_id'] );
+		if ( $result['code'] == 200 ) {
+			$saveData               = $result['data'];
+			$saveData['status']     = 1;
+			$saveData['img_status'] = 0;
+			$saveData['add_time']   = time();
+
+			$res = M( 'ice_comic_check_new' . __COPY__ )->where( 'db_id = ' . $info['db_id'] )->save( $saveData );
+			if ( $res ) {
+				$this->ajaxReturn( array( 'code' => 200, 'id' => $info['db_id'], 'msg' => '更新成功' ) );
+			} else {
+				$this->ajaxReturn( array( 'code' => 0, 'id' => $info['db_id'], 'msg' => '更新失败' ) );
+			}
+		} else {
+			$errData['status']    = 4;
+			$errData['desc']      = '数据抓取失败';
+			$saveData['add_time'] = time();
+
+			$res = M( 'ice_comic_check_new' . __COPY__ )->where( 'db_id = ' . $info['db_id'] )->save( $errData );
+			$this->ajaxReturn( array( 'code' => 200, 'id' => $info['db_id'], 'msg' => '抓取数据失败' ) );
+		}
+	}
+
+	public function checkNo() {
+		$list = scandir( __BOOKS__ );
+		unset( $list[0] );
+		unset( $list[1] );
+		foreach ( $list as $item ) {
+			$res = M( 'ice_comic' )->where( 'db_id = ' . $item )->find();
+			if ( ! $res ) {
+				print_r( $item );
+				echo "<br/>";
+			}
+		}
+	}
+
+	//重命名
+	private function _rename( $path ) {
+//		$path = './';
+		$list = scandir( $path );
+
+		foreach ( $list as $k => $dir ) {
+			if ( $dir == '.' || $dir == '..' || $dir == 'index.php' ) {
+				continue;
+			}
+			if ( is_dir( $dir ) ) {
+				$sec_dir = scandir( $dir );
+				foreach ( $sec_dir as $key => $item ) {
+					if ( $item == '.' || $item == '..' || $item == 'index.php' ) {
+						continue;
+					}
+					$page = str_pad( ( $key - 1 ), 5, 0, STR_PAD_LEFT );
+
+					$old = "./" . $dir . "/" . $item;
+					$new = "./" . $dir . "/" . $page . '.jpg';
+					print_r( rename( $old, $new ) );
+					echo '<br/>';
+				}
+			} else {
+				$page = str_pad( ( $k - 1 ), 5, 0, STR_PAD_LEFT );
+				$old  = "./" . $dir;
+				$new  = "./" . $page . '.jpg';
+				print_r( rename( $old, $new ) );
+				echo '<br/>';
+			}
+		}
+	}
 }

@@ -2,12 +2,11 @@
 
 namespace Home\Controller;
 
+use Common\Lib\AjaxPage;
 use Common\Page;
-use QL\QueryList;
 
 class IndexController extends CommonController {
-	private $table = 'ice_comic_copy';
-	private $server = 'https://www.18comic.life/';
+	private $table = 'ice_comic' . __COPY__;
 
 	public function index() {
 		$this->display();
@@ -19,53 +18,61 @@ class IndexController extends CommonController {
 	}
 
 	//详情页
-	public function article() {
-		$id     = I( 'id' );
-		$movies = M( $this->table )->where( 'id = ' . $id )->find();
+	public function detail() {
+		$id      = I( 'id' );
+		$movies  = M( $this->table )->where( 'db_id = ' . $id )->find();
+		$chapter = M( 'ice_comic_chapter' )->where( 'movies_id = ' . $movies['db_id'] )->select();
 		if ( $movies['tags'] ) {
 			$movies['tag_list'] = explode( '|', $movies['tags'] );
 		}
-		if (!$movies['cover']){
+		if ( ! $movies['cover'] ) {
 			$movies['cover'] = '/Public/img/cover.jpg';
 		}
-		if (!$movies['banner']){
+		if ( ! $movies['banner'] ) {
 			$movies['banner'] = '/Public/img/banner.jpg';
 		}
+		$this->assign( 'total_chapter', count( $chapter ) );
 		$this->assign( 'info', $movies );
+		$this->assign( 'chapter', $chapter );
 		$this->display();
 	}
 
 	//阅读页
-	public function comic_read() {
-		$id = I( 'id' );
+	public function read() {
+		$id   = I( 'id' );
+		$sort = I( 'sort' );
 
 		$this->assign( 'id', $id );
+		$this->assign( 'sort', $sort );
 		$this->display();
 	}
 
 	public function getMoviesData() {
-
 		$getData = I( 'get.' );
 
-		$where['status']     = 3;
-		$where['total_page'] = array( 'gt', 0 );
-		$count               = M( $this->table )->where( $where )->count( 1 );
+		$where['status'] = 3;
+		$count           = M( $this->table )->where( $where )->count( 1 );
 
 		import( 'Common.Lib.Page' );
-		$Page = new Page( $count, 15 );
 
-		$list = M( $this->table )->where( $where )
-		                         ->limit( $Page->firstRow, $Page->listRows )
-		                         ->order( array( 'add_time' => 'desc', 'id' => 'desc' ) )
-		                         ->select();
+		$page_size = 6;
+		$Page      = new Page( $count, $page_size );
+		$list      = M( $this->table )->where( $where )
+		                              ->limit( $Page->firstRow, $Page->listRows )
+		                              ->order( array( 'add_time' => 'desc', 'id' => 'desc' ) )
+		                              ->select();
+		foreach ( $list as $key => $item ) {
+			$list[ $key ]['cover'] = CDN_BOOKS . $item['db_id'] . '/00001.jpg';
+		}
 
-		$returnData['page'] = $Page->show();
-		$returnData['data'] = $list;
+		$returnData['page']  = $Page->show();
+		$returnData['data']  = $list;
+		$returnData['count'] = ceil( $count / $page_size );
 		$this->ajaxReturn( array( 'code' => 200, 'data' => $returnData ) );
 	}
 
 	public function like() {
-		$this->display( 'add_like' );
+		$this->display();
 	}
 
 	public function addLike() {
@@ -109,7 +116,7 @@ class IndexController extends CommonController {
 					$saveData['status']   = 0;
 					$saveData['desc']     = 'myLike';
 					$saveData['add_time'] = time();
-					$res                  = M( 'query_search' )->add( $saveData );
+					$res                  = M( 'ice_comic_query' )->add( $saveData );
 					if ( $res ) {
 						echo $cid . "插入成功<br/>";
 					} else {
@@ -122,12 +129,20 @@ class IndexController extends CommonController {
 	}
 
 	public function getImg() {
-		$id    = I( 'id' );
-		$comic = M( $this->table )->where( 'id = ' . $id )->find();
+		$id   = I( 'id' );
+		$sort = I( 'sort' );
 
-		for ( $i = 1; $i <= $comic['total_page']; $i ++ ) {
-			$page   = str_pad( $i, 5, "0", STR_PAD_LEFT );
-			$temp[] = '/be_download/' . $comic['db_id'] . '/' . $page . '.jpg';
+		$comic = M( $this->table )->where( 'db_id = ' . $id )->find();
+		if ( ! $sort ) {
+			for ( $i = 1; $i <= $comic['total_page']; $i ++ ) {
+				$page   = str_pad( $i, 5, "0", STR_PAD_LEFT );
+				$temp[] = CDN_BOOKS . $comic['db_id'] . '/' . $page . '.jpg';
+			}
+		} else {
+			for ( $i = 1; $i <= $comic['total_page']; $i ++ ) {
+				$page   = str_pad( $i, 5, "0", STR_PAD_LEFT );
+				$temp[] = CDN_BOOKS . $comic['db_id'] . '/' . $sort . '/' . $page . '.jpg';
+			}
 		}
 		$this->ajaxReturn( array( 'code' => 200, 'data' => $temp ) );
 	}

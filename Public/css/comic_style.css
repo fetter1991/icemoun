@@ -958,7 +958,7 @@ a, button {
 
 .classify-list-container .label-list {
     max-width: 50rem;
-    padding: .83333rem 1.33333rem 0;
+    padding: 1rem;
     color: #6c727e
 }
 
@@ -1054,4 +1054,120 @@ a, button {
 
 .app-container .navbar-container {
     z-index: 2
+}
+
+/***分页样式***/
+div.page-html {
+    text-align: center;
+    color: #6c727e;
+    padding: 10px 0px;
+}
+
+div.page-html a {
+    text-decoration: none;
+}
+
+div.page-html a:hover {
+    cursor: pointer;
+}
+
+div.page-html span, div.page-html a {
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.choose {
+    background: #fb7299;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
+.page-list {
+    margin: 2px;
+    max-height: 154px;
+    overflow: scroll;
+    width: 54px;
+    overflow-x: hidden;
+    position: absolute;
+    top: 50px;
+    border: 1px solid #E6E6E6;
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    display: none;
+}
+
+.page-list::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+.page-list::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #fb7299;
+}
+
+.page-list::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.page-ul {
+    padding: 0;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.page-ul li {
+    width: 48px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #666;
+    list-style: none;
+    cursor: pointer;
+}
+
+.current {
+    color: #ffffff;
+    background: #fb7299;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+}
+
+.jump-input {
+    width: 55px;
+    height: 30px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #E6E6E6;
+    border-radius: 3px;
+    color: #666;
+    margin: 0 2px;
+    cursor: pointer;
+}
+
+.jump-btn {
+    width: 42px;
+    height: 30px;
+    line-height: 28px;
+    border: 1px solid #E6E6E6;
+    cursor: pointer;
+    border-radius: 3px;
+    background: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }

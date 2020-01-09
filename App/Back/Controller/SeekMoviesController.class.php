@@ -12,7 +12,7 @@ namespace Back\Controller;
 use QL\QueryList;
 
 class SeekMoviesController extends CommonController {
-	private $table = 'ice_comic';
+	private $table = 'ice_comic' . __COPY__;
 
 	public function __construct() {
 		parent::__construct();
@@ -43,12 +43,12 @@ class SeekMoviesController extends CommonController {
 		                          ->order( array( 'desc' => 'desc' ) )
 		                          ->select();
 		foreach ( $list as $key => $item ) {
-			$path = iconv( "utf-8", "gbk", $item['name'] );
+			$path = iconv( "utf-8", "gbk", $item['db_id'] );
 			$res  = file_exists( __BOOKS__ . $path );
 			if ( $res ) {
-				$list[ $key ]['cover'] = '/Books/' . $item['name'] . '/00001.jpg';
+				$list[ $key ]['cover'] = '/Books/' . $item['db_id'] . '/00001.jpg';
 			} else {
-				$list[ $key ]['cover'] = '';
+				$list[ $key ]['cover'] = '/Public/img/cover.jpg';
 			}
 		}
 

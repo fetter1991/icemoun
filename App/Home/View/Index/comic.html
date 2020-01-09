@@ -9,12 +9,18 @@
     <meta name="author" content="LancerComet">
     <meta name="baidu-site-verification" content="gIs5efZPwQ">
     <title id="app-title">漫画</title>
-    <link rel="icon" type="image/png" href="__STATIC__/img/logo.png">
+    <link rel="icon" type="image/png" href="__STATIC__/img/favicon.ico">
     <link href="__STATIC__/css/comic_style.css" rel="stylesheet" type="text/css"/>
-    <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <!--    <script src="__STATIC__/js/vconsole.min.js"></script>-->
+    <!--    <script>-->
+    <!--        // init vConsole-->
+    <!--        let vConsole = new VConsole();-->
+    <!--        console.log('Hello world');-->
+    <!--    </script>-->
 </head>
 <body>
-<div class="manga-mobile-app">
+<div class="manga-mobile-app" id="app">
     <div class="category-list">
         <div class="classify-list-container border-box">
             <div class="label-list m-auto border-box p-relative">
@@ -22,8 +28,14 @@
                     <div class="first-label dp-i-block v-top">
                         <div class="classify-label selected">全部</div>
                     </div>
+                    <div class="classify-label">电影</div>
+                    <div class="classify-label">动漫</div>
                     <div class="classify-label">小说</div>
                     <div class="classify-label">漫画</div>
+                    <div class="classify-label">短视频</div>
+                    <div class="classify-label">图集</div>
+                    <div class="classify-label">听书</div>
+
                 </div>
                 <div class="label-row">
                     <div class="first-label dp-i-block v-top">
@@ -44,27 +56,34 @@
                 </div>
             </div>
             <div class="manga-list m-auto">
-                <div class="list-data border-box m-auto" id="app">
-                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/article?id="+item.id'
+                <div class="list-data border-box m-auto">
+                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/detail?id="+item.db_id'
                        v-bind:title="item.name" class="manga-card border-box dp-i-block">
                         <div class="manga-cover bg-cover bg-center">
-                            <img v-lazy="item.cover" style='height:120px;' v-if="item.cover" width="100%">
-                            <img src="__IMAGE__/cover.jpg" style='height:120px;' v-else>
+                            <img v-lazy="item.cover" style="height:120px;" width="100%">
                         </div>
                         <div class="manga-title">{{item.name}}</div>
-                        <div class="manga-info"><span>共{{item.total_chapters}}话</span></div>
+                        <div class="manga-info"><span>共{{item.total_page}}图</span></div>
                     </a>
                 </div>
             </div>
-            <div class='col-lg-12' v-html="page"></div>
             <div class="label-list m-auto border-box p-relative">
                 <div class="label-row" style=" text-align: center;font-size: 18px;font-weight: bold; padding-top: 0px;">
-                    <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected">页码：</div>
-                    </div>
-                    <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected" id="pp">1</div>
-                    </div>
+                </div>
+                <!--                <div class="page-html" id="page"></div>-->
+                <div class="page-html" id="">
+                    <span class="jump-btn" @click="getPage(1)">首页</span>
+                    <span class="jump-btn" @click="perv()"><i class="fa fa-backward"></i></span>
+                    <span>
+                        <div class="page-list" id="page-list">
+                            <ul class="page-ul" id="page-ul">
+                                <li v-for="(item,index) in page" @click="getPage(item)">{{item}}</li>
+                            </ul>
+                        </div>
+                        <span class="jump-input" id="current">1</span>
+                    </span>
+                    <span class="jump-btn" @click="next()"><i class="fa fa-forward"></i></span>
+                    <span class="jump-btn" @click="getPage(count)">末页</span>
                 </div>
             </div>
         </div>
@@ -74,6 +93,7 @@
 <script src="__STATIC__/js/vue.js"></script>
 <script src="__STATIC__/js/jquery.min.js"></script>
 <script src="__STATIC__/js/vue-lazyload.js"></script>
+<script src="__STATIC__/js/page.js"></script>
 <script>
     Vue.use(VueLazyload, {
         preLoad: 1.6,
@@ -87,21 +107,41 @@
         el: '#app',
         data: {
             'list': [],
+            'count': '',
+            'page': [],
             'search_data': {
                 'p': "{$Think.get.p}",
                 'author_name': '',
                 'tags': ''
             },
         },
-        methods: {},
+        methods: {
+            getPage: function (page) {
+                getData(page)
+            },
+            perv: function () {
+                var current = $('#current').text();
+                var page = parseInt(current) - 1 < 1 ? 1 : parseInt(current) - 1;
+                getData(page);
+
+            },
+            next: function () {
+                var current = $('#current').text();
+                var page = parseInt(current) + 1 > app._data.count ? app._data.count : parseInt(current) + 1;
+                getData(page);
+            }
+        },
         mounted: function () {
             var vue_this = this;
-            var p = vue_this.search_data.p;
+            var p = vue_this.search_data.p ? vue_this.search_data.p : '1';
             //获取数据
             $.get("{:U('Index/getMoviesData')}", {p: p}, function (res) {
                 if (res.code == 200) {
                     vue_this.list = res.data.data;
-                    vue_this.page = res.data.page;
+                    vue_this.count = res.data.count;
+                    for (let i = 1; i <= vue_this.count; i++) {
+                        vue_this.page.push(i);
+                    }
                 } else {
                     layer.alert('请刷新重试');
                 }
@@ -123,19 +163,26 @@
         $.get("{:U('Index/getMoviesData')}", data, function (res) {
             if (res.code == 200) {
                 vue_this.list = res.data.data;
-                vue_this.page = res.data.page;
+                vue_this.count = res.data.count;
+                $('.jump-input').text(page)
             } else {
                 layer.alert('请刷新重试');
             }
-            $(".app-loading").hide();
+            $(".page-list").hide();
         });
         document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
 
-    $('#pp').on('click', function () {
-        var page = parseInt($('#pp').text()) + 1;
-        getData(page);
-        $('#pp').text(page)
-    })
+    //选择标签
+    $('.classify-label').on('click', function () {
+        $('.classify-label').removeClass('choose');
+        $(this).addClass('choose');
+    });
+
+    //分页列表
+    $('.jump-input').on('click', function () {
+        $('.page-list').show();
+    });
 </script>
 </html>
+

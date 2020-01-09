@@ -47,7 +47,6 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="text-center">编号</th>
-                                            <th class="text-center">链接</th>
                                             <th class="text-center">名称</th>
                                             <th class="text-center">是否已下载</th>
                                             <th class="text-center">封面预览</th>
@@ -57,10 +56,9 @@
                                         <tbody>
                                         <volist name="list" id="vo">
                                             <tr>
-                                                <td class="text-center">{$vo.c_id}</td>
-                                                <td class="text-center">{$vo.link}</td>
+                                                <td class="text-center">{$vo.db_id}</td>
                                                 <td class="text-center">
-                                                    <!--{$vo.name}-->
+                                                    {$vo.name}
                                                 </td>
                                                 <td class="text-center">
                                                     <if condition='$vo["status"] eq 3'>
@@ -69,7 +67,7 @@
                                                         否
                                                     </if>
                                                 <td class="text-center">
-                                                    <!--<img src="{$vo.cover}" width="30%"/>-->
+                                                    <img src="{$vo.cover}" width="30%"/>
                                                 </td>
                                                 <td class="text-center">
                                                     <if condition='$vo["desc"] eq "数目不一致"'>

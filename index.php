@@ -22,11 +22,12 @@ define( 'ROOT_PATH', './' );
 define( 'APP_PATH', './App/' );
 
 //开启调试模式
-define( 'APP_DEBUG', false );
+define( 'APP_DEBUG', true );
 //本地库
 define( 'IS_LOCAL', true );
-define( '__BOOKS__', './Books/' );
-define( '__BEEN__', './be_download/' );
+define( 'CDN_BOOKS', '//' . $_SERVER['SERVER_ADDR'] . ':84/Test/' );
+define( 'KOREAN', '//' . $_SERVER['SERVER_ADDR'] . ':84/KoreaComic/' );
+define( '__COPY__', '_copy' );
 
 define( '__FRONT__', 'graphmovie.yymedias.com' );
 define( '__BACK__', 'auth-graphmovie.yymedias.com' );
