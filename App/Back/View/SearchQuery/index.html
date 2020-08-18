@@ -86,14 +86,8 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="text-center">ID</th>
-                                            <th class="text-center">原始链接</th>
-                                            <th class="text-center">标题</th>
-                                            <th class="text-center">状态说明</th>
-                                            <th class="text-center">图片总数</th>
-                                            <th class="text-center">标签</th>
-                                            <th class="text-center">作者</th>
-                                            <th class="text-center" height="10%">封面</th>
-                                            <th class="text-center" width="10%">横幅</th>
+                                            <th class="text-center" width="7%">原始链接</th>
+                                            <th class="text-center" width="7%">图片总数</th>
                                             <th class="text-center">操作</th>
                                         </tr>
                                         </thead>
@@ -101,35 +95,10 @@
                                         <volist name="list" id="vo">
                                             <tr>
                                                 <td class="text-center">{$vo.id}</td>
-                                                <td class="text-center">{$vo.link}</td>
+                                                <td class="text-center">{$vo.did}</td>
+                                                <td class="text-center">{$vo.page}</td>
                                                 <td class="text-center">
-<!--                                                    标题：{$vo.name}<br/>-->
-<!--                                                    原名：{$vo.org_name}-->
-                                                </td>
-                                                <td class="text-center">{$vo.desc}</td>
-                                                <td class="text-center">{$vo.total_page}</td>
-                                                <td class="text-center">
-<!--                                                    {$vo.tags}-->
-                                                </td>
-                                                <td class="text-center">作者：{$vo.author}</td>
-                                                <td class="text-center">
-<!--                                                    <if condition="$vo['cover']">-->
-<!--                                                        <img src="{$vo.cover}" style="height: 120px;"/>-->
-<!--                                                        <else/>-->
-<!--                                                        <img src="__IMAGE__/cover.jpg" style="height: 120px;"/>-->
-<!--                                                    </if>-->
-                                                    <img src="__IMAGE__/cover.jpg" style="height: 120px;"/>
-                                                </td>
-                                                <td class="text-center">
-<!--                                                    <if condition="$vo['banner']">-->
-<!--                                                        <img src="{$vo.banner}" style="height: 120px;"/>-->
-<!--                                                        <else/>-->
-<!--                                                        <img src="__IMAGE__/banner.jpg" style="height: 120px;"/>-->
-<!--                                                    </if>-->
-                                                    <img src="__IMAGE__/banner.jpg" style="height: 120px;"/>
-                                                </td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn green edit" data-id="{$vo.db_id}">
+                                                    <button type="button" class="btn green edit" data-id="{$vo.did}">
                                                         编辑
                                                     </button>
                                                     <button type="button" class="btn green yellow">更新数据</button>
@@ -184,7 +153,7 @@
             maxFileSize: '10000000',
             Type: 'post',
             formData: function () {
-                var id = $('#editModal input[name="db_id"]').val();
+                var id = $('#editModal input[name="did"]').val();
                 var data = [{"name": "savepath", "value": "Cover"}];
                 data.push({"name": "type", "value": 'cover_' + id});
                 return data;
@@ -207,7 +176,7 @@
             maxFileSize: '10000000',
             Type: 'post',
             formData: function () {
-                var id = $('#editModal input[name="db_id"]').val();
+                var id = $('#editModal input[name="did"]').val();
                 var data = [{"name": "savepath", "value": "Banner"}];
                 data.push({"name": "type", "value": 'banner_' + id});
                 return data;
@@ -242,17 +211,10 @@
                 if (res.code == 200) {
                     var data = res.data;
                     $('input[name="id"]').val(data.id);
-                    $('input[name="author"]').val(data.author);
-                    $('input[name="name"]').val(data.name);
-                    $('input[name="db_id"]').val(data.db_id);
-                    $('input[name="total_page"]').val(data.total_page);
-                    $('input[name="tags"]').val(data.tags);
-                    $('input[name="cover"]').val(data.cover);
-                    $('input[name="banner"]').val(data.banner);
-                    $('textarea[name="desc"]').val(data.desc);
+                    $('input[name="did"]').val(data.did);
+                    $('input[name="name"]').val(data.did);
+                    $('input[name="total_page"]').val(data.page);
 
-                    $('#edit_cover').attr('src', data.cover);
-                    $('#edit_banner').attr('src', data.banner);
                     $('#llink').html(data.str);
                     $('#editModal').modal();
                 }
@@ -261,29 +223,21 @@
 
         $('#sub').on('click', function () {
             var id = $('input[name="id"]').val();
+            var did = $('input[name="did"]').val();
             var name = $('input[name="name"]').val();
-            var org_name = $('input[name="org_name"]').val();
-            var db_id = $('input[name="db_id"]').val();
-            var total_page = $('input[name="total_page"]').val();
-            var tags = $('input[name="tags"]').val();
-            var desc = $('textarea[name="desc"]').val();
             var author = $('textarea[name="author"]').val();
-            var link = $('textarea[name="link"]').val();
-            var cover = $('input[name="cover"]').val();
-            var banner = $('input[name="banner"]').val();
+            var tags = $('input[name="tags"]').val();
+            var page = $('input[name="page"]').val();
 
             $.post("{:U('SearchQuery/doEdit')}", {
                 id: id,
+                did: did,
                 name: name,
                 author: author,
-                org_name: org_name,
-                db_id: db_id,
-                total_page: total_page,
                 tags: tags,
-                link: link,
-                cover: cover,
-                banner: banner,
-                desc: desc
+                page: page,
+                desc: '完成',
+                status: 1
             }, function (res) {
                 console.log(res);
                 if (res.code == 200) {

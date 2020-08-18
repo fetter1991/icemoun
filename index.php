@@ -25,9 +25,9 @@ define( 'APP_PATH', './App/' );
 define( 'APP_DEBUG', true );
 //本地库
 define( 'IS_LOCAL', true );
-define( 'CDN_BOOKS', '//' . $_SERVER['SERVER_ADDR'] . ':84/Test/' );
-define( 'KOREAN', '//' . $_SERVER['SERVER_ADDR'] . ':84/KoreaComic/' );
-define( '__COPY__', '_copy' );
+define( 'CDN_BOOKS', 'http://' . $_SERVER['SERVER_ADDR'] . ':86/18comic/' );
+define( 'CDN_MOVIES', 'http://' . $_SERVER['SERVER_ADDR'] . ':86/' );
+define( '__COPY__', '' );
 
 define( '__FRONT__', 'graphmovie.yymedias.com' );
 define( '__BACK__', 'auth-graphmovie.yymedias.com' );

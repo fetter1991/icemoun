@@ -24,9 +24,9 @@ class CommonController extends Controller {
             $this->redirect('Public/login');
             return ;
         }
-        
+
     }
-    
+
     /**
      * @param string $model_name
      * @param array $map
@@ -46,12 +46,12 @@ class CommonController extends Controller {
             $this->assign('page',$page->show());
         }
     }
-    
+
     protected function _add($model_name,$data=''){
         $Model = D($model_name);
         $data = $Model->create($data);
         if(false === $data || false === $Model->add($data)) {
-           return $Model->getError();
+            return $Model->getError();
         }
         return true;
     }
@@ -74,5 +74,5 @@ class CommonController extends Controller {
         }
         return $tree;
     }
-    
+
 }

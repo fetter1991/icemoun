@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Neon is a Responsive Bootstrap 4 Admin Dashboard Template">
+    <meta name="keywords" content="">
+    <meta name="author" content="Themesbox">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>后台</title>
+    <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/css/neon.css" rel="stylesheet" type="text/css">
+</head>
+<body class="xp-vertical">
+
+<div class="modal search-modal fade" id="xpSearchModal" tabindex="-1" role="dialog" aria-labelledby="xpSearchModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="xp-searchbar">
+                    <form>
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search" aria-label="Search"
+                                   aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit" id="button-addon2">GO</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="xp-container">
+    <!-- 左侧菜单 -->
+    <div class="xp-leftbar">
+        <div class="xp-sidebar">
+            <div class="xp-logobar text-center">
+                <a href="index.html" class="xp-logo">
+                    <img src="__STATIC__/img/logo.png" class="img-fluid" alt="logo">
+                </a>
+            </div>
+            <div class="xp-navigationbar">
+                <ul class="xp-vertical-menu">
+                    <li class="xp-vertical-header">Main</li>
+                    <li>
+                        <a href="index.html">
+                            <i class="icon-speedometer"></i>
+                            <span>菜单1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-layers"></i>
+                            <span>菜单2</span>
+                            <i class="icon-arrow-right pull-right"></i>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="ui-kits-alerts.html">菜单2 -1</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-drop"></i>
+                            <span>菜单3</span>
+                            <i class="icon-arrow-right pull-right"></i>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="icon-material-design.html">菜单3-1</a></li>
+                            <li><a href="icon-material-design.html">菜单3-2</a></li>
+                            <li><a href="icon-material-design.html">菜单3-3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <i class="icon-event"></i>
+                            <span>绿点</span>
+                            <span class="badge badge-pill badge-success pull-right">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-map"></i><span>红点</span>
+                            <span class="badge badge-pill badge-danger pull-right">2</span>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="map-google.html">Google Map</a></li>
+                            <li><a href="map-vector.html">Vector Map</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- End XP Navigationbar -->
+        </div><!-- End XP Sidebar -->
+    </div>
+    <!-- END 左侧菜单 -->
+
+    <!-- 右边 -->
+    <div class="xp-rightbar">
+        <!-- Header -->
+        <div class="xp-topbar"><!-- Start XP Row -->
+            <div class="row"><!-- Start XP Col -->
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <a class="xp-menu-hamburger" href="javascript:;">
+                            菜单
+                        </a>
+                    </div>
+                </div>
+                <div class="col-10 col-md-11 col-lg-11 order-1 order-md-2">
+                    <div class="xp-profilebar text-right">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item mr-0">
+                                <div class="dropdown xp-userprofile">
+                                    <a class="dropdown-toggle" href="#" role="button" id="xp-userprofile"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="__STATIC__/img/user.jpg" alt="user-profile"
+                                             class="rounded-circle img-fluid">
+                                        <span class="xp-user-live"></span><!--绿色点-->
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="xp-userprofile">
+                                        <a class="dropdown-item py-3 text-white text-center font-16" href="#">头像菜单</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单1</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单2</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单3</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单4</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- 面包线导航 -->
+        <div class="xp-breadcrumbbar">
+            <div class="row">
+                <div class="col-md-6 col-lg-6"><h4 class="xp-page-title">面包线导航</h4></div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="xp-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">面包线导航</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--主体-->
+        <div class="xp-contentbar">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xl-7">
+                    <!--展示内容-->
+                </div>
+            </div>
+
+            <!-- Footerbar -->
+            <div class="xp-footerbar">
+                <footer class="footer">
+                    <p class="mb-0">© 2019 Neon - All Rights <a href="http://www.bootstrapmb.com/">Reserved</a>.</p>
+                </footer>
+            </div>
+            <!-- End Footerbar -->
+        </div>
+        <!-- End 主体 -->
+    </div>
+
+    <!-- Start JS -->
+</div>
+</body>
+</html>
+<script src="__STATIC__/js/neon/jquery.min.js"></script>
+<script src="__STATIC__/js/neon/popper.min.js"></script>
+<script src="__STATIC__/js/neon/bootstrap.min.js"></script>
+<script src="__STATIC__/js/neon/modernizr.min.js"></script>
+<script src="__STATIC__/js/neon/detect.js"></script>
+<script src="__STATIC__/js/neon/jquery.slimscroll.js"></script>
+<script src="__STATIC__/js/neon/sidebar-menu.js"></script><!-- Chartist Chart JS -->
+<script src="__STATIC__/js/neon/chartist.min.js"></script>
+<script src="__STATIC__/js/neon/chartist-plugin-tooltip.min.js"></script><!-- To Do List JS -->
+<script src="__STATIC__/js/neon/to-do-list-init.js"></script><!-- Datepicker JS -->
+<script src="__STATIC__/js/neon/datepicker.min.js"></script>
+<script src="__STATIC__/js/neon/datepicker.en.js"></script><!-- Dashboard JS -->
+<script src="__STATIC__/js/neon/dashborad.js"></script><!-- Main JS -->
+<script src="__STATIC__/js/neon/main.js"></script><!-- End JS -->

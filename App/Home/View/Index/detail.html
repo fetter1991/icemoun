@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-hans">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <meta name="author" content="LancerComet">
+    <title id="app-title">《{$info.name}》</title>
+    <link rel="icon" type="image/png" href="__STATIC__/img/logo.ico">
+    <link href="__STATIC__/css/comic_detail.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .choose {
+            background: #fb7299;
+            color: #fff !important;
+            border-radius: 5px;
+        }
+        .like{
+            display: inline-block;
+        }
+        .unlike{
+            display: inline-block;
+            margin-left: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="manga-mobile-app">
+    <div id="app-vm" class="app-container with-navbar">
+        <nav class="navbar-container p-relative navbar w-100 p-fixed p-zero">
+            <div class="size-ruler align-center m-auto t-center">
+                <div title="返回首页" role="button" class="back-btn pointer p-absolute"></div>
+                <span class="app-title">详情页</span></div>
+        </nav>
+        <div class="comic-info-component">
+            <div class="cover-size-ruler p-relative top-info">
+                <!--                <div class="comic-cover bg-cover" style="background-image: url('{$info.banner}');"></div>-->
+                <div class="comic-cover bg-cover">
+                    <img src="{$info.banner}" width="100%"/>
+                </div>
+                <div class="comic-des p-absolute">
+                    <div class="comic-title t-no-wrap t-over-hidden">{$info.title}</div>
+                    <div class="detail-info t-over-hidden">
+                        <span class="comic-author-name v-middle">作者：{$info.author}</span>
+                        <span class="comic-style v-middle"> · 搞笑 恋爱 校园</span>
+                        <span class="comic-id v-middle"> · MC27355</span>
+                    </div>
+                </div>
+            </div>
+            <div class="page-normal with-margin">
+                <div class="comic-info-con m-auto">
+                    <div class="comic-info p-relative border-box">
+                        <div class="comic-operation w-100 f-clear">
+                            <div class="fav-btn align-center pointer none-select f-left">
+                                <span class="like">
+                                    <div class="fav-icon dp-i-block v-middle"></div>
+                                    <div class="fav-text dp-i-block v-middle">修改封面</div>
+                                </span>
+                                <span class="unlike" data-id="{$info.id}">
+                                    <div class="fav-icon dp-i-block v-middle un-like"></div>
+                                    <div class="fav-text dp-i-block v-middle">不喜欢</div>
+                                </span>
+                            </div>
+                            <a href="#" class="f-right">
+                                <button class="comic-view-btn ts-dot-2 pointer border-box" id="read" data-id="{$info.source}">
+                                    开始看第一章
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comic-deatil-box tab-content a-move-in-right">
+                    <p class="time-info">连载中</p>
+                    <div class="evaluate pointer">
+                        <span>{$info.editor_note}</span>
+                        <span class="folder-icon v-middle"></span>
+                    </div>
+
+                    <div class="comic-episodes" islimit="0">
+                        <div class="episode-header f-clear">
+                            <div class="f-left">
+                                <span class="episode-title">全部章节 ({$total_chapter})</span>
+                            </div>
+                            <div class="episode-operation pointer f-right">
+                                <span>升序</span>
+                                <!---->
+                                <div class="sort-icon dp-i-block v-middle sort-asc"></div>
+                            </div>
+                        </div>
+                        <div class="episode-list">
+                            <volist name="chapter" id="vo">
+                                <a href="/Home/index/read?id={$vo.source}" class="episode-item">
+                                    <div class="item-body p-relative">{$vo.title}
+                                        <div class="lock-icon bg-cover bg-center"></div>
+                                    </div>
+                                </a>
+                            </volist>
+                            <!--END ChapterList-->
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="comment-box">
+                    <p class="title f-clear">
+                        讨论区（<span class="comment-total">0）</span>
+                        <span class="more f-right">
+                            <span class="v-middle">查看全部</span>
+                            <span class="icon-more v-middle dp-i-block"></span>
+                        </span>
+                    </p>
+                    <div class="tab-content">
+                        <div>
+                            <div class="comment-wrap">
+                                <div class="comment-container t-no-wrap">
+                                    <div class="go-app dp-i-block t-center">去App内讨论 &gt;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+        <!--
+        <div class="manga-recommendation with-margin">
+            <div class="section-title">猜你喜欢</div>
+            <div>
+                <div class="manga-list">
+                    <a href="#" title="Re：从零开始的异世界生活 宅邸的一周篇" class="manga-card border-box dp-i-block">
+                        <div class="manga-cover bg-cover bg-center"
+                             style="background-image: url('__STATIC__/img/cover.jpg');"></div>
+                        <div class="manga-title">Re：从零开始的异世界生活</div>
+                        <div class="manga-info"><span>[完结] 共 28 话</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+    <script src="__STATIC__/js/vue.js"></script>
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/vue-lazyload.js"></script>
+</div>
+</body>
+</html>
+<script>
+    $('#read').on('click', function () {
+        let id = $(this).data('id');
+        window.location.href = "/Home/Index/read?id=" + id;
+    });
+
+    $('.unlike').on('click',function () {
+        let id = $(this).data('id');
+        console.log(id);
+        $.post('/Home/Index/unlike',{id:id},function (res) {
+            if (res.code == 200){
+                alert('已设置为不喜欢');
+                window.location.href='/Home/Index/comic';
+            }else{
+                alert(res.msg);
+            }
+        })
+    })
+</script>

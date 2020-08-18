@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Neon is a Responsive Bootstrap 4 Admin Dashboard Template">
+    <meta name="keywords" content="">
+    <meta name="author" content="Themesbox">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>后台</title>
+    <link href="__MC__/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/css/neon.css" rel="stylesheet" type="text/css">
+</head>
+<body class="xp-vertical">
+
+<div class="modal search-modal fade" id="xpSearchModal" tabindex="-1" role="dialog" aria-labelledby="xpSearchModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="xp-searchbar">
+                    <form>
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search" aria-label="Search"
+                                   aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit" id="button-addon2">GO</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="xp-container">
+    <!-- 左侧菜单 -->
+    <div class="xp-leftbar">
+        <div class="xp-sidebar">
+            <div class="xp-logobar text-center">
+                <a href="index.html" class="xp-logo">
+                    <img src="__STATIC__/img/logo.svg" class="img-fluid" alt="logo">
+                </a>
+            </div>
+            <div class="xp-navigationbar">
+                <ul class="xp-vertical-menu">
+                    <li class="xp-vertical-header">Main</li>
+                    <li>
+                        <a href="index.html">
+                            <i class="icon-speedometer"></i>
+                            <span>菜单1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-layers"></i>
+                            <span>菜单2</span>
+                            <i class="icon-arrow-right pull-right"></i>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="ui-kits-alerts.html">菜单2 -1</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-drop"></i>
+                            <span>菜单3</span>
+                            <i class="icon-arrow-right pull-right"></i>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="icon-material-design.html">菜单3-1</a></li>
+                            <li><a href="icon-material-design.html">菜单3-2</a></li>
+                            <li><a href="icon-material-design.html">菜单3-3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <i class="icon-event"></i>
+                            <span>绿点</span>
+                            <span class="badge badge-pill badge-success pull-right">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javaScript:;">
+                            <i class="icon-map"></i><span>红点</span>
+                            <span class="badge badge-pill badge-danger pull-right">2</span>
+                        </a>
+                        <ul class="xp-vertical-submenu">
+                            <li><a href="map-google.html">Google Map</a></li>
+                            <li><a href="map-vector.html">Vector Map</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- End XP Navigationbar -->
+        </div><!-- End XP Sidebar -->
+    </div>
+    <!-- END 左侧菜单 -->
+
+    <!-- 右边 -->
+    <div class="xp-rightbar">
+        <!-- Header -->
+        <div class="xp-topbar"><!-- Start XP Row -->
+            <div class="row"><!-- Start XP Col -->
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <a class="xp-menu-hamburger" href="javascript:;">
+                            菜单
+                        </a>
+                    </div>
+                </div>
+                <div class="col-10 col-md-11 col-lg-11 order-1 order-md-2">
+                    <div class="xp-profilebar text-right">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item mr-0">
+                                <div class="dropdown xp-userprofile">
+                                    <a class="dropdown-toggle" href="#" role="button" id="xp-userprofile"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="__STATIC__/img/user.jpg" alt="user-profile"
+                                             class="rounded-circle img-fluid">
+                                        <span class="xp-user-live"></span><!--绿色点-->
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="xp-userprofile">
+                                        <a class="dropdown-item py-3 text-white text-center font-16" href="#">头像菜单</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单1</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单2</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单3</a>
+                                        <a class="dropdown-item" href="#"><i class="icon-user text-primary mr-2"></i>子菜单4</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- 面包线导航 -->
+        <div class="xp-breadcrumbbar">
+            <div class="row">
+                <div class="col-md-6 col-lg-6"><h4 class="xp-page-title">面包线导航</h4></div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="xp-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">面包线导航</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--主体-->
+        <div class="xp-contentbar">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xl-7">
+                    <!--展示内容-->
+                    <div class="row"><!-- Start XP Col -->
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                            <div class="card m-b-30">
+                                <div class="card-header bg-white"><h5 class="card-title text-black mb-0">Weekly
+                                    Revenue</h5></div>
+                                <div class="card-body">
+                                    <div class="xp-chart-label">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item"><p class="text-black">Current Week</p><h4
+                                                    class="text-primary-gradient mb-3"><i class="icon-wallet mr-2"></i>78,254
+                                            </h4></li>
+                                            <li class="list-inline-item"><p class="text-black">Previous Week</p><h4
+                                                    class="text-success-gradient mb-3"><i class="icon-wallet mr-2"></i>58,605
+                                            </h4></li>
+                                        </ul>
+                                    </div>
+                                    <div id="xp-chartist-series-overrides"
+                                         class="ct-chart ct-golden-section xp-chartist-simple-line">
+                                        <div class="chartist-tooltip"></div>
+                                        <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%"
+                                             height="100%" class="ct-chart-line" style="width: 100%; height: 100%;">
+                                            <g class="ct-grids">
+                                                <line x1="50" x2="50" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="136.71428571428572" x2="136.71428571428572" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="223.42857142857142" x2="223.42857142857142" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="310.1428571428571" x2="310.1428571428571" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="396.85714285714283" x2="396.85714285714283" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="483.57142857142856" x2="483.57142857142856" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="570.2857142857142" x2="570.2857142857142" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line x1="657" x2="657" y1="15" y2="285"
+                                                      class="ct-grid ct-horizontal"></line>
+                                                <line y1="285" y2="285" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="262.5" y2="262.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="240" y2="240" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="217.5" y2="217.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="195" y2="195" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="172.5" y2="172.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="150" y2="150" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="127.5" y2="127.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="105" y2="105" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="82.5" y2="82.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="60" y2="60" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="37.5" y2="37.5" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                                <line y1="15" y2="15" x1="50" x2="657"
+                                                      class="ct-grid ct-vertical"></line>
+                                            </g>
+                                            <g>
+                                                <g ct:series-name="series" class="ct-series ct-series-a">
+                                                    <path d="M50,285L50,105C93.357,105,93.357,150,136.714,150C180.071,150,180.071,60,223.429,60C266.786,60,266.786,150,310.143,150C353.5,150,353.5,240,396.857,240C440.214,240,440.214,150,483.571,150C526.929,150,526.929,15,570.286,15C613.643,15,613.643,105,657,105L657,285Z"
+                                                          class="ct-area"></path>
+                                                    <path d="M50,105C93.357,105,93.357,150,136.714,150C180.071,150,180.071,60,223.429,60C266.786,60,266.786,150,310.143,150C353.5,150,353.5,240,396.857,240C440.214,240,440.214,150,483.571,150C526.929,150,526.929,15,570.286,15C613.643,15,613.643,105,657,105"
+                                                          class="ct-line"></path>
+                                                    <line x1="50" y1="105" x2="50.01" y2="105" class="ct-point"
+                                                          ct:value="4000"></line>
+                                                    <line x1="136.71428571428572" y1="150" x2="136.7242857142857"
+                                                          y2="150" class="ct-point" ct:value="3000"></line>
+                                                    <line x1="223.42857142857142" y1="60" x2="223.4385714285714" y2="60"
+                                                          class="ct-point" ct:value="5000"></line>
+                                                    <line x1="310.1428571428571" y1="150" x2="310.1528571428571"
+                                                          y2="150" class="ct-point" ct:value="3000"></line>
+                                                    <line x1="396.85714285714283" y1="240" x2="396.8671428571428"
+                                                          y2="240" class="ct-point" ct:value="1000"></line>
+                                                    <line x1="483.57142857142856" y1="150" x2="483.58142857142855"
+                                                          y2="150" class="ct-point" ct:value="3000"></line>
+                                                    <line x1="570.2857142857142" y1="15" x2="570.2957142857142" y2="15"
+                                                          class="ct-point" ct:value="6000"></line>
+                                                    <line x1="657" y1="105" x2="657.01" y2="105" class="ct-point"
+                                                          ct:value="4000"></line>
+                                                </g>
+                                            </g>
+                                            <g class="ct-labels">
+                                                <foreignObject style="overflow: visible;" x="50" y="290"
+                                                               width="86.71428571428571" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Mon</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="136.71428571428572" y="290"
+                                                               width="86.71428571428571" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Tue</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="223.42857142857142" y="290"
+                                                               width="86.7142857142857" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Wed</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="310.1428571428571" y="290"
+                                                               width="86.71428571428572" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Thu</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="396.85714285714283" y="290"
+                                                               width="86.71428571428572" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Fri</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="483.57142857142856" y="290"
+                                                               width="86.71428571428567" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Sat</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="570.2857142857142" y="290"
+                                                               width="86.71428571428578" height="20"><span
+                                                        class="ct-label ct-horizontal ct-end"
+                                                        xmlns="http://www.w3.org/2000/xmlns/"
+                                                        style="width: 87px; height: 20px;">Sun</span></foreignObject>
+                                                <foreignObject style="overflow: visible;" x="657" y="290" width="30"
+                                                               height="20"><span class="ct-label ct-horizontal ct-end"
+                                                                                 xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                 style="width: 30px; height: 20px;">Mon</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="262.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">0</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="240" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="217.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">1000</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="195" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">1500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="172.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">2000</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="150" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">2500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="127.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">3000</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="105" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">3500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="82.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">4000</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="60" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">4500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="37.5" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">5000</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="15" x="10" height="22.5"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 23px; width: 30px;">5500</span>
+                                                </foreignObject>
+                                                <foreignObject style="overflow: visible;" y="-15" x="10" height="30"
+                                                               width="30"><span class="ct-label ct-vertical ct-start"
+                                                                                xmlns="http://www.w3.org/2000/xmlns/"
+                                                                                style="height: 30px; width: 30px;">6000</span>
+                                                </foreignObject>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End XP Col --></div>
+                </div>
+            </div>
+
+            <!-- Footerbar -->
+            <div class="xp-footerbar">
+                <footer class="footer">
+                    <p class="mb-0">© 2019 Neon - All Rights <a href="http://www.bootstrapmb.com/">Reserved</a>.</p>
+                </footer>
+            </div>
+            <!-- End Footerbar -->
+        </div>
+        <!-- End 主体 -->
+    </div>
+
+    <!-- Start JS -->
+</div>
+</body>
+</html>
+<script src="__STATIC__/js/neon/jquery.min.js"></script>
+<script src="__STATIC__/js/neon/popper.min.js"></script>
+<script src="__STATIC__/js/neon/bootstrap.min.js"></script>
+<script src="__STATIC__/js/neon/modernizr.min.js"></script>
+<script src="__STATIC__/js/neon/detect.js"></script>
+<script src="__STATIC__/js/neon/jquery.slimscroll.js"></script>
+<script src="__STATIC__/js/neon/sidebar-menu.js"></script><!-- Chartist Chart JS -->
+<script src="__STATIC__/js/neon/chartist.min.js"></script>
+<script src="__STATIC__/js/neon/chartist-plugin-tooltip.min.js"></script><!-- To Do List JS -->
+<script src="__STATIC__/js/neon/to-do-list-init.js"></script><!-- Datepicker JS -->
+<script src="__STATIC__/js/neon/datepicker.min.js"></script>
+<script src="__STATIC__/js/neon/datepicker.en.js"></script><!-- Dashboard JS -->
+<script src="__STATIC__/js/neon/dashborad.js"></script><!-- Main JS -->
+<script src="__STATIC__/js/neon/main.js"></script><!-- End JS -->

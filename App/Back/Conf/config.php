@@ -28,6 +28,13 @@ return array(
 		'use_trans_sid'    => 1,                               //跨页传递
 		'use_only_cookies' => 0,                               //是否只开启基于cookies的session的会话方式
 	),
-
+    //网站常量
+    'COMIC_SERVER'=>array(
+        'CDN'=>'https://cdn-msp.msp-comic.xyz/media/photos/',
+        'CDNP'=>'https://cdn-msp.18comic.fun/media/photos/',
+        'ALBUM'=>'https://18comic.fun/album/',
+        'PHOTO'=>'https://18comic1.biz/photo/',
+        'SEARCH'=>'https://18comic.fun/search/photos?search_query=',
+    ),
 	'KEFU_PHONE' => '13144818177'
 );

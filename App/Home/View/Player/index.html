@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta id="viewport" name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+    <meta itemprop="name" content="dd">
+    <meta itemprop="description" content="dd">
+    <meta itemprop="image">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            font-size: 12px;
+        }
+
+        .item {
+            display: inline-block;
+            width: 45%;
+            height: 350px;
+            overflow: hidden;
+            background-color: #fff;
+            margin: 10px 5px 5px 0;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        }
+
+        .item img {
+            margin-top: 5px;
+        }
+
+        .item .title {
+            text-align: left;
+            font-size: 14px;
+            padding: 5px 5%;
+            height: 55px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item .actor {
+
+        }
+    </style>
+</head>
+<body style="background: #EEEEEB">
+<div style="text-align: center;width: 100%">
+    <volist name="list" id="vo">
+        <div class="item">
+            <a class="detail" data-id="{$vo.censored_id}" data-name="{$vo.movie_title}">
+                <if condition='$vo["cd_count"] gt 1'>
+                    <img src="{$sever}JAV/{$vo.dir}/{$vo.movie_title}-cd1-poster.jpg" width="90%"/>
+                    <else/>
+                    <img src="{$sever}JAV/{$vo.dir}/{$vo.movie_title}-poster.jpg" width="90%"/>
+                </if>
+                <span class="title">
+                {$vo.movie_title}
+            </span>
+                <span class="title">
+                <a class="actor">{$vo.dir}</a>
+            </span>
+            </a>
+        </div>
+    </volist>
+</div>
+</body>
+</html>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('.detail').on('click', function () {
+            let censored_id = $(this).data('id');
+            window.location.href = '/Home/Player/detail?id=' + censored_id;
+        });
+    });
+</script>

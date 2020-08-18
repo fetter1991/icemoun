@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-hans">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="theme-color" content="#{THEME_COLOR}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <meta name="author" content="LancerComet">
+    <meta name="baidu-site-verification" content="gIs5efZPwQ">
+    <title id="app-title">漫画</title>
+    <link rel="icon" type="image/png" href="__STATIC__/img/favicon.ico">
+    <link href="__STATIC__/css/comic_style.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="manga-mobile-app" id="app">
+    <div class="category-list">
+        <div class="classify-list-container border-box">
+            <div class="label-list m-auto border-box p-relative">
+                <div class="label-row">
+                    <div class="first-label dp-i-block v-top">
+                        <div class="classify-label selected">全部</div>
+                    </div>
+                    <volist name="tags" id="vo">
+                        <div class="classify-label">
+                            <a href="/home/index/comic?tags={$vo.title}">{$vo.title}</a>
+                        </div>
+                    </volist>
+                </div>
+                <div class="switch-btn p-absolute pointer">
+                    <span class="icon v-middle dp-i-block icon-down"></span>
+                    <span class="v-middle">筛选</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="__STATIC__/js/vue.js"></script>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/vue-lazyload.js"></script>
+<script src="__STATIC__/js/page.js"></script>
+</html>
+

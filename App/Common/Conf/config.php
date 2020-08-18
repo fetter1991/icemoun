@@ -12,7 +12,7 @@ return array(
 	),
 
 	'DB_TYPE'    => 'mysql',     // 数据库类型
-	'DB_HOST'    => IS_LOCAL ? '127.0.0.1' : '10.0.1.7', // 服务器地址
+	'DB_HOST'    => '127.0.0.1', // 服务器地址
 	'DB_NAME'    => 'icemedias',          // 数据库名
 	'DB_USER'    => 'root',      // 用户名
 	'DB_PWD'     => '123456',          // 密码
@@ -35,7 +35,7 @@ return array(
 	'SHOW_PAGE_TRACE'      => false,
 	'DB_FIELDS_CACHE'      => false,
 	'DOMAIN'               => 'ice.icemoun.com',//前端域名
-	'URL_CASE_INSENSITIVE' => false,
+	'URL_CASE_INSENSITIVE' => true,
 	'TMPL_PARSE_STRING'    => array(
 		'__PUBLIC__' => __ASSETS__ . '/Public', // 更改默认的/Public 替换规则
 		'__JS__'     => __ASSETS__ . '/Public/js', // 增加新的JS类库路径替换规则

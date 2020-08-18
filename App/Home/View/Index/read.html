@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+        .longtouch:after{
+            content: '';
+            display: inline-block;
+            background: #0a001f;
+            width: 10%;
+            position: absolute;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <img v-for="img in imgLists" v-lazy="img" width="100%" class="longtouch" v-bind:data-icon="img.files">
+    <img v-for="img in imgLists" v-lazy:background-image="img">
+</div>
+<script src="__STATIC__/js/vue.js"></script>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/vue-lazyload.js"></script>
+<script>
+    Vue.use(VueLazyload, {
+        preLoad: 1.6,
+        error: '__IMAGE__/load-error.png',
+        loading: '__IMAGE__/loading.png',
+        attempt: 2,
+        listenEvents: ['scroll']
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            imgLists: [],
+            'search_data': {
+                'id': "{$Think.get.id}",
+            },
+        },
+        methods: {},
+        mounted: function () {
+            let vue_this = this;
+            //获取数据
+            $.get("{:U('Index/getImg')}", {id: vue_this.search_data.id}, function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    vue_this.imgLists = res.data;
+                } else {
+                    layer.alert('请刷新重试');
+                }
+                $(".app-loading").hide();
+            });
+        }
+    });
+
+    $(".longtouch").on('dblclick', function () {
+        alert('lllll');
+    });
+</script>
+</body>
+</html>

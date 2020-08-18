@@ -12,12 +12,12 @@
     <link rel="icon" type="image/png" href="__STATIC__/img/favicon.ico">
     <link href="__STATIC__/css/comic_style.css" rel="stylesheet" type="text/css"/>
     <link href="__MC__/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <!--    <script src="__STATIC__/js/vconsole.min.js"></script>-->
-    <!--    <script>-->
-    <!--        // init vConsole-->
-    <!--        let vConsole = new VConsole();-->
-    <!--        console.log('Hello world');-->
-    <!--    </script>-->
+    <style>
+        .pic {
+            max-height: 210px !important;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 <div class="manga-mobile-app" id="app">
@@ -26,7 +26,9 @@
             <div class="label-list m-auto border-box p-relative">
                 <div class="label-row">
                     <div class="first-label dp-i-block v-top">
-                        <div class="classify-label selected">全部</div>
+                        <a href="/home/index/comic">
+                            <div class="classify-label selected">全部</div>
+                        </a>
                     </div>
                     <div class="classify-label">电影</div>
                     <div class="classify-label">动漫</div>
@@ -41,26 +43,26 @@
                     <div class="first-label dp-i-block v-top">
                         <div class="classify-label selected">全部</div>
                     </div>
-                    <div class="classify-label">冒险</div>
-                    <div class="classify-label">欢乐向</div>
-                    <div class="classify-label">轻小说</div>
-                    <div class="classify-label">其他</div>
-                    <div class="classify-label">励志</div>
-                    <div class="classify-label">风傲天</div>
-                    <div class="classify-label">游戏</div>
-                    <div class="classify-label">异世界</div>
+                    <!--
+                    <volist name="tags" id="vo">
+                        <div class="classify-label">{$vo.title}</div>
+                    </volist>
+                    -->
+                    <div class="classify-label">标签</div>
                 </div>
                 <div class="switch-btn p-absolute pointer">
                     <span class="icon v-middle dp-i-block icon-down"></span>
-                    <span class="v-middle">筛选</span>
+                    <span class="v-middle">
+                        <a href="/home/index/tags">筛选</a>
+                    </span>
                 </div>
             </div>
             <div class="manga-list m-auto">
                 <div class="list-data border-box m-auto">
-                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/detail?id="+item.db_id'
+                    <a v-for="(item,index) in list" v-bind:href='"/Home/Index/detail?id="+item.id'
                        v-bind:title="item.name" class="manga-card border-box dp-i-block">
-                        <div class="manga-cover bg-cover bg-center">
-                            <img v-lazy="item.cover" style="height:120px;" width="100%">
+                        <div class="manga-cover bg-cover bg-center pic">
+                            <img v-lazy="item.cover" width="100%">
                         </div>
                         <div class="manga-title">{{item.name}}</div>
                         <div class="manga-info"><span>共{{item.total_page}}图</span></div>
@@ -70,7 +72,6 @@
             <div class="label-list m-auto border-box p-relative">
                 <div class="label-row" style=" text-align: center;font-size: 18px;font-weight: bold; padding-top: 0px;">
                 </div>
-                <!--                <div class="page-html" id="page"></div>-->
                 <div class="page-html" id="">
                     <span class="jump-btn" @click="getPage(1)">首页</span>
                     <span class="jump-btn" @click="perv()"><i class="fa fa-backward"></i></span>
@@ -112,7 +113,8 @@
             'search_data': {
                 'p': "{$Think.get.p}",
                 'author_name': '',
-                'tags': ''
+                'sort': "{$Think.get.sort}",
+                'tags': "{$Think.get.tags}"
             },
         },
         methods: {
@@ -134,8 +136,10 @@
         mounted: function () {
             var vue_this = this;
             var p = vue_this.search_data.p ? vue_this.search_data.p : '1';
+            var sort = vue_this.search_data.sort ? vue_this.search_data.sort : '';
+            var tags = vue_this.search_data.tags ? vue_this.search_data.tags : '';
             //获取数据
-            $.get("{:U('Index/getMoviesData')}", {p: p}, function (res) {
+            $.get("{:U('Index/getMoviesData')}", {p: p, sort: sort, tags: tags}, function (res) {
                 if (res.code == 200) {
                     vue_this.list = res.data.data;
                     vue_this.count = res.data.count;
@@ -145,6 +149,8 @@
                 } else {
                     layer.alert('请刷新重试');
                 }
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                $('#current').text(p);
                 $(".app-loading").hide();
             });
         }
@@ -156,21 +162,7 @@
      * @returns {undefined}
      */
     function getData(page) {
-        $(".app-loading").show();
-        var vue_this = app._data;
-        var data = vue_this.search_data;
-        data.p = page;
-        $.get("{:U('Index/getMoviesData')}", data, function (res) {
-            if (res.code == 200) {
-                vue_this.list = res.data.data;
-                vue_this.count = res.data.count;
-                $('.jump-input').text(page)
-            } else {
-                layer.alert('请刷新重试');
-            }
-            $(".page-list").hide();
-        });
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        window.location.href = '/Home/Index/comic?p=' + page;
     }
 
     //选择标签

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta itemprop="name" content="dd">
+    <meta itemprop="description" content="dd">
+    <meta itemprop="image">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            font-size: 14px;
+        }
+
+        body {
+            background: #EEEEEB;
+        }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .movie {
+            text-align: left;
+            margin: 10px 0;
+            padding: 10px 5%;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        }
+
+        .movie .title, .movie .actor {
+            line-height: 23px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px 0;
+        }
+
+        .movie .cover img {
+            padding-top: 5px;
+            border-radius: 5px;
+        }
+
+        .movie .status span {
+            color: #333;
+            font-size: 12px;
+            border-radius: 3px;
+            padding: 4px 10px;
+            margin: 1px 0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+
+        .white {
+            text-shadow: 0 1px 0 #fff;
+            background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
+            background-image: -o-linear-gradient(top, #fff 0, #e0e0e0 100%);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+            background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+            background-repeat: repeat-x;
+            border-color: #ccc;
+        }
+
+        .green {
+            background-image: -webkit-linear-gradient(top, #5cb85c 0, #419641 100%);
+            background-image: -o-linear-gradient(top, #5cb85c 0, #419641 100%);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#5cb85c), to(#419641));
+            background-image: linear-gradient(to bottom, #5cb85c 0, #419641 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb85c', endColorstr='#ff419641', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+            background-repeat: repeat-x;
+            border-color: #3e8f3e;
+        }
+
+        .preview .item img {
+            border-radius: 5px;
+        }
+
+        .control {
+            margin: 8px 0;
+        }
+
+        .control .play {
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 20%;
+            font-size: 12px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            padding: 6px 10px;
+            margin: 8px;
+            color: #fff;
+            background-image: -webkit-linear-gradient(top, #337ab7 0, #265a88 100%);
+            background-image: -o-linear-gradient(top, #337ab7 0, #265a88 100%);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#337ab7), to(#265a88));
+            background-image: linear-gradient(to bottom, #337ab7 0, #265a88 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+            background-repeat: repeat-x;
+            border-color: #245580;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="movie">
+        <div class="title">
+            {$info.movie_title}
+        </div>
+
+        <div class="cover">
+            <if condition='$info["cd_count"] gt 1'>
+                <img src="{$sever}JAV/{$info.dir}/{$info.movie_title}-cd1-fanart.jpg" width="100%"/>
+                <else/>
+                <img src="{$sever}JAV/{$info.dir}/{$info.movie_title}-fanart.jpg" width="100%"/>
+            </if>
+        </div>
+
+        <div class="actor">
+            <strong>演员</strong>：{$info.dir}
+        </div>
+
+        <div class="status">
+            <strong>修改狀態</strong>：
+            <span
+            <php>echo $info["is_like"]?'class="green"':'class="white"' ;</php>
+            onclick="javascript:changeType('{$info.censored_id}','is_like',{$info.is_like});">点赞</span>
+            <span
+            <php>echo $info["is_subtitle"]?'class="green"':'class="white"' ;</php>
+            onclick="javascript:changeType('{$info.censored_id}','is_subtitle',{$info.is_subtitle});">无字幕</span>
+            <span
+            <php>echo $info["is_leadin"]?'class="green"':'class="white"' ;</php>
+            onclick="javascript:changeType('{$info.censored_id}','is_leadin',{$info.is_leadin});">有片头</span>
+            <span
+            <php>echo $info["is_notlike"]?'class="green"':'class="white"' ;</php>
+            onclick="javascript:changeType('{$info.censored_id}','is_notlike',{$info.is_notlike});">再处理</span>
+        </div>
+
+        <div class="control">
+            <if condition='$info["cd_count"] gt 1'>
+                <for start="0" end="$info['cd_count']">
+                    <a class="play" href="{$sever}JAV/{$info.dir}/{$info.movie_title}-cd{$i+1}.{$info.suffix}">
+                        播放{$k}
+                    </a>
+                </for>
+                <else/>
+                <a class="play" href="{$sever}JAV/{$info.dir}/{$info.movie_title}.{$info.suffix}">播放{$k}</a>
+            </if>
+        </div>
+
+        <div class="preview">
+            <for start="0" end="$fall['count']">
+                <span class="item">
+                    <img src="{$fall.waterfall}-{$i+1}.jpg" width="100%"/>
+                </span>
+            </for>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script>
+    function changeType(id, type, val) {
+        var value = val ? '0' : '1';
+        $.get("{:U('Player/changeType')}", {id: id, type: type, value: value}, function (res) {
+            if (res.code == 200) {
+                setTimeout(function () {
+                    window.location.reload();
+                }, 400)
+            } else {
+                alert(res.msg);
+            }
+        });
+    }
+</script>

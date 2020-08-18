@@ -67,11 +67,11 @@ class PublicController extends Controller {
         if (!empty($login)) {
             $this->autoLogin($login);
         }
-        if (!empty($_POST['verify'])) {
-            if (!$this->check_verify($_POST['verify'], 'login')) {
-                $this->error('验证码错误！', U('Public/login'));
-            }
-        }
+//        if (!empty($_POST['verify'])) {
+//            if (!$this->check_verify($_POST['verify'], 'login')) {
+//                $this->error('验证码错误！', U('Public/login'));
+//            }
+//        }
         if (!empty($_POST)) {
            
             $account = I('account');

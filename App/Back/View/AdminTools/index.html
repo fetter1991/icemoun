@@ -1,0 +1,104 @@
+<extend name="Public/admin"/>
+<block name="style">
+    <link href="__CSS__/my_style.css?v=2.0" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css"/>
+    <link href="__MC__/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet"
+          type="text/css"/>
+    <style>
+        table td {
+            vertical-align: middle !important;
+        }
+
+        .toast-top-right {
+            top: 10% !important;
+            right: 44% !important;
+        }
+
+        .img-tips {
+            color: #959595;
+            font-size: 13px;
+            word-break: break-all;
+            margin-top: 8px;
+            margin-left: -15px;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card m-b-30">
+                <div class="card-header bg-white">
+                    <h5 class="card-title text-black">采集数据表</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="xp-default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <!--条件查询-->
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <form class="form-inline" role="form">
+                                        <button type="button" class="btn blue" id="checkLocal">
+                                            <i class="fa fa-hourglass-start"></i>检查本地文件
+                                        </button>
+                                        <button type="button" class="btn yellow" id="insertSql">
+                                            <i class="fa fa-hourglass-start"></i>检查结果入库
+                                        </button>
+                                        <button type="button" class="btn green" id="checkLocalPage">
+                                            <i class="fa fa-hourglass-start"></i>检查页码
+                                        </button>
+                                        <button type="button" class="btn green" id="getLostPage">
+                                            <i class="fa fa-hourglass-start"></i>输出缺失文件
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--数据展示-->
+                            <div class="row">
+                                <div id="msg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <include file="ComicQuery/edit"/>
+</block>
+<block name="script">
+    <script src="__JS__/layer/2.4/layer.js"></script>
+    <!--通知-->
+    <script src="__MC__/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"
+            type="text/javascript"></script>
+    <script src="__MC__/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script>
+         //
+        $('#checkLocal').on('click', function (res) {
+            $.get('http://127.0.0.1:86/index.php',{},function (res) {
+                console.log(res);
+                if (res.code == 200){
+                    $('#msg').text(res.msg);
+                }else {
+                    alert('输出失败');
+                }
+            })
+        });
+
+        //
+        $('#insertSql').on('click', function (res) {
+            $.get('/Back/AdminTools/insertSql',{},function (res) {
+                console.log(res);
+            })
+        });
+
+        //同步数据
+        function update() {
+            $.get("{:U('AdminTools/getLostPage')}", function (res) {
+                console.log('开始同步');
+                console.log(res.msg);
+                setTimeout(update, 500);
+            })
+        }
+    </script>
+</block>

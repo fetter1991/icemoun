@@ -63,7 +63,7 @@ class SeekMoviesController extends CommonController {
 		$str  = '';
 		for ( $i = 1; $i <= $info['total_page']; $i ++ ) {
 			$p   = str_pad( $i, 5, "0", STR_PAD_LEFT );
-			$str .= "https://cdn-ms.18comic.life/media/photos/" . $info['db_id'] . '/' . $p . ".jpg\n";
+			$str .= "https://cdn-ms.18comic.biz/media/photos/" . $info['db_id'] . '/' . $p . ".jpg\n";
 		}
 		$info['str'] = $str;
 

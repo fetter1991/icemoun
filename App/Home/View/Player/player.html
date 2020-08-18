@@ -1,0 +1,197 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta id="viewport" name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+    <meta itemprop="name" content="dd">
+    <meta itemprop="description" content="dd">
+    <meta itemprop="image">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/player/css/play.css">
+    <script type="text/javascript" src="__STATIC__/player/js/jquery.js"></script>
+
+    <script type="text/javascript">
+        function browserRedirect() {
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+            if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+
+            } else {
+                //window.location= 'http://www.baidu.com';
+            }
+        }
+
+        browserRedirect();
+    </script>
+
+</head>
+<body>
+<div class="wrap youbian" id="main_box"
+     style="-webkit-transition-property: -webkit-transform; -webkit-transition-duration: 0.3s; -webkit-transition-timing-function: ease-out; -webkit-transition-delay: initial; -webkit-transform: translate3d(0px, 0px, 0px);">
+    <div class="box">
+        <div class="flex_box">
+            <div class="flex_item">
+                <div class="song_info">
+                    <div class="cont">
+                        <h1 class="song" id="song_name"><span></span></h1>
+                        <p class="singer" id="goSinger"><span></span><i class="arrow"></i></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="album_cover">
+                <div class="cover_container">
+                    <img id="album_pic"
+                         onerror="this.src = '.__STATIC__/player/images/002VcUj92M04K2.jpg'; this.onerror=null;"
+                         onload="canShowLrc = true;imgOnloadTime=(+new Date())"
+                         src="__STATIC__/player/images/002VcUj92M04K2.jpg">
+                    <!-- 暂停时类名 btn_play ; 播放时用类名 btn_pause -->
+                </div>
+            </div>
+
+            <div class="flex_item">
+                <div class="lyric" id="lyric">
+                    <div class="cont" id="lyric_txt">
+                        <div class="txt" id="lyricDiv"
+                             style="-webkit-transition-property: -webkit-transform; -webkit-transition-duration: 0.3s; -webkit-transition-timing-function: ease-out; -webkit-transition-delay: initial; -webkit-transform: translate3d(0px, -24px, 0px); ">
+                            <!--<p id="line_0" class="current">该歌曲暂无歌词</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="love" id="likeDiv">
+            <a href="javascript:;" class="icon_loved" id="icon_love" style="display:none;"><i>喜欢</i></a>
+        </div>
+    </div>
+    <!--播放进度条-->
+    <div class="play_bar">
+        <div class="progress" id="progress">
+            <div class="bar"></div>
+            <div class="has_load" id="play_loading" style="-webkit-transform:translateX(0%);"></div>
+            <div class="has_play" id="play_on" style="-webkit-transform: translateX(0%); "><span style=""
+                                                                                                 id="btn_pro"><i></i></span>
+            </div>
+        </div>
+        <p class="play_time">
+            <time id="currentTime">00:00</time>
+            <time id="totalTime">00:00</time>
+        </p>
+    </div>
+
+    <div class="btns">
+        <a href="#">音乐来自...</a>
+        <!--下载这首歌-->
+    </div>
+    <div class="kognzhianniu">
+        <a href="javascript:;" class="btn_play" id="cover"><span></span><i></i></a>
+        <a href="javascript:;" class="btn_play play_left" id="play_left"><span></span><i></i></a>
+        <a href="javascript:;" class="btn_play play_right" id="play_right"><span></span><i></i></a>
+    </div>
+    <div class="gradient_mask"></div>
+    <div class="bg" id="album_pic2" style="background-image: url(__STATIC__/player/images/002VcUj92M04K2.jpg); "></div>
+    <div class="bg_mask" style="opacity:0.6;"></div>
+    <div id="tipsbox" class="tips success"></div>
+</div>
+
+<!--左边-->
+<div class="wrap zuobian"
+     style="z-index: 0;-webkit-transition-property: -webkit-transform; -webkit-transition-duration: 0.3s; -webkit-transition-timing-function: ease-out; -webkit-transition-delay: initial; -webkit-transform: translate3d(-100%, 0px, 0px); ">
+    <div class="box liebiao">
+        <ul id="ul">
+            <a href="javascript:void(0);">
+                <li data-name="__STATIC__/player/music/1.mp3" data-lrc=""><b>青城山下白素贞</b><br/><span>演唱：鞠婧祎</span></li>
+            </a>
+            <a href="javascript:void(0);">
+                <li data-name="__STATIC__/player/music/2.mp3" data-lrc=""><b>Monica</b><br/><span>演唱：张国荣</span></li>
+            </a>
+            <a href="javascript:void(0);">
+                <li data-name="__STATIC__/player/music/3.mp3" data-lrc=""><b>那些女孩教我的事</b><br/><span>演唱：品冠</span></li>
+            </a>
+        </ul>
+    </div>
+    <div class="gradient_mask"></div>
+    <div class="bg" id="album_pic2" style="background-image:url(__STATIC__/player/images/002VcUj92M04K2.jpg);"></div>
+    <div class="bg_mask" style="opacity:0.6;"></div>
+
+    <div id="tipsbox" class="tips success"></div> <!--背景-->
+</div>
+<!--控制左右-->
+<div class="kongzhi">
+    <div class="diyige">
+        <a href="#" class="le">1</a>
+        <a href="#" class="kongzhi_2 ri">2</a>
+    </div>
+</div>
+<audio id="audio" height="0" width="0" src=""></audio>
+
+<script type="text/javascript" src="__STATIC__/js/vue.js"></script>
+<script type="text/javascript" src="__STATIC__/player/js/min.music.js"></script>
+<script type="text/javascript">
+    wyw = $(window).width() / 2;
+    $(".diyige").css("margin-left", wyw - 10 + "px")//设置居中
+    $(".diyige a").click(function () {
+        danqian = $(this).text();
+        if (danqian == 1) {
+            $(".zuobian").css("-webkit-transform", "translate3d(0, 0px, 0px)")//移动
+            $(".youbian").css("-webkit-transform", "translate3d(100%, 0px, 0px)")//移动
+            $(".diyige a").removeClass("kongzhi_2")//清除的a的白
+            $(this).addClass("kongzhi_2")//给当前的加
+            $(".zuobian").css("z-index", "1")//w8使用
+            $(".youbian").css("z-index", "0")//w8使用
+        } else {
+            $(".zuobian").css("-webkit-transform", "translate3d(-100%, 0px, 0px)")//移动
+            $(".youbian").css("-webkit-transform", "translate3d(0, 0px, 0px)")//移动
+            $(".diyige a").removeClass("kongzhi_2")//清除的a的白
+            $(this).addClass("kongzhi_2")//给当前的加
+            $(".zuobian").css("z-index", "0")//w8使用
+            $(".youbian").css("z-index", "1")//w8使用
+        }
+    });
+
+    $('body').on('touchstart', function (e) {
+        var touch = e.originalEvent,
+            startX = touch.changedTouches[0].pageX;
+        startY = touch.changedTouches[0].pageY;
+        slider.on('touchmove', function (e) {
+            e.preventDefault();
+            touch = e.originalEvent.touches[0] ||
+                e.originalEvent.changedTouches[0];
+            if (touch.pageX - startX > 10) {
+                console.log("右划");
+                slider.off('touchmove');
+                showPrevious();
+            } else if (touch.pageX - startX < -10) {
+                console.log("左划");
+                slider.off('touchmove');
+                showNext();
+            }
+            ;
+            if (touch.pageY - startY > 10) {
+                console.log("下划");
+            } else if (touch.pageY - startY < -10) {
+                console.log("上划");
+            }
+            ;
+        });
+
+        // Return false to prevent image
+        // highlighting on Android
+        return false;
+
+    }).on('touchend', function () {
+        slider.off('touchmove');
+    });
+</script>
+</body>
+</html>
